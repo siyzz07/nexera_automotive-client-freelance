@@ -1,90 +1,103 @@
 import { motion } from 'framer-motion';
-import { Shield, Zap, Cpu, Leaf } from 'lucide-react';
+import { ShieldCheck, Target, Users, Zap } from 'lucide-react';
 
 const features = [
   {
-    icon: <Zap className="w-8 h-8 text-brand" />,
-    title: "Instant Acceleration",
-    description: "Experience hyper-responsive motors that deliver neck-snapping torque the moment you press the pedal."
+    kicker: "TRUST",
+    title: "TRUSTED\nCOMMERCE",
+    description: "Every listing verified. Every\ntransaction transparent.",
+    icon: <ShieldCheck className="w-8 h-8 text-brand stroke-[1.5]" />,
+    active: true
   },
   {
-    icon: <Cpu className="w-8 h-8 text-brand" />,
-    title: "Autonomous Tech",
-    description: "Next-generation sensors and AI integration provide unprecedented safety and semi-autonomous driving capabilities."
+    kicker: "CONFIDENCE",
+    title: "BUY WITH\nCONFIDENCE",
+    description: "Verified dealers. Authentic\nvehicles. Real listings.",
+    icon: <Target className="w-8 h-8 text-white/50 stroke-[1.5] group-hover:text-white transition-colors" />,
+    active: false
   },
   {
-    icon: <Leaf className="w-8 h-8 text-brand" />,
-    title: "Eco-Performance",
-    description: "Zero emissions. 100% thrill. Sustainable engineering that doesn't compromise on raw power."
+    kicker: "NETWORK",
+    title: "VERIFIED DEALER\nNETWORK",
+    description: "Built on credibility, powered by\nNexera.",
+    icon: <Users className="w-8 h-8 text-white/50 stroke-[1.5] group-hover:text-white transition-colors" />,
+    active: false
   },
   {
-    icon: <Shield className="w-8 h-8 text-brand" />,
-    title: "Armored Shell",
-    description: "Aerospace-grade materials forming a protective cocoon, ensuring maximum safety without excess weight."
+    kicker: "PERFORMANCE",
+    title: "UNCOMPROMISING\nPOWER",
+    description: "Zero emissions. 100% thrill.\nPrecision electric engineering.",
+    icon: <Zap className="w-8 h-8 text-white/50 stroke-[1.5] group-hover:text-white transition-colors" />,
+    active: false
   }
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" as const }
-  }
-};
-
 const Features = () => {
   return (
-    <section className="py-24 relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
-      
-      <div className="container mx-auto px-6 lg:px-12">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-heading font-bold mb-4">
-            Forged in the <span className="text-brand-gradient">Future</span>
+    <section className="py-24 relative overflow-hidden bg-[#050505]">
+      {/* Subtle ambient light */}
+      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none opacity-50" />
+
+      <div className="container mx-auto px-6 lg:px-12 relative z-10 max-w-5xl">
+        
+        {/* Only visible on screen readers or larger screens for context */}
+        <div className="sr-only lg:not-sr-only text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-heading font-bold mb-4 text-white">
+            The Nexera <span className="text-brand-gradient">Difference</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg pt-4">
-            Uncompromising technology designed for the modern elite. Every detail meticulously crafted for unparalleled performance.
-          </p>
         </div>
 
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 relative">
+
           {features.map((feature, index) => (
             <motion.div 
-              key={index} 
-              variants={itemVariants}
-              className="glass-card group relative overflow-hidden"
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
+              className={`relative z-10 overflow-hidden group rounded-3xl p-8 sm:p-10 transition-all duration-500 flex flex-col items-center sm:items-start text-center sm:text-left gap-6 border ${
+                feature.active 
+                  ? 'bg-[#0A0A0A] border-brand/30 shadow-[0_4px_40px_rgba(0,255,102,0.08)]' 
+                  : 'bg-[#0A0A0A] border-white/5 hover:border-white/15 hover:bg-[#0D0D0D]'
+              }`}
             >
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                {feature.icon}
+              
+              <div className="relative shrink-0">
+                <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center border transition-all duration-500 relative z-10 ${
+                  feature.active 
+                    ? 'bg-brand/10 border-brand/30 shadow-[0_0_20px_rgba(0,255,102,0.15)] group-hover:scale-105' 
+                    : 'bg-white/5 border-white/10 group-hover:bg-white/10 group-hover:border-white/20 group-hover:scale-105'
+                }`}>
+                  {feature.icon}
+                </div>
               </div>
-              <div className="w-14 h-14 rounded-full glass flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border-brand/20">
-                {feature.icon}
+
+              <div className="flex-1 pt-2">
+                <p className={`text-[10px] sm:text-xs tracking-[0.2em] font-bold uppercase mb-3 ${
+                  feature.active ? 'text-brand' : 'text-gray-500 group-hover:text-gray-400'
+                } transition-colors`}>
+                  {feature.kicker}
+                </p>
+                <h3 className={`text-2xl sm:text-3xl font-heading font-black whitespace-pre-line leading-[1.2] mb-3 ${
+                  feature.active ? 'text-white' : 'text-white/80 group-hover:text-white'
+                } transition-colors tracking-wide`}>
+                  {feature.title}
+                </h3>
+                <p className={`text-sm sm:text-base leading-relaxed whitespace-pre-line font-medium ${
+                  feature.active ? 'text-gray-300' : 'text-gray-500 group-hover:text-gray-400'
+                } transition-colors max-w-sm sm:max-w-none mx-auto sm:mx-0`}>
+                  {feature.description}
+                </p>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
-              <p className="text-gray-400 leading-relaxed text-sm">
-                {feature.description}
-              </p>
+
+              {/* Active state subtle inner glow */}
+              {feature.active && (
+                <div className="absolute inset-0 bg-gradient-to-r from-brand/5 to-transparent pointer-events-none" />
+              )}
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

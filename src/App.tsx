@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -9,29 +9,35 @@ import AdminRoutes from './routes/AdminRoutes';
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
+  const location = useLocation();
+
   useEffect(() => {
-    // Initialize Lenis smooth scrolling for premium feel
+    // Disable Lenis for Admin routes
+    if (location.pathname.startsWith('/admin')) {
+      return;
+    }
+
     const lenis = new Lenis({
-      lerp: 0.1, // Adjusts smoothness
+      lerp: 0.1, 
       wheelMultiplier: 1,
-      // @ts-ignore - lenis types occasionally miss newer properties
       smoothWheel: true,
     });
 
-    // Synchronize Lenis with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    const tickerCallback = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
+
+    gsap.ticker.add(tickerCallback);
 
     gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
+      gsap.ticker.remove(tickerCallback);
     };
-  }, []);
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen flex flex-col font-sans">

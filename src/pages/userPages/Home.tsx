@@ -4,8 +4,7 @@ import Features from '../../components/userComponents/Features';
 import StorySection from '../../components/userComponents/StorySection';
 import EnhancedParallax from '../../components/userComponents/EnhancedParallax';
 import TrustIndicators from '../../components/userComponents/TrustIndicators';
-import ColorShowcase from '../../components/userComponents/ColorShowcase';
-import TechSpecs from '../../components/userComponents/TechSpecs';
+import B2BPartnership from '../../components/userComponents/B2BPartnership';
 import GlobalBackground from '../../components/userComponents/GlobalBackground';
 import ContactSection from '../../components/userComponents/ContactSection';
 
@@ -19,7 +18,8 @@ const Home = () => {
       <EnhancedParallax />
       {/* <TechSpecs /> */}
       <FeaturedCars />
-      <ColorShowcase />
+      <B2BPartnership />
+      {/* <ColorShowcase /> */}
       <TrustIndicators />
       <ContactSection />
     </div>

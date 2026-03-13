@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const cars = [
   {
@@ -24,6 +25,14 @@ const cars = [
     range: "390 mi",
     price: "$210,000",
     image: "https://images.unsplash.com/photo-1614200187524-dc4b892acf16?q=80&w=2000&auto=format&fit=crop"
+  },
+  {
+    name: "NEXERA E-Class",
+    type: "Executive Sedan",
+    acceleration: "0-60 in 3.1s",
+    range: "410 mi",
+    price: "$89,000",
+    image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=2069&auto=format&fit=crop"
   }
 ];
 
@@ -41,13 +50,13 @@ const FeaturedCars = () => {
               Engineering meets art.
             </p>
           </div>
-          <button className="text-white hover:text-brand transition-colors font-semibold flex items-center gap-2 group whitespace-nowrap">
-            View All Models
+          <Link to="/car-seen" className="text-white hover:text-brand transition-colors font-semibold flex items-center gap-2 group whitespace-nowrap">
+            Explore More
             <span className="transform translate-x-0 group-hover:translate-x-2 transition-transform text-brand">→</span>
-          </button>
+          </Link>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {cars.map((car, index) => (
             <motion.div
               key={index}
