@@ -17,13 +17,23 @@ const PlaceholderModule = () => (
   </div>
 );
 
+import { ProtectedRoute, PublicRoute } from './AdminRouteGuards';
+
 const AdminRoutes = () => {
   return (
       <Routes>
-        <Route path="/login" element={<AdminLogin />} />
+        <Route path="/login" element={
+          <PublicRoute>
+            <AdminLogin />
+          </PublicRoute>
+        } />
         
         {/* Admin Layout wrapper */}
-        <Route path="/" element={<AdminLayout />}>
+        <Route path="/" element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }>
           <Route index element={<AdminOverview />} />
           <Route path="dashboard" element={<Navigate to="/admin" replace />} />
           <Route path="inventory" element={<AdminCarList />} />

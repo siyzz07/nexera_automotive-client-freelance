@@ -12,12 +12,21 @@ import {
   X,
   Tags
 } from 'lucide-react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Outlet, Link, useLocation } from 'react-router-dom';
 import GlobalBackground from '../components/userComponents/GlobalBackground';
+import { removeToken } from '../utils/sessionStorageUtils';
+import toast from 'react-hot-toast';
 
 const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    removeToken();
+    toast.success('Successfully signed out');
+    navigate('/admin/login');
+  };
 
   const menuItems = [
     { id: '', label: 'Dashboard Overview', icon: LayoutDashboard },
@@ -118,7 +127,10 @@ const AdminLayout = () => {
               </div>
 
               <div className="p-4 border-t border-white/10 bg-black/20">
-                <button className="w-full flex items-center gap-3 p-4 rounded-2xl transition-all duration-300 bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20">
+                <button 
+                  onClick={handleSignOut}
+                  className="w-full flex items-center gap-3 p-4 rounded-2xl transition-all duration-300 bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20"
+                >
                   <LogOut className="w-5 h-5" />
                   <span className="font-bold text-sm">Sign Out</span>
                 </button>

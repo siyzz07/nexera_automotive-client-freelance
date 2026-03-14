@@ -1,26 +1,76 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Lock, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle } from 'lucide-react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { login } from '../../services/apiServices/authApiService';
+import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { setToken } from '../../utils/sessionStorageUtils';
 
 const AdminLogin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // Simulate authentication processing for a more premium UX feel
-    setTimeout(() => {
+
+
+  const handleLogin = async (values: { email: string; password: string }) => {
+    try {
+      setIsLoading(true);
+      const response = await login(values);
+      console.log('Login Response:', response.data);
+      
+      if (response.data.success) {
+        toast.success(response.data.message || 'Access Authorized');
+        
+        if (response.data.token) {
+          setToken(response.data.token);
+        }
+        
+        navigate('/admin/dashboard');
+      }
+    } catch (error) {
+      console.error(error);
+      if (error instanceof AxiosError) {
+        const message = error.response?.data?.message || error.message;
+        toast.error(message);
+      } else {
+        toast.error('An unexpected error occurred');
+      }
+    } finally {
       setIsLoading(false);
-      console.log('Login attempt with:', email, password);
-    }, 1500);
+    }
   };
+
+
+  // Validation Schema
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email('Invalid email address')
+      .required('Admin Identity is required'),
+    password: Yup.string()
+      .min(6, 'Passcode must be at least 6 characters')
+      .required('Passcode is required'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema,
+    onSubmit: handleLogin
+  });
+
+
+
+
+  
 
   return (
     <div className="min-h-screen bg-[#050505] flex flex-col lg:flex-row font-sans text-white overflow-hidden">
       
-      {/* Left side: branding & image (Hidden on small screens) */}
       <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12">
         <div className="absolute inset-0 z-0">
           <img 
@@ -76,7 +126,7 @@ const AdminLogin = () => {
         <motion.div 
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+          transition={{ duration: 0.8, ease: "easeOut" as any, delay: 0.1 }}
           className="w-full max-w-md relative z-10"
         >
           <div className="lg:hidden text-center mb-10">
@@ -89,22 +139,36 @@ const AdminLogin = () => {
             <p className="text-white/50 text-sm sm:text-base">Enter your credentials to gain system access.</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={formik.handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <label className="text-xs uppercase tracking-wider text-white/50 ml-1 font-semibold">Admin Identity</label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-white/30 group-focus-within:text-brand transition-colors" />
+                  <Mail className={`h-5 w-5 ${formik.touched.email && formik.errors.email ? 'text-red-500' : 'text-white/30 group-focus-within:text-brand'} transition-colors`} />
                 </div>
                 <input 
                   type="email" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-white/20 focus:outline-none focus:border-brand/40 focus:bg-white/10 transition-all text-sm shadow-inner"
+                  name="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className={`w-full bg-white/5 border ${formik.touched.email && formik.errors.email ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-brand/40'} rounded-2xl pl-12 pr-4 py-4 text-white placeholder-white/20 focus:outline-none focus:bg-white/10 transition-all text-sm shadow-inner`}
                   placeholder="admin@nexera.sys"
-                  required
                 />
               </div>
+              <AnimatePresence>
+                {formik.touched.email && formik.errors.email && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="flex items-center gap-2 text-red-500 text-[10px] uppercase tracking-wider font-bold mt-1 ml-1"
+                  >
+                    <AlertCircle className="w-3 h-3" />
+                    {formik.errors.email}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             
             <div className="space-y-2">
@@ -114,23 +178,37 @@ const AdminLogin = () => {
               </div>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-white/30 group-focus-within:text-brand transition-colors" />
+                  <Lock className={`h-5 w-5 ${formik.touched.password && formik.errors.password ? 'text-red-500' : 'text-white/30 group-focus-within:text-brand'} transition-colors`} />
                 </div>
                 <input 
                   type="password" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-white/20 focus:outline-none focus:border-brand/40 focus:bg-white/10 transition-all font-mono tracking-widest text-lg shadow-inner"
+                  name="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className={`w-full bg-white/5 border ${formik.touched.password && formik.errors.password ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-brand/40'} rounded-2xl pl-12 pr-4 py-4 text-white placeholder-white/20 focus:outline-none focus:bg-white/10 transition-all font-mono tracking-widest text-lg shadow-inner`}
                   placeholder="••••••••"
-                  required
                 />
               </div>
+              <AnimatePresence>
+                {formik.touched.password && formik.errors.password && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="flex items-center gap-2 text-red-500 text-[10px] uppercase tracking-wider font-bold mt-1 ml-1"
+                  >
+                    <AlertCircle className="w-3 h-3" />
+                    {formik.errors.password}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             <button 
               type="submit" 
-              disabled={isLoading}
-              className="w-full py-4 relative group overflow-hidden bg-brand flex items-center justify-center gap-2 text-black font-bold rounded-2xl mt-8 hover:bg-brand-hover hover:shadow-[0_0_30px_rgba(0,255,102,0.3)] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+              disabled={isLoading || !formik.isValid || !formik.dirty}
+              className="w-full py-4 relative group overflow-hidden bg-brand flex items-center justify-center gap-2 text-black font-bold rounded-2xl mt-8 hover:bg-brand-hover hover:shadow-[0_0_30px_rgba(0,255,102,0.3)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
             >
               {isLoading ? (
                 <span className="flex items-center gap-2 text-sm tracking-widest">
