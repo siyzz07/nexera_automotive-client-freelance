@@ -16,3 +16,11 @@ export const updateCategory = async (id: string, data: { name?: string; isActive
 export const deleteCategory = async (id: string) => {
   return await authAxiosInstance.delete(`category/${id}`);
 };
+
+export const getBrands = async () => {
+  return await authAxiosInstance.get('category/brands');
+};
+
+export const getModelsByBrand = async (brandId: string) => {
+  return await authAxiosInstance.get(`category/models/${brandId}`);
+};

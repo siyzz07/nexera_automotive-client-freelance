@@ -99,9 +99,12 @@ const FeaturedCars = () => {
                   </div>
                 </div>
                 
-                <button className="w-full py-2 sm:py-3 lg:py-4 rounded-xl border border-brand text-brand text-xs sm:text-sm font-semibold hover:bg-brand hover:text-black transition-all duration-300 mt-auto">
+                <Link 
+                  to="/car-seen" 
+                  className="w-full py-2 sm:py-3.5 rounded-xl border border-brand text-brand text-xs sm:text-sm font-semibold hover:bg-brand hover:text-black transition-all duration-300 mt-auto flex justify-center items-center"
+                >
                   Configure
-                </button>
+                </Link>
               </div>
             </motion.div>
           ))}

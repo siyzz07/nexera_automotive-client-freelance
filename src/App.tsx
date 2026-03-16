@@ -18,9 +18,11 @@ function App() {
     }
 
     const lenis = new Lenis({
-      lerp: 0.1, 
+      lerp: 0.08, // Slightly smoother lerp
       wheelMultiplier: 1,
       smoothWheel: true,
+      syncTouch: true, // Crucial for mobile smoothness
+      touchMultiplier: 1.5,
     });
 
     lenis.on('scroll', ScrollTrigger.update);

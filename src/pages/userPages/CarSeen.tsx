@@ -5,107 +5,29 @@ import {
   CheckCircle2, Award, FileCheck, ChevronDown, CarFront, Zap,
   Search, SlidersHorizontal, X
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import GlobalBackground from '../../components/userComponents/GlobalBackground';
 
 // Mock comprehensive data
-const inventoryCars = [
-  {
-    id: "INV-001",
-    brand: "NEXERA",
-    model: "X1 Luxe",
-    bodyType: "Hyper GT",
-    price: 145000,
-    kmDriven: 500,
-    fuelType: "Electric",
-    transmission: "Automatic",
-    ownerHistory: "1st Owner",
-    color: "Silver",
-    location: "Los Angeles, CA",
-    trustBadges: ["Nexera Verified", "Documents Verified", "Insurance Valid"],
-    acceleration: "0-60 in 1.9s",
-    image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=2071&auto=format&fit=crop"
-  },
-  {
-    id: "INV-002",
-    brand: "Porsche",
-    model: "Macan S",
-    bodyType: "SUV",
-    price: 85000,
-    kmDriven: 18000,
-    fuelType: "Petrol",
-    transmission: "Automatic",
-    ownerHistory: "1st Owner",
-    color: "Blue",
-    location: "Miami, FL",
-    trustBadges: ["Verified Dealer", "Insurance Valid"],
-    acceleration: "0-60 in 4.6s",
-    image: "https://images.unsplash.com/photo-1594241793744-b0a7dbf5d68d?q=80&auto=format&fit=crop&w=2000"
-  },
-  {
-    id: "INV-003",
-    brand: "NEXERA",
-    model: "OMEGA",
-    bodyType: "Hypercar",
-    price: 210000,
-    kmDriven: 120,
-    fuelType: "Hybrid",
-    transmission: "Automatic",
-    ownerHistory: "1st Owner",
-    color: "Red",
-    location: "Monaco",
-    trustBadges: ["Nexera Verified", "Documents Verified", "Verified Dealer"],
-    acceleration: "0-60 in 1.7s",
-    image: "https://images.unsplash.com/photo-1614200187524-dc4b892acf16?q=80&auto=format&fit=crop&w=2000"
-  },
-  {
-    id: "INV-004",
-    brand: "Audi",
-    model: "e-tron GT",
-    bodyType: "Sedan",
-    price: 104000,
-    kmDriven: 12500,
-    fuelType: "Electric",
-    transmission: "Automatic",
-    ownerHistory: "2nd Owner",
-    color: "White",
-    location: "San Francisco, CA",
-    trustBadges: ["Documents Verified", "Insurance Valid"],
-    acceleration: "0-60 in 3.1s",
-    image: "https://images.unsplash.com/photo-1614026480418-d7a8e0f6b7e1?q=80&auto=format&fit=crop&w=2000"
-  },
-  {
-    id: "INV-005",
-    brand: "NEXERA",
-    model: "Oribis",
-    bodyType: "Compact",
-    price: 45000,
-    kmDriven: 8000,
-    fuelType: "Electric",
-    transmission: "Automatic",
-    ownerHistory: "1st Owner",
-    color: "Blue",
-    location: "Seattle, WA",
-    trustBadges: ["Nexera Verified", "Insurance Valid"],
-    acceleration: "0-60 in 4.5s",
-    image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&auto=format&fit=crop&w=2070"
-  },
-  {
-    id: "INV-006",
-    brand: "BMW",
-    model: "M4 Competition",
-    bodyType: "Coupe",
-    price: 78000,
-    kmDriven: 25000,
-    fuelType: "Petrol",
-    transmission: "Automatic",
-    ownerHistory: "2nd Owner",
-    color: "Grey",
-    location: "Austin, TX",
-    trustBadges: ["Verified Dealer", "Documents Verified"],
-    acceleration: "0-60 in 3.4s",
-    image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&auto=format&fit=crop&w=2069"
-  }
-];
+import { getAllCars } from '../../services/apiServices/carApiService';
+
+interface ICar {
+  _id: string;
+  brand: { _id: string; name: string };
+  carModel: { _id: string; name: string };
+  price: number;
+  kmDriven: number;
+  fuelType: string;
+  transmission: string;
+  bodyType: string;
+  ownerHistory: string;
+  color: string;
+  location: string;
+  description?: string;
+  images: string[];
+  video?: { url: string; duration: number };
+  trustBadges: string[];
+}
 
 // Custom Premium Select Component
 const CustomSelect = ({ 
@@ -199,6 +121,8 @@ const segments = [
 ];
 
 const CarSeen = () => {
+  const [realInventoryCars, setRealInventoryCars] = useState<ICar[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [activeSegment, setActiveSegment] = useState('All Cars');
@@ -209,14 +133,30 @@ const CarSeen = () => {
     ownerHistory: 'All', color: 'All', location: 'All'
   });
 
-  const uniqueBrands = useMemo(() => ['All', ...new Set(inventoryCars.map(c => c.brand))], []);
-  const uniqueModels = useMemo(() => ['All', ...new Set(inventoryCars.map(c => c.model))], []);
-  const uniqueFuelTypes = useMemo(() => ['All', ...new Set(inventoryCars.map(c => c.fuelType))], []);
-  const uniqueTransmissions = useMemo(() => ['All', ...new Set(inventoryCars.map(c => c.transmission))], []);
-  const uniqueBodyTypes = useMemo(() => ['All', ...new Set(inventoryCars.map(c => c.bodyType))], []);
-  const uniqueOwnerHistories = useMemo(() => ['All', ...new Set(inventoryCars.map(c => c.ownerHistory))], []);
-  const uniqueColors = useMemo(() => ['All', ...new Set(inventoryCars.map(c => c.color))], []);
-  const uniqueLocations = useMemo(() => ['All', ...new Set(inventoryCars.map(c => c.location))], []);
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const response = await getAllCars();
+        if (response.data.success) {
+          setRealInventoryCars(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching inventory:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCars();
+  }, []);
+
+  const uniqueBrands = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.brand.name))], [realInventoryCars]);
+  const uniqueModels = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.carModel.name))], [realInventoryCars]);
+  const uniqueFuelTypes = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.fuelType))], [realInventoryCars]);
+  const uniqueTransmissions = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.transmission))], [realInventoryCars]);
+  const uniqueBodyTypes = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.bodyType))], [realInventoryCars]);
+  const uniqueOwnerHistories = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.ownerHistory))], [realInventoryCars]);
+  const uniqueColors = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.color))], [realInventoryCars]);
+  const uniqueLocations = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.location))], [realInventoryCars]);
 
   const budgetOptions = ['All', 'Under $50,000', 'Under $100,000', 'Under $150,000', '$150,000+'];
   const kmOptions = ['All', 'Under 10,000 km', 'Under 30,000 km', 'Under 50,000 km'];
@@ -238,13 +178,13 @@ const CarSeen = () => {
   const activeFilterCount = Object.values(filters).filter(v => v !== 'All').length + (searchQuery ? 1 : 0);
 
   const filteredCars = useMemo(() => {
-    return inventoryCars.filter(car => {
+    return realInventoryCars.filter(car => {
       // 0. Search Query
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         const matches = 
-          car.brand.toLowerCase().includes(query) || 
-          car.model.toLowerCase().includes(query) ||
+          car.brand.name.toLowerCase().includes(query) || 
+          car.carModel.name.toLowerCase().includes(query) ||
           car.bodyType.toLowerCase().includes(query);
         if (!matches) return false;
       }
@@ -267,8 +207,8 @@ const CarSeen = () => {
         if (filters.budget === 'Under $150,000' && car.price >= 150000) return false;
         if (filters.budget === '$150,000+' && car.price < 150000) return false;
       }
-      if (filters.brand !== 'All' && car.brand !== filters.brand) return false;
-      if (filters.model !== 'All' && car.model !== filters.model) return false;
+      if (filters.brand !== 'All' && car.brand.name !== filters.brand) return false;
+      if (filters.model !== 'All' && car.carModel.name !== filters.model) return false;
       if (filters.bodyType !== 'All' && car.bodyType !== filters.bodyType) return false;
       
       // Advanced Filters
@@ -285,7 +225,7 @@ const CarSeen = () => {
 
       return true;
     });
-  }, [filters, activeSegment, searchQuery]);
+  }, [filters, activeSegment, searchQuery, realInventoryCars]);
 
   return (
     <div className="w-full relative min-h-screen pt-32 pb-24">
@@ -438,7 +378,12 @@ const CarSeen = () => {
         </motion.div>
 
         {/* --- Car Grid --- */}
-        {filteredCars.length === 0 ? (
+        {loading ? (
+             <div className="text-center py-20">
+                <div className="inline-block w-12 h-12 border-4 border-brand/30 border-t-brand rounded-full animate-spin mb-4" />
+                <p className="text-white/60 font-medium tracking-widest uppercase text-xs">Accessing Inventory...</p>
+             </div>
+        ) : filteredCars.length === 0 ? (
           <div className="glass rounded-3xl p-12 text-center border border-white/10">
             <CarFront className="w-16 h-16 text-white/20 mx-auto mb-4" />
             <h3 className="text-2xl font-heading font-bold text-white mb-2">No Vehicles Found</h3>
@@ -455,7 +400,7 @@ const CarSeen = () => {
             <AnimatePresence>
               {filteredCars.map((car, index) => (
                 <motion.div
-                  key={car.id}
+                  key={car._id}
                   layout
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -466,8 +411,8 @@ const CarSeen = () => {
                   <div className="relative h-32 sm:h-56 md:h-64 overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
                     <img 
-                      src={car.image} 
-                      alt={`${car.brand} ${car.model}`} 
+                      src={car.images[0]} 
+                      alt={`${car.brand.name} ${car.carModel.name}`} 
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
                     />
                     
@@ -492,9 +437,9 @@ const CarSeen = () => {
                     <div>
                       <div className="flex flex-col sm:flex-row justify-between sm:items-start mb-2 sm:mb-4 gap-1">
                         <div>
-                          <p className="text-[9px] sm:text-xs text-brand font-semibold tracking-widest uppercase mb-0.5 sm:mb-1">{car.brand}</p>
+                          <p className="text-[9px] sm:text-xs text-brand font-semibold tracking-widest uppercase mb-0.5 sm:mb-1">{car.brand.name}</p>
                           <h3 className="text-sm sm:text-xl md:text-2xl font-bold font-heading text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
-                            {car.model}
+                            {car.carModel.name}
                           </h3>
                         </div>
                         <div className="sm:text-right">
@@ -541,14 +486,17 @@ const CarSeen = () => {
                           <span className="text-[8px] sm:text-xs font-semibold uppercase tracking-wider truncate max-w-[80px] sm:max-w-full">{car.location.split(',')[0]}</span>
                         </div>
                         <div className="hidden sm:flex items-center gap-1 text-[10px] sm:text-xs text-white/40 font-semibold tracking-wider">
-                          ID: {car.id.split('-')[1]}
+                          ID: {car._id.slice(-6).toUpperCase()}
                         </div>
                       </div>
                     </div>
                     
-                    <button className="w-full py-2 sm:py-3.5 rounded-lg sm:rounded-xl border border-brand/30 bg-brand/10 text-brand text-[10px] sm:text-sm font-bold tracking-wider hover:bg-brand hover:text-black shadow-[0_0_20px_rgba(0,255,102,0.1)] hover:shadow-[0_0_30px_rgba(0,255,102,0.3)] transition-all duration-300 uppercase flex justify-center items-center gap-1 sm:gap-2">
+                    <Link 
+                      to={`/car/${car._id}`}
+                      className="w-full py-2 sm:py-3.5 rounded-lg sm:rounded-xl border border-brand/30 bg-brand/10 text-brand text-[10px] sm:text-sm font-bold tracking-wider hover:bg-brand hover:text-black shadow-[0_0_20px_rgba(0,255,102,0.1)] hover:shadow-[0_0_30px_rgba(0,255,102,0.3)] transition-all duration-300 uppercase flex justify-center items-center gap-1 sm:gap-2"
+                    >
                        Details
-                    </button>
+                    </Link>
                   </div>
                 </motion.div>
               ))}

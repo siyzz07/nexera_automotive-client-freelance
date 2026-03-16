@@ -239,7 +239,7 @@ const AdminCategories = () => {
                           >
                             <Edit2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                           </button>
-                          <button 
+                          {/* <button 
                             onClick={(e) => {
                               e.stopPropagation();
                               handleDeleteCategory(brand._id);
@@ -249,7 +249,7 @@ const AdminCategories = () => {
                             }`}
                           >
                             <Trash2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                          </button>
+                          </button> */}
                         </>
                       )}
                       <ChevronRight className={`w-4 h-4 transition-transform hidden sm:block ${activeBrandId === brand._id ? 'text-brand translate-x-1' : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}`} />
@@ -350,13 +350,13 @@ const AdminCategories = () => {
                                 <span className="font-semibold text-white/90 truncate text-sm md:text-base">{model.name}</span>
                               )}
                             </div>
-                            <button 
+                            {/* <button 
                               onClick={() => handleToggleStatus(model._id, model.isActive)}
                               className="ml-auto flex-shrink-0"
                               title={model.isActive ? "Deactivate" : "Activate"}
                             >
                               {model.isActive ? <ToggleRight className="w-5 h-5 text-brand" /> : <ToggleLeft className="w-5 h-5 text-white/20" />}
-                            </button>
+                            </button> */}
                           </div>
                           
                           <div className="flex items-center gap-1 md:gap-2 ml-1">
@@ -371,12 +371,12 @@ const AdminCategories = () => {
                                 >
                                   <Edit2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                 </button>
-                                <button 
+                                {/* <button 
                                   onClick={() => handleDeleteCategory(model._id)}
                                   className="p-2 rounded-lg bg-red-500/10 text-red-500/40 hover:text-red-400 hover:bg-red-500/20 transition-all md:opacity-0 md:group-hover:opacity-100"
                                 >
                                   <Trash2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                                </button>
+                                </button> */}
                               </>
                             )}
                           </div>
