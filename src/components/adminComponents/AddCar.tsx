@@ -12,7 +12,7 @@ export interface CategoryType {
   parentCategory: string | null;
   isActive: boolean;
 }
-
+//778
 const AddCar = () => {
   const [brands, setBrands] = useState<CategoryType[]>([]);
   const [models, setModels] = useState<CategoryType[]>([]);
