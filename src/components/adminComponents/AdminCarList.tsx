@@ -1,25 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Filter, MoreVertical, Edit, Trash2, Eye } from 'lucide-react';
+import { getAllCars } from '../../services/apiServices/carApiService';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const AdminCarList = () => {
-  // Mock data mimicking a backend payload
-  const mockInventory = [
-    { id: "INV-1029", brand: "Mercedes-Benz", model: "G63 AMG", year: 2022, price: 215000, status: "Active", views: 1240 },
-    { id: "INV-1030", brand: "Porsche", model: "911 GT3", year: 2023, price: 285000, status: "Pending", views: 3105 },
-    { id: "INV-1031", brand: "BMW", model: "M4 Competition", year: 2021, price: 82000, status: "Active", views: 890 },
-    { id: "INV-1032", brand: "Audi", model: "RS6 Avant", year: 2024, price: 145000, status: "Sold", views: 420 },
-    { id: "INV-1033", brand: "Land Rover", model: "Range Rover Sport", year: 2022, price: 95000, status: "Active", views: 650 },
-    { id: "INV-1034", brand: "Lamborghini", model: "Urus", year: 2021, price: 295000, status: "Active", views: 5120 },
-  ];
-
+  const navigate = useNavigate();
+  const [inventory, setInventory] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  const filteredCars = mockInventory.filter(car => 
-    car.brand.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    car.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    car.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    const fetchInventory = async () => {
+      try {
+        const response = await getAllCars();
+        if (response.data.success) {
+          setInventory(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching inventory:', error);
+        toast.error('Failed to load inventory');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchInventory();
+  }, []);
+
+  const filteredCars = inventory.filter(car => {
+    const brand = typeof car.brand === 'object' ? car.brand.name : '';
+    const model = typeof car.carModel === 'object' ? car.carModel.name : '';
+    const id = car.inventoryId || car._id || '';
+
+    return brand.toLowerCase().includes(searchTerm.toLowerCase()) || 
+           model.toLowerCase().includes(searchTerm.toLowerCase()) ||
+           id.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   return (
     <div className="max-w-7xl mx-auto pb-10">
@@ -69,16 +86,25 @@ const AdminCarList = () => {
                   className="hover:bg-white/[0.02] transition-colors group"
                 >
                   <td className="p-4 md:p-6">
-                    <span className="text-xs font-bold text-white/40 bg-white/5 px-2 py-1 rounded-md">{car.id.split('-')[1]}</span>
+                    <span className="text-xs font-bold text-white/40 bg-white/5 px-2 py-1 rounded-md">
+                      {car.inventoryId || 'NEW'}
+                    </span>
                   </td>
-                  <td className="p-4 md:p-6">
+                   <td className="p-4 md:p-6">
                     <div>
-                      <p className="text-xs text-brand font-bold uppercase tracking-widest mb-0.5">{car.brand}</p>
-                      <p className="text-sm md:text-base font-bold text-white">{car.model} <span className="text-white/40 font-normal text-sm">({car.year})</span></p>
+                      <p className="text-xs text-brand font-bold uppercase tracking-widest mb-0.5">
+                        {typeof car.brand === 'object' ? car.brand.name : 'Unknown'}
+                      </p>
+                      <p className="text-sm md:text-base font-bold text-white">
+                        {typeof car.carModel === 'object' ? car.carModel.name : 'Unknown'} 
+                        <span className="text-white/40 font-normal text-sm ml-2">
+                          ({new Date(car.createdAt).getFullYear()})
+                        </span>
+                      </p>
                     </div>
                   </td>
                   <td className="p-4 md:p-6 font-bold text-white">
-                    ${car.price.toLocaleString()}
+                    AED {car.price?.toLocaleString()}
                   </td>
                   <td className="p-4 md:p-6">
                     <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full border flex items-center w-fit gap-1.5 ${
@@ -102,7 +128,11 @@ const AdminCarList = () => {
                       <button className="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white transition-colors" title="View Listing">
                         <Eye className="w-4 h-4" />
                       </button>
-                      <button className="p-2 rounded-lg bg-orange-500/10 text-orange-400 hover:bg-orange-500 hover:text-white transition-colors" title="Edit Data">
+                      <button 
+                        className="p-2 rounded-lg bg-orange-500/10 text-orange-400 hover:bg-orange-500 hover:text-white transition-colors" 
+                        title="Edit Data"
+                        onClick={() => navigate(`/admin/edit-car/${car._id}`)}
+                      >
                         <Edit className="w-4 h-4" />
                       </button>
                       <button className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-colors" title="Delete Listing">
@@ -117,7 +147,16 @@ const AdminCarList = () => {
                 </motion.tr>
               ))}
               
-              {filteredCars.length === 0 && (
+              {isLoading ? (
+                <tr>
+                   <td colSpan={6} className="text-center p-12 text-white/40">
+                    <div className="flex items-center justify-center gap-3">
+                      <div className="w-5 h-5 border-2 border-brand/30 border-t-brand rounded-full animate-spin" />
+                      Loading inventory...
+                    </div>
+                  </td>
+                </tr>
+              ) : filteredCars.length === 0 && (
                 <tr>
                   <td colSpan={6} className="text-center p-12 text-white/40">
                     No vehicles found matching "{searchTerm}"

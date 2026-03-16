@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Upload, CarFront, Gauge, Fuel, Settings2, DollarSign, ImagePlus, ShieldCheck, CheckCircle2, AlertCircle } from 'lucide-react';
 import { getBrands, getModelsByBrand } from '../../services/apiServices/categoryApiService';
-import { addCarListing } from '../../services/apiServices/carApiService';
+import { addCarListing, getCarById, updateCarListing } from '../../services/apiServices/carApiService';
 import toast from 'react-hot-toast';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -14,11 +15,16 @@ export interface CategoryType {
 }
 //778
 const AddCar = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const isEditMode = !!id;
+
   const [brands, setBrands] = useState<CategoryType[]>([]);
   const [models, setModels] = useState<CategoryType[]>([]);
   const [trustBadges, setTrustBadges] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [existingImages, setExistingImages] = useState<string[]>([]);
 
   // Validation Schema
   const validationSchema = Yup.object().shape({
@@ -34,12 +40,14 @@ const AddCar = () => {
     location: Yup.string().required('Location is required').min(3, 'Location name too short'),
     description: Yup.string().min(10, 'Description should be at least 10 characters'),
     images: Yup.array()
-      .of(Yup.mixed().required())
-      .min(1, 'At least 1 image is required')
-      .max(5, 'Maximum 5 images allowed')
-      .required('Images are required'),
+      .of(Yup.mixed())
+      .test('images-required', 'At least 1 image is required', function(value) {
+        if (isEditMode) return true; // Optional in edit mode
+        return value && value.length >= 1;
+      })
+      .max(5, 'Maximum 5 images allowed'),
     video: Yup.mixed().nullable(),
-    videoDuration: Yup.number().max(16, 'Video must be less than 16 seconds').nullable(),
+    videoDuration: Yup.number().max(60, 'Video must be less than 60 seconds').nullable(),
   });
 
   const formik = useFormik({
@@ -86,17 +94,23 @@ const AddCar = () => {
         // Append trust badges
         formData.append('trustBadges', JSON.stringify(trustBadges));
 
-        const response = await addCarListing(formData);
+        const response = isEditMode 
+          ? await updateCarListing(id!, formData)
+          : await addCarListing(formData);
 
         if (response.data.success) {
           setIsSuccess(true);
-          toast.success('Vehicle listed successfully on Cloudinary!');
+          toast.success(isEditMode ? 'Vehicle updated successfully!' : 'Vehicle listed successfully!');
           
           setTimeout(() => {
             setIsSuccess(false);
-            formik.resetForm();
-            setTrustBadges([]);
-          }, 3000);
+            if (isEditMode) {
+              navigate('/admin/inventory');
+            } else {
+              formik.resetForm();
+              setTrustBadges([]);
+            }
+          }, 2000);
         }
       } catch (error: any) {
         console.error('Upload Error:', error);
@@ -142,6 +156,42 @@ const AddCar = () => {
     };
     fetchModels();
   }, [formik.values.brand]);
+
+  // Fetch Car Details in Edit Mode
+  useEffect(() => {
+    const fetchCarDetails = async () => {
+      if (!isEditMode || !id) return;
+      
+      try {
+        const response = await getCarById(id);
+        if (response.data.success) {
+          const car = response.data.data;
+          formik.setValues({
+            brand: car.brand._id || car.brand,
+            model: car.carModel._id || car.carModel,
+            price: car.price,
+            kmDriven: car.kmDriven,
+            fuelType: car.fuelType,
+            transmission: car.transmission,
+            bodyType: car.bodyType,
+            ownerHistory: car.ownerHistory,
+            color: car.color,
+            location: car.location,
+            description: car.description || '',
+            images: [],
+            video: null,
+            videoDuration: car.video?.duration || 0,
+          });
+          setTrustBadges(car.trustBadges || []);
+          setExistingImages(car.images || []);
+        }
+      } catch (error) {
+        console.error('Error fetching car details:', error);
+        toast.error('Failed to load vehicle details');
+      }
+    };
+    fetchCarDetails();
+  }, [id, isEditMode]);
 
   // Handle brand change specially to reset model
   const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -473,29 +523,37 @@ const AddCar = () => {
             </div>
             
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-              {/* Image Previews */}
-              {formik.values.images.map((file, idx) => (
+              {/* Image Previews - either newly selected or existing */}
+              {(formik.values.images.length > 0 ? formik.values.images : existingImages).map((item, idx) => (
                 <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-white/10 group">
-                  <img src={URL.createObjectURL(file)} alt={`Vehicle ${idx + 1}`} className="w-full h-full object-cover" />
-                  <button 
-                    type="button"
-                    onClick={() => {
-                      const newImgs = [...formik.values.images];
-                      newImgs.splice(idx, 1);
-                      formik.setFieldValue('images', newImgs);
-                    }}
-                    className="absolute top-1 right-1 p-1.5 bg-red-500 rounded-lg text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <AlertCircle className="w-3 h-3" />
-                  </button>
+                  <img 
+                    src={typeof item === 'string' ? item : URL.createObjectURL(item)} 
+                    alt={`Vehicle ${idx + 1}`} 
+                    className="w-full h-full object-cover" 
+                  />
+                  {formik.values.images.length > 0 && (
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        const newImgs = [...formik.values.images];
+                        newImgs.splice(idx, 1);
+                        formik.setFieldValue('images', newImgs);
+                      }}
+                      className="absolute top-1 right-1 p-1.5 bg-red-500 rounded-lg text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <AlertCircle className="w-3 h-3" />
+                    </button>
+                  )}
                 </div>
               ))}
               
               {/* Upload Placeholder */}
-              {formik.values.images.length < 5 && (
+              {(formik.values.images.length < 5 && (isEditMode ? formik.values.images.length === 0 : true)) && (
                 <label className="aspect-square rounded-xl border-2 border-dashed border-white/20 bg-black/20 flex flex-col items-center justify-center cursor-pointer hover:border-brand/40 hover:bg-brand/5 transition-all">
                   <Upload className="w-5 h-5 text-white/40 mb-1" />
-                  <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider">Add Image</span>
+                  <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider">
+                    {isEditMode ? 'Replace Images' : 'Add Image'}
+                  </span>
                   <input 
                     type="file" 
                     accept="image/*" 
@@ -503,11 +561,11 @@ const AddCar = () => {
                     className="hidden" 
                     onChange={(e) => {
                       const files = Array.from(e.target.files || []);
-                      if (formik.values.images.length + files.length > 5) {
+                      if (files.length > 5) {
                         toast.error('Only 5 images allowed');
                         return;
                       }
-                      formik.setFieldValue('images', [...formik.values.images, ...files]);
+                      formik.setFieldValue('images', files);
                       formik.setFieldTouched('images', true);
                     }}
                   />

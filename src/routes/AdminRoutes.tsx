@@ -38,6 +38,7 @@ const AdminRoutes = () => {
           <Route path="dashboard" element={<Navigate to="/admin" replace />} />
           <Route path="inventory" element={<AdminCarList />} />
           <Route path="add-car" element={<AddCar />} />
+          <Route path="edit-car/:id" element={<AddCar />} />
           <Route path="categories" element={<AdminCategories />} />
           <Route path="users" element={<PlaceholderModule />} />
           <Route path="settings" element={<PlaceholderModule />} />

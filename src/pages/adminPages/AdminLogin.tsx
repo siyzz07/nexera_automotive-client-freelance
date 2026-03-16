@@ -69,7 +69,7 @@ const AdminLogin = () => {
   
 
   return (
-    <div className="min-h-screen bg-[#050505] flex flex-col lg:flex-row font-sans text-white overflow-hidden">
+    <div className="  min-h-screen bg-[#050505] flex flex-col lg:flex-row font-sans text-white overflow-hidden">
       
       <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12">
         <div className="absolute inset-0 z-0">

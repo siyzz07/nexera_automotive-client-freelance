@@ -9,10 +9,11 @@ import { getToken, removeToken } from "../utils/sessionStorageUtils";
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
 }
+//lld
 
 export const axiosInstance = () => {
   const instance = axios.create({
-    baseURL: `${import.meta.env.VITE_BASE_URL}api/`,
+    baseURL: `${import.meta.env.VITE_BASE_URL}/api/`,
     headers: { "Content-Type": "application/json" },
     withCredentials: true,
   });

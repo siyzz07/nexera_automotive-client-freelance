@@ -2,6 +2,7 @@
 @import "tailwindcss";
 
 @theme {
+  /* --color-brand: #00ff00; Deep Teal Primary */
   --color-brand: #004d41; /* Deep Teal Primary */
   --color-brand-hover: #00806d; /* Vibrant Teal Accent */
   --color-surface: #0a0a0a; /* Premium Dark Background */
