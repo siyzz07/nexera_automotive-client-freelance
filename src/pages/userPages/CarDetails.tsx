@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ShieldCheck, MapPin, Gauge, Fuel, Settings2, User, 
   ChevronLeft, ChevronRight, MessageCircle, Share2, 
-  Calendar, Paintbrush, Car, Info
+  Calendar, Paintbrush, Car
 } from 'lucide-react';
 import { getCarById } from '../../services/apiServices/carApiService';
 import GlobalBackground from '../../components/userComponents/GlobalBackground';

@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Tag, ChevronRight, CarFront, Search, Edit2, Check, X } from 'lucide-react';
-import { getCategories, addCategory, updateCategory, deleteCategory } from '../../services/apiServices/categoryApiService';
+import { getCategories, addCategory, updateCategory } from '../../services/apiServices/categoryApiService';
 import toast from 'react-hot-toast';
 
 export interface CategoryType {
