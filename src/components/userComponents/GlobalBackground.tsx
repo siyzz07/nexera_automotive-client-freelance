@@ -11,7 +11,7 @@ const GlobalBackground = () => {
   const rotate2 = useTransform(scrollYProgress, [0, 1], [0, -90]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#050505]">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#0a0a0a]">
       
       {/* Noise Texture for premium grit */}
       <div 

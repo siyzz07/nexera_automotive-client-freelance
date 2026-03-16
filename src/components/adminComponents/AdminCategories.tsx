@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Tag, ChevronRight, CarFront, Trash2, Search, Edit2, Check, X, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Plus, Tag, ChevronRight, CarFront, Search, Edit2, Check, X } from 'lucide-react';
 import { getCategories, addCategory, updateCategory, deleteCategory } from '../../services/apiServices/categoryApiService';
 import toast from 'react-hot-toast';
 
@@ -93,18 +93,6 @@ const AdminCategories = () => {
     }
   };
 
-  const handleDeleteCategory = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this?')) return;
-    try {
-      const response = await deleteCategory(id);
-      if (response.data.success) {
-        toast.success('Deleted successfully');
-        await refreshCategories();
-      }
-    } catch (error) {
-      toast.error('Failed to delete');
-    }
-  };
 
   const handleUpdateName = async () => {
     if (!editingId || !editName.trim()) return;
@@ -120,17 +108,6 @@ const AdminCategories = () => {
     }
   };
 
-  const handleToggleStatus = async (id: string, currentStatus: boolean) => {
-    try {
-      const response = await updateCategory(id, { isActive: !currentStatus });
-      if (response.data.success) {
-        toast.success('Status updated');
-        await refreshCategories();
-      }
-    } catch (error) {
-      toast.error('Failed to update status');
-    }
-  };
 
   return (
     <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 pb-10">
@@ -239,17 +216,7 @@ const AdminCategories = () => {
                           >
                             <Edit2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                           </button>
-                          {/* <button 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteCategory(brand._id);
-                            }}
-                            className={`p-1.5 rounded-lg transition-all ${
-                              activeBrandId === brand._id ? 'opacity-100 text-red-400 hover:bg-red-500/20' : 'opacity-0 group-hover:opacity-100 text-red-500/40 hover:text-red-400 hover:bg-red-500/20'
-                            }`}
-                          >
-                            <Trash2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                          </button> */}
+                          {/* Deleted Trash Button */}
                         </>
                       )}
                       <ChevronRight className={`w-4 h-4 transition-transform hidden sm:block ${activeBrandId === brand._id ? 'text-brand translate-x-1' : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}`} />
@@ -350,13 +317,7 @@ const AdminCategories = () => {
                                 <span className="font-semibold text-white/90 truncate text-sm md:text-base">{model.name}</span>
                               )}
                             </div>
-                            {/* <button 
-                              onClick={() => handleToggleStatus(model._id, model.isActive)}
-                              className="ml-auto flex-shrink-0"
-                              title={model.isActive ? "Deactivate" : "Activate"}
-                            >
-                              {model.isActive ? <ToggleRight className="w-5 h-5 text-brand" /> : <ToggleLeft className="w-5 h-5 text-white/20" />}
-                            </button> */}
+                             {/* Status Toggler Removed */}
                           </div>
                           
                           <div className="flex items-center gap-1 md:gap-2 ml-1">
@@ -371,12 +332,6 @@ const AdminCategories = () => {
                                 >
                                   <Edit2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                 </button>
-                                {/* <button 
-                                  onClick={() => handleDeleteCategory(model._id)}
-                                  className="p-2 rounded-lg bg-red-500/10 text-red-500/40 hover:text-red-400 hover:bg-red-500/20 transition-all md:opacity-0 md:group-hover:opacity-100"
-                                >
-                                  <Trash2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                                </button> */}
                               </>
                             )}
                           </div>
