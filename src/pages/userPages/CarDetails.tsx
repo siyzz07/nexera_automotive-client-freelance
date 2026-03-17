@@ -23,6 +23,7 @@ interface ICar {
   location: string;
   description?: string;
   images: string[];
+  video?: { url: string; duration: number };
   trustBadges: string[];
   status: string;
 }
@@ -31,7 +32,7 @@ const CarDetails = () => {
   const { id } = useParams<{ id: string }>();
   const [car, setCar] = useState<ICar | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeImage, setActiveImage] = useState(0);
+  const [activeMediaIndex, setActiveMediaIndex] = useState(0);
 
   const [showToast, setShowToast] = useState(false);
 
@@ -101,6 +102,11 @@ const CarDetails = () => {
   const whatsappMessage = `Hello Nexera, I am interested in the ${car.brand.name} ${car.carModel.name} (ID: ${car._id.slice(-6).toUpperCase()}) priced at $${car.price.toLocaleString()}.\n\nVehicle Link: ${window.location.href}\n\nImage Reference: ${car.images[0]}`;
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
+  // Combine images and video for the carousel
+  const mediaItems = car.video?.url 
+    ? [{ type: 'video', url: car.video.url }, ...car.images.map(img => ({ type: 'image', url: img }))]
+    : car.images.map(img => ({ type: 'image', url: img }));
+
   return (
     <div className="w-full relative min-h-screen pt-20 md:pt-32 pb-24 overflow-x-hidden">
       <GlobalBackground />
@@ -148,65 +154,103 @@ const CarDetails = () => {
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           {/* Left Side: Media Masterpiece (7 Cols) */}
-          <div className="lg:col-span-7 space-y-6 md:space-y-8 sticky top-32">
+          <div className="lg:col-span-7 space-y-6 md:space-y-8 lg:sticky lg:top-32">
             <motion.div 
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               className="relative aspect-[4/3] md:aspect-[16/10] rounded-[2rem] md:rounded-[3rem] overflow-hidden glass border border-white/10 shadow-[0_30px_100px_rgba(0,0,0,0.5)] group"
             >
               <AnimatePresence mode="wait">
-                <motion.img 
-                  key={activeImage}
-                  src={car.images[activeImage]} 
-                  alt={car.carModel.name}
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
-                  className="w-full h-full object-cover"
-                />
+                {mediaItems[activeMediaIndex].type === 'video' ? (
+                  <motion.div
+                    key="video-main"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="w-full h-full"
+                  >
+                    <video 
+                      src={mediaItems[activeMediaIndex].url}
+                      controls
+                      autoPlay
+                      muted
+                      className="w-full h-full object-cover"
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.img 
+                    key={activeMediaIndex}
+                    src={mediaItems[activeMediaIndex].url} 
+                    alt={car.carModel.name}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </AnimatePresence>
               
               {/* Overlay Gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 pointer-events-none" />
 
-              {car.images.length > 1 && (
+              {mediaItems.length > 1 && (
                 <>
                   <button 
-                    onClick={() => setActiveImage(prev => (prev === 0 ? car.images.length - 1 : prev - 1))}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-xl text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-all hover:bg-brand hover:text-black hover:scale-110"
+                    onClick={() => setActiveMediaIndex(prev => (prev === 0 ? mediaItems.length - 1 : prev - 1))}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-xl text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-all hover:bg-brand hover:text-black hover:scale-110 z-30"
                   >
                     <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
                   </button>
                   <button 
-                    onClick={() => setActiveImage(prev => (prev === car.images.length - 1 ? 0 : prev + 1))}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-xl text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-all hover:bg-brand hover:text-black hover:scale-110"
+                    onClick={() => setActiveMediaIndex(prev => (prev === mediaItems.length - 1 ? 0 : prev + 1))}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-xl text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-all hover:bg-brand hover:text-black hover:scale-110 z-30"
                   >
                     <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
                   </button>
                 </>
               )}
               
-              <div className="absolute top-6 left-6 z-20">
-                <div className="px-5 py-2 bg-brand/90 backdrop-blur-md text-black text-[10px] md:text-xs font-black rounded-full uppercase tracking-[0.2em] shadow-lg">
+              <div className="absolute top-6 left-6 z-20 flex flex-col gap-2">
+                <div className="px-5 py-2 bg-brand/90 backdrop-blur-md text-black text-[10px] md:text-xs font-black rounded-full uppercase tracking-[0.2em] shadow-lg w-fit">
                   {car.status}
                 </div>
+                {car.video?.url && (
+                   <button 
+                    onClick={() => setActiveMediaIndex(0)}
+                    className="px-5 py-2 bg-black/60 backdrop-blur-md text-brand text-[10px] md:text-xs font-black rounded-full uppercase tracking-[0.2em] border border-brand/30 shadow-lg flex items-center gap-2 hover:bg-brand hover:text-black transition-all w-fit group/btn"
+                   >
+                     <div className="w-2 h-2 rounded-full bg-brand group-hover/btn:bg-black animate-pulse" />
+                     View Film
+                   </button>
+                )}
               </div>
             </motion.div>
 
             {/* Premium Thumbnail Strip */}
             <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x px-2">
-              {car.images.map((img, idx) => (
+              {mediaItems.map((item, idx) => (
                 <button
                   key={idx}
-                  onClick={() => setActiveImage(idx)}
+                  onClick={() => setActiveMediaIndex(idx)}
                   className={`relative flex-shrink-0 w-24 md:w-40 aspect-video rounded-2xl md:rounded-3xl overflow-hidden transition-all duration-500 snap-center p-1 ${
-                    activeImage === idx 
+                    activeMediaIndex === idx 
                       ? 'bg-brand shadow-[0_10px_30px_rgba(0,128,109,0.3)]' 
                       : 'bg-white/5 opacity-40 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} className="w-full h-full object-cover rounded-[calc(1.5rem-4px)] md:rounded-[calc(rem-4px)]" alt={`Luxury View ${idx + 1}`} />
+                  {item.type === 'video' ? (
+                    <div className="w-full h-full relative">
+                      <video src={item.url} className="w-full h-full object-cover rounded-[calc(1.5rem-4px)] md:rounded-[calc(rem-4px)]" />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                        <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center">
+                          <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-black border-b-[5px] border-b-transparent ml-1" />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <img src={item.url} className="w-full h-full object-cover rounded-[calc(1.5rem-4px)] md:rounded-[calc(rem-4px)]" alt={`Luxury View ${idx + 1}`} />
+                  )}
                 </button>
               ))}
             </div>
@@ -325,20 +369,21 @@ const CarDetails = () => {
                 className="flex-[2] flex items-center justify-center gap-3 py-6 md:py-7 bg-brand text-black font-black uppercase tracking-[0.3em] text-xs md:text-sm rounded-[1.5rem] md:rounded-[2rem] transition-all shadow-[0_20px_40px_rgba(0,128,109,0.3)] hover:shadow-brand/50 hover:bg-[#00e0bf]"
               >
                 <MessageCircle className="w-5 h-5 md:w-6 md:h-6" />
-                Secure Information
+                More Information
               </motion.a>
-              <motion.button 
+              {/* <motion.button 
                 whileHover={{ scale: 1.02, backgroundColor: 'rgba(255,255,255,0.05)' }}
                 whileTap={{ scale: 0.98 }}
                 className="flex-1 py-6 md:py-7 glass border-white/10 text-white font-black uppercase tracking-[0.3em] text-xs md:text-sm rounded-[1.5rem] md:rounded-[2rem] transition-all"
               >
                 Schedule Preview
-              </motion.button>
+              </motion.button> */}
             </div>
             
             {/* Added spacer for fixed mobile nav */}
             <div className="h-28 lg:hidden" />
             
+
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

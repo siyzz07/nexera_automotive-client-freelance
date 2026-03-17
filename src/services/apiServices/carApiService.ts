@@ -8,8 +8,8 @@ export const addCarListing = async (formData: FormData) => {
   });
 };
 
-export const getAllCars = async () => {
-  return await authAxiosInstance.get('car');
+export const getAllCars = async (page: number = 1, limit: number = 8) => {
+  return await authAxiosInstance.get(`car?page=${page}&limit=${limit}`);
 };
 
 export const getCarById = async (id: string) => {

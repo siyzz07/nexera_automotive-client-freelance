@@ -121,6 +121,9 @@ const segments = [
 ];
 
 const CarSeen = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  
   const [realInventoryCars, setRealInventoryCars] = useState<ICar[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -135,10 +138,12 @@ const CarSeen = () => {
 
   useEffect(() => {
     const fetchCars = async () => {
+      setLoading(true);
       try {
-        const response = await getAllCars();
+        const response = await getAllCars(currentPage, 8);
         if (response.data.success) {
           setRealInventoryCars(response.data.data);
+          setTotalPages(response.data.meta.totalPages);
         }
       } catch (error) {
         console.error('Error fetching inventory:', error);
@@ -147,7 +152,8 @@ const CarSeen = () => {
       }
     };
     fetchCars();
-  }, []);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
 
   const uniqueBrands = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.brand.name))], [realInventoryCars]);
   const uniqueModels = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.carModel.name))], [realInventoryCars]);
@@ -501,6 +507,43 @@ const CarSeen = () => {
                 </motion.div>
               ))}
             </AnimatePresence>
+          </div>
+        )}
+
+        {/* --- Pagination UI --- */}
+        {!loading && totalPages > 1 && (
+          <div className="mt-16 flex justify-center items-center gap-3">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="w-12 h-12 rounded-xl glass border-white/10 flex items-center justify-center text-white hover:border-brand/40 hover:bg-brand/10 disabled:opacity-30 disabled:pointer-events-none transition-all"
+            >
+              ←
+            </button>
+            
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-12 h-12 rounded-xl border font-bold transition-all ${
+                    currentPage === page
+                      ? 'bg-brand border-brand text-black shadow-[0_0_20px_rgba(0,255,102,0.3)]'
+                      : 'glass border-white/10 text-white/60 hover:border-white/30 hover:bg-white/5'
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="w-12 h-12 rounded-xl glass border-white/10 flex items-center justify-center text-white hover:border-brand/40 hover:bg-brand/10 disabled:opacity-30 disabled:pointer-events-none transition-all"
+            >
+              →
+            </button>
           </div>
         )}
       </div>
