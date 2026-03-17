@@ -19,7 +19,7 @@ const B2BPartnership = () => {
   ];
 
   return (
-    <section className="relative py-24 lg:py-32 overflow-hidden border-t border-white/5 bg-[#050505]">
+    <section className="relative py-24 lg:py-32 overflow-hidden border-t border-white/5 bg-[#020202]">
       <div className="noise" />
       <div className="scanlines" />
       
@@ -35,8 +35,8 @@ const B2BPartnership = () => {
           alt="Dealership Showroom" 
           className="w-full h-full object-cover opacity-20 grayscale"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/95 to-[#050505]/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#020202] via-[#020202]/95 to-[#020202]/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-[#020202]" />
       </motion.div>
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
@@ -51,7 +51,7 @@ const B2BPartnership = () => {
           >
             {/* Pulsing Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl glass border border-white/10 mb-8 backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-brand animate-pulse shadow-[0_0_8px_#00ff66]" />
+              <span className="w-2 h-2 rounded-full bg-brand animate-pulse shadow-[0_0_8px_#00df5d]" />
               <span className="text-brand text-[10px] font-black tracking-widest uppercase">
                 B2B Enterprise
               </span>
@@ -89,7 +89,7 @@ const B2BPartnership = () => {
               ))}
             </ul>
 
-            <button className="group relative overflow-hidden px-10 py-5 w-full sm:w-auto bg-brand text-black font-black rounded-2xl hover:bg-brand-hover hover:shadow-[0_0_40px_rgba(0,255,102,0.4)] transition-all duration-300 text-sm flex items-center justify-center gap-3">
+            <button className="group relative overflow-hidden px-10 py-5 w-full sm:w-auto bg-brand text-black font-black rounded-2xl hover:bg-brand-hover hover:shadow-[0_0_40px_rgba(0,223,93,0.4)] transition-all duration-300 text-sm flex items-center justify-center gap-3">
               <span className="relative z-10 tracking-[0.2em] uppercase">Register Inquiry</span>
               <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
               <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out skew-x-12 z-0" />

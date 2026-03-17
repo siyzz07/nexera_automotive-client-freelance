@@ -24,7 +24,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-[#050505] pt-32 pb-12 overflow-hidden border-t border-white/5">
+    <footer className="relative bg-[#020202] pt-32 pb-12 overflow-hidden border-t border-white/5">
       <div className="noise" />
       <div className="scanlines" />
       
@@ -81,7 +81,7 @@ const Footer = () => {
           ))}
 
           {/* Newsletter / Status */}
-          <div className="lg:col-span-3">
+          {/* <div className="lg:col-span-3">
             <h4 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-8">Secure Status</h4>
             <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-xl mb-6">
               <div className="flex items-center justify-between mb-4">
@@ -96,7 +96,7 @@ const Footer = () => {
                 System Log
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom Bar */}

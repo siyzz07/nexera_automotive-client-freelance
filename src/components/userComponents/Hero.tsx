@@ -104,8 +104,8 @@ const Hero = () => {
             </span>
           </div>
           <div className="overflow-hidden relative w-full text-center lg:text-left py-2">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[150%] bg-teal-500/10 blur-[40px] -z-10 rounded-full"></div>
-            <span ref={title2Ref} className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 pb-2 drop-shadow-[0_0_25px_rgba(45,212,191,0.4)]">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[150%] bg-brand/10 blur-[40px] -z-10 rounded-full"></div>
+            <span ref={title2Ref} className="block text-transparent bg-clip-text bg-gradient-to-r from-[#00df5d] via-[#00b34a] to-[#00df5d] pb-2 drop-shadow-[0_0_25px_rgba(0,223,93,0.4)]">
               Automotive
             </span>
           </div>
@@ -127,7 +127,7 @@ const Hero = () => {
           ref={buttonsRef}
           className="flex flex-col sm:flex-row items-center gap-4"
         >
-          <button className="w-full sm:w-auto px-8 py-4 bg-brand text-[black] font-semibold rounded-full hover:bg-brand-hover hover:shadow-[0_0_30px_rgba(0,128,109,0.5)] transition-all duration-500">
+          <button className="w-full sm:w-auto px-8 py-4 bg-brand text-black font-semibold rounded-full hover:bg-brand-hover hover:shadow-[0_0_30px_rgba(0,223,93,0.5)] transition-all duration-500">
             Explore Verified Vehicles 
           </button>
           <button className="w-full sm:w-auto px-8 py-4 glass border border-white/10 text-[#f2f2f2] font-semibold rounded-full hover:bg-white/5 hover:border-brand/50 transition-all duration-500 flex items-center justify-center gap-2">

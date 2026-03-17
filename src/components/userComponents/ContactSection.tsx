@@ -190,7 +190,7 @@ const ContactSection = () => {
 
                   <button 
                     disabled={!isFormComplete}
-                    className={`w-full py-5 text-[#0a0a0a] font-bold tracking-wide rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group mt-6 border relative overflow-hidden ${
+                    className={`w-full py-5 text-black font-bold tracking-wide rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group mt-6 border relative overflow-hidden ${
                       isFormComplete 
                       ? 'bg-gradient-to-r from-brand to-brand-hover shadow-[0_0_40px_rgba(0,255,102,0.3)] border-brand-hover/50 hover:border-white/50' 
                       : 'bg-white/5 text-white/20 border-white/5 cursor-not-allowed'

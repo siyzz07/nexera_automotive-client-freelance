@@ -11,7 +11,7 @@ const GlobalBackground = () => {
   const rotate2 = useTransform(scrollYProgress, [0, 1], [0, -90]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#0a0a0a]">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#020202]">
       
       {/* Noise Texture for premium grit */}
       <div 
@@ -22,17 +22,17 @@ const GlobalBackground = () => {
       {/* Huge Subtle Tech Green Orbs that Parallax */}
       <motion.div 
         style={{ y: y1 }}
-        className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-brand/5 rounded-[100%] blur-[150px]"
+        className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-brand/[0.03] rounded-[100%] blur-[150px]"
       />
       
       <motion.div 
         style={{ y: y2 }}
-        className="absolute top-[50%] right-[-10%] w-[40vw] h-[40vw] bg-brand/5 rounded-[100%] blur-[120px]"
+        className="absolute top-[50%] right-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-brand/[0.03] rounded-[100%] blur-[120px]"
       />
 
       <motion.div 
         style={{ y: y3 }}
-        className="absolute bottom-[-10%] left-[20%] w-[60vw] h-[60vw] bg-brand/3 rounded-[100%] blur-[150px]"
+        className="absolute bottom-[-10%] left-[20%] w-[60vw] h-[60vw] bg-brand/[0.03] rounded-[100%] blur-[150px]"
       />
 
       {/* Floating Geometric Wireframes */}

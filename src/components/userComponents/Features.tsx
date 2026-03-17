@@ -34,9 +34,9 @@ const features = [
 
 const Features = () => {
   return (
-    <section className="py-24 relative overflow-hidden bg-[#050505]">
+    <section className="py-24 relative overflow-hidden bg-[#020202]">
       {/* Subtle ambient light */}
-      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none opacity-50" />
+      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-brand/[0.03] rounded-full blur-[120px] pointer-events-none opacity-50" />
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10 max-w-5xl">
         
@@ -58,15 +58,15 @@ const Features = () => {
               transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
               className={`relative z-10 overflow-hidden group rounded-3xl p-8 sm:p-10 transition-all duration-500 flex flex-col items-center sm:items-start text-center sm:text-left gap-6 border ${
                 feature.active 
-                  ? 'bg-[#0A0A0A] border-brand/30 shadow-[0_4px_40px_rgba(0,255,102,0.08)]' 
-                  : 'bg-[#0A0A0A] border-white/5 hover:border-white/15 hover:bg-[#0D0D0D]'
+                  ? 'bg-[#050505] border-brand/30 shadow-[0_4px_40px_rgba(0,223,93,0.08)]' 
+                  : 'bg-[#050505] border-white/5 hover:border-white/15 hover:bg-[#080808]'
               }`}
             >
               
               <div className="relative shrink-0">
                 <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center border transition-all duration-500 relative z-10 ${
                   feature.active 
-                    ? 'bg-brand/10 border-brand/30 shadow-[0_0_20px_rgba(0,255,102,0.15)] group-hover:scale-105' 
+                    ? 'bg-brand/10 border-brand/30 shadow-[0_0_20px_rgba(0,223,93,0.15)] group-hover:scale-105' 
                     : 'bg-white/5 border-white/10 group-hover:bg-white/10 group-hover:border-white/20 group-hover:scale-105'
                 }`}>
                   {feature.icon}
