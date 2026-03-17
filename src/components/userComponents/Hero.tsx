@@ -82,7 +82,7 @@ const Hero = () => {
         className="absolute inset-0 w-full h-full z-0 origin-center"
       >
         {/* Gradient overlay with a subtle dark tint for better text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/60 via-[#0a0a0a]/30 to-[#0a0a0a]/90 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020202]/60 via-[#020202]/30 to-[#020202]/90 z-10" />
         <img
           // src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=2069&auto=format&fit=crop"
           src={carImage}
@@ -127,7 +127,7 @@ const Hero = () => {
           ref={buttonsRef}
           className="flex flex-col sm:flex-row items-center gap-4"
         >
-          <button className="w-full sm:w-auto px-8 py-4 bg-brand text-[#f2f2f2] font-semibold rounded-full hover:bg-brand-hover hover:shadow-[0_0_30px_rgba(0,128,109,0.5)] transition-all duration-500">
+          <button className="w-full sm:w-auto px-8 py-4 bg-brand text-[black] font-semibold rounded-full hover:bg-brand-hover hover:shadow-[0_0_30px_rgba(0,128,109,0.5)] transition-all duration-500">
             Explore Verified Vehicles 
           </button>
           <button className="w-full sm:w-auto px-8 py-4 glass border border-white/10 text-[#f2f2f2] font-semibold rounded-full hover:bg-white/5 hover:border-brand/50 transition-all duration-500 flex items-center justify-center gap-2">

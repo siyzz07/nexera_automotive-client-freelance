@@ -26,8 +26,8 @@ const StorySection = () => {
             >
               <h3 className="text-brand text-sm font-bold uppercase tracking-widest mb-4">Our Heritage</h3>
               <h2 className="text-4xl md:text-6xl font-heading font-extrabold mb-8 leading-tight">
-                Redefining the <br /> 
-                <span className="text-brand-gradient">Status Quo.</span>
+                Vision of <br /> 
+                <span className="text-brand-gradient">Nexera</span>
               </h2>
             </motion.div>
             
@@ -39,13 +39,13 @@ const StorySection = () => {
               className="space-y-6 text-gray-400 text-lg leading-relaxed"
             >
               <p>
-                Founded on the belief that electric performance shouldn't mean a compromise in luxury or design, NEXERA was born to challenge the establishment.
+                Nexera is a verification-driven automotive marketplace designed to make buying and selling vehicles more transparent and trustworthy. We connect customers with verified dealers and reliable vehicle listings.
               </p>
               <p>
-                We source aerospace-grade materials to construct lighter, stronger frames, while our proprietary solid-state battery technology pushes the boundaries of range and rapid charging. 
+                By combining technology and dealer partnerships, Nexera simplifies the second-hand vehicle marketplace and helps customers discover vehicles with confidence.
               </p>
               <p className="text-white font-medium border-l-2 border-brand pl-4 mt-8">
-                "Our vehicles aren't just a mode of transportation; they are a statement of intent for the future."
+                "To transform the automotive marketplace by creating India’s most trusted and transparent platform for buying and selling vehicles."
               </p>
             </motion.div>
             
@@ -74,7 +74,7 @@ const StorySection = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-20" />
             
             {/* Subtle UI Element overlay */}
-            <motion.div 
+            {/* <motion.div 
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -89,7 +89,7 @@ const StorySection = () => {
                 <p className="text-white font-bold text-sm">System Active</p>
                 <p className="text-brand text-xs">Calibrating parameters...</p>
               </div>
-            </motion.div>
+            </motion.div> */}
           </div>
 
         </div>

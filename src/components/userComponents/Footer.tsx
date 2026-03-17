@@ -1,72 +1,128 @@
-import { Link } from 'react-router-dom';
+import { Twitter, Instagram, Linkedin, Github, Globe } from 'lucide-react';
 
 const Footer = () => {
+  const socialIcons = [
+    { icon: <Twitter className="w-5 h-5" />, link: "#" },
+    { icon: <Instagram className="w-5 h-5" />, link: "#" },
+    { icon: <Linkedin className="w-5 h-5" />, link: "#" },
+    { icon: <Github className="w-5 h-5" />, link: "#" }
+  ];
+
+  const footerLinks = [
+    {
+      title: "Navigation",
+      links: ["Inventory", "B2B Solutions", "Engineering", "Press", "Career"]
+    },
+    {
+      title: "Legal Protocol",
+      links: ["Privacy Policy", "Terms of Service", "Cookie Policy", "Compliance", "Security"]
+    },
+    {
+      title: "Support",
+      links: ["Help Center", "API Documentation", "System Status", "Verification Desk"]
+    }
+  ];
+
   return (
-    <footer className="bg-black pt-20 pb-10 border-t border-glass-border relative overflow-hidden">
-      {/* Background flare */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-32 bg-brand/10 blur-[100px] pointer-events-none" />
+    <footer className="relative bg-[#050505] pt-32 pb-12 overflow-hidden border-t border-white/5">
+      <div className="noise" />
+      <div className="scanlines" />
+      
+      {/* Massive Background Logo Mark */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full select-none pointer-events-none z-0 overflow-hidden">
+        <h2 className="text-[25vw] font-black text-white/[0.02] leading-none tracking-tighter text-center">
+          NEXERA
+        </h2>
+      </div>
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="md:col-span-1">
-            <Link to="/" className="text-3xl font-heading font-bold tracking-wider text-brand-gradient block mb-6">
-              NEXERA
-            </Link>
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Engineering the future of mobility. Uncompromising performance, unmatched luxury, unapologetic innovation.
-            </p>
-            <div className="flex space-x-4">
-              {/* Dummy social icons */}
-              <div className="w-10 h-10 rounded-full border border-glass-border flex items-center justify-center hover:border-brand hover:text-brand cursor-pointer transition-colors text-gray-400">
-                <span className="sr-only">X</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
+          
+          {/* Brand Info */}
+          <div className="lg:col-span-4 max-w-sm">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-black font-black text-xl">
+                N
               </div>
-              <div className="w-10 h-10 rounded-full border border-glass-border flex items-center justify-center hover:border-brand hover:text-brand cursor-pointer transition-colors text-gray-400">
-                <span className="sr-only">Instagram</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              <span className="text-2xl font-heading font-black text-white tracking-tighter">NEXERA</span>
+            </div>
+            <p className="text-gray-500 font-light leading-relaxed mb-10">
+              The world's first computational automotive commerce platform. Engineering trust through algorithmic transparency.
+            </p>
+            <div className="flex gap-4">
+              {socialIcons.map((social, i) => (
+                <a 
+                  key={i} 
+                  href={social.link} 
+                  className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-brand hover:border-brand/40 hover:bg-brand/10 transition-all duration-300"
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div className="lg:col-span-1" />
+
+          {/* Links Grid */}
+          {footerLinks.map((section, i) => (
+            <div key={i} className="lg:col-span-2">
+              <h4 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-8">{section.title}</h4>
+              <ul className="space-y-4">
+                {section.links.map((link, j) => (
+                  <li key={j}>
+                    <a href="#" className="text-gray-500 hover:text-white transition-colors text-sm font-medium tracking-wide">
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {/* Newsletter / Status */}
+          <div className="lg:col-span-3">
+            <h4 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-8">Secure Status</h4>
+            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-xl mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Network</span>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+                  <span className="text-[10px] font-bold text-brand uppercase tracking-widest">Encrypted</span>
+                </div>
+              </div>
+              <div className="text-xs text-white/60 font-mono tracking-tighter mb-4">v2.41.0-stable</div>
+              <button className="w-full py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black text-white uppercase tracking-widest hover:bg-white/10 transition-all">
+                System Log
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex items-center gap-8">
+            <p className="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em]">
+              © 2026 NEXERA CORP.
+            </p>
+            <div className="hidden md:flex items-center gap-6">
+              <div className="flex items-center gap-2 text-[10px] font-bold text-white/20 uppercase tracking-[0.2em]">
+                <Globe className="w-3 h-3" />
+                <span>Global Protocol</span>
+              </div>
+              <div className="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em]">
+                GMT+00:00
               </div>
             </div>
           </div>
           
-          <div>
-            <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Vehicles</h4>
-            <ul className="space-y-4">
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">Compare Models</Link></li>
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">NEXERA X1</Link></li>
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">NEXERA V-Spec</Link></li>
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">Fleet & Business</Link></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Discover</h4>
-            <ul className="space-y-4">
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">Our Vision</Link></li>
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">Autonomy Tech</Link></li>
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">Sustainability</Link></li>
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">News & Events</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Support</h4>
-            <ul className="space-y-4">
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">Contact Us</Link></li>
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">Locate Dealer</Link></li>
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">Owners Manual</Link></li>
-              <li><Link to="/" className="text-gray-400 hover:text-brand text-sm transition-colors">Careers</Link></li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="pt-8 border-t border-glass-border flex flex-col md:flex-row items-center justify-between">
-          <p className="text-gray-500 text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} NEXERA Motors. All rights reserved.
-          </p>
-          <div className="flex space-x-6">
-            <Link to="/" className="text-gray-500 hover:text-white text-xs transition-colors">Privacy Policy</Link>
-            <Link to="/" className="text-gray-500 hover:text-white text-xs transition-colors">Terms of Service</Link>
-            <Link to="/" className="text-gray-500 hover:text-white text-xs transition-colors">Legal</Link>
+          <div className="flex items-center gap-3">
+            <div className="px-3 py-1 bg-brand/10 border border-brand/20 rounded-md">
+              <span className="text-[9px] font-black text-brand uppercase tracking-widest">ISO 27001</span>
+            </div>
+            <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-md">
+              <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">SOC2 TYPE II</span>
+            </div>
           </div>
         </div>
       </div>

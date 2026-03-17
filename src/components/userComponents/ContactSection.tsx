@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, MapPin, Phone, ArrowUpRight } from 'lucide-react';
+import { Mail, MapPin, Phone, ArrowUpRight, ShieldCheck } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +10,16 @@ const ContactSection = () => {
   const formRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    message: ''
+  });
+
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+  const isFormComplete = formData.firstName && formData.lastName && isEmailValid && formData.message;
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -133,7 +143,9 @@ const ContactSection = () => {
                       <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">First Name</label>
                       <input 
                         type="text" 
-                        className="w-full bg-black/20 backdrop-blur-md border border-white/10 rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 focus:ring-1 focus:ring-brand/30 transition-all shadow-inner"
+                        value={formData.firstName}
+                        onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                        className={`w-full bg-black/20 backdrop-blur-md border ${formData.firstName ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all shadow-inner`}
                         placeholder="John"
                       />
                     </div>
@@ -141,36 +153,56 @@ const ContactSection = () => {
                       <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">Last Name</label>
                       <input 
                         type="text" 
-                        className="w-full bg-black/20 backdrop-blur-md border border-white/10 rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 focus:ring-1 focus:ring-brand/30 transition-all shadow-inner"
+                        value={formData.lastName}
+                        onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                        className={`w-full bg-black/20 backdrop-blur-md border ${formData.lastName ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all shadow-inner`}
                         placeholder="Doe"
                       />
                     </div>
                   </div>
 
-                  <div className="group">
+                  <div className="group relative">
                     <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">Corporate Email</label>
                     <input 
                       type="email" 
-                      className="w-full bg-black/20 backdrop-blur-md border border-white/10 rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 focus:ring-1 focus:ring-brand/30 transition-all shadow-inner"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      className={`w-full bg-black/20 backdrop-blur-md border ${isEmailValid ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all shadow-inner`}
                       placeholder="executive@company.com"
                     />
+                    {isEmailValid && (
+                      <div className="absolute right-4 bottom-4 text-brand animate-pulse">
+                        <ShieldCheck className="w-5 h-5" />
+                      </div>
+                    )}
                   </div>
 
                   <div className="group">
                     <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">Message</label>
                     <textarea 
                       rows={4}
-                      className="w-full bg-black/20 backdrop-blur-md border border-white/10 rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 focus:ring-1 focus:ring-brand/30 transition-all resize-none shadow-inner"
+                      value={formData.message}
+                      onChange={(e) => setFormData({...formData, message: e.target.value})}
+                      className={`w-full bg-black/20 backdrop-blur-md border ${formData.message ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all resize-none shadow-inner`}
                       placeholder="Specify your requirements..."
                     />
                   </div>
 
-                  <button className="w-full py-5 bg-gradient-to-r from-brand to-brand-hover text-[#0a0a0a] font-bold tracking-wide rounded-xl hover:shadow-[0_0_40px_rgba(0,128,109,0.5)] transition-all duration-300 flex items-center justify-center gap-2 group mt-6 border border-brand-hover/50 hover:border-white/50 relative overflow-hidden">
+                  <button 
+                    disabled={!isFormComplete}
+                    className={`w-full py-5 text-[#0a0a0a] font-bold tracking-wide rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group mt-6 border relative overflow-hidden ${
+                      isFormComplete 
+                      ? 'bg-gradient-to-r from-brand to-brand-hover shadow-[0_0_40px_rgba(0,255,102,0.3)] border-brand-hover/50 hover:border-white/50' 
+                      : 'bg-white/5 text-white/20 border-white/5 cursor-not-allowed'
+                    }`}
+                  >
                     <span className="relative z-10 flex items-center gap-2 text-lg">
                       Transmit Request
                       <ArrowUpRight className="w-6 h-6 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </span>
-                    <div className="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out skew-x-12" />
+                    {isFormComplete && (
+                      <div className="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out skew-x-12" />
+                    )}
                   </button>
                 </form>
               </div>

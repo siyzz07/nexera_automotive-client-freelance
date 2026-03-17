@@ -1,137 +1,136 @@
 import { motion } from 'framer-motion';
-import { Shield, FileCheck, TriangleAlert, Eye, Gauge, CreditCard, CarFront } from 'lucide-react';
+import { Shield, FileCheck, TriangleAlert, Eye, Gauge, CreditCard, CarFront, Zap } from 'lucide-react';
+import { useMagnetic } from '../../hooks/useMagnetic';
+import TextReveal from './TextReveal';
 
 const trustItems = [
   {
-    icon: <Shield className="w-8 h-8 text-brand stroke-[1.5]" />,
+    id: "AUDIT-01",
+    icon: <Shield className="w-6 h-6 text-brand stroke-[1.5]" />,
     title: "Certified Dealers",
-    description: "Sourced exclusively from our authorized premium network."
+    description: "Multi-point authorization protocol for verified network entry."
   },
   {
-    icon: <FileCheck className="w-8 h-8 text-brand stroke-[1.5]" />,
-    title: "Ownership\nAuthenticity",
-    description: "Rigorous title verification to guarantee clear history."
+    id: "AUDIT-02",
+    icon: <FileCheck className="w-6 h-6 text-brand stroke-[1.5]" />,
+    title: "Title Verification",
+    description: "Historical ledger analysis ensuring clear ownership status."
   },
   {
-    icon: <TriangleAlert className="w-8 h-8 text-brand stroke-[1.5]" />,
-    title: "Accident History\nCheck",
-    description: "Zero tolerance for structural damage or major repairs."
+    id: "AUDIT-03",
+    icon: <TriangleAlert className="w-6 h-6 text-brand stroke-[1.5]" />,
+    title: "Integrity Check",
+    description: "Deep-layer structural analysis for incident-free assurance."
   },
   {
-    icon: <Eye className="w-8 h-8 text-brand stroke-[1.5]" />,
-    title: "Insurance\nTransparency",
-    description: "Complete visibility into past claims and coverage."
+    id: "AUDIT-04",
+    icon: <Eye className="w-6 h-6 text-brand stroke-[1.5]" />,
+    title: "Claim History",
+    description: "Comprehensive transparency on historical insurance data."
   },
   {
-    icon: <Gauge className="w-8 h-8 text-brand stroke-[1.5]" />,
-    title: "Odometer\nVerification",
-    description: "Forensic analysis confirming authentic vehicle mileage."
+    id: "AUDIT-05",
+    icon: <Gauge className="w-6 h-6 text-brand stroke-[1.5]" />,
+    title: "Odometer Forensics",
+    description: "Advanced validation of authentic vehicle usage metrics."
   },
   {
-    icon: <CreditCard className="w-8 h-8 text-brand stroke-[1.5]" />,
-    title: "Loan Clearance",
-    description: "Guaranteed free of all previous financial encumbrances."
-  },
-  {
-    icon: <CarFront className="w-8 h-8 text-brand stroke-[1.5]" />,
-    title: "Theft Record\nScreening",
-    description: "Comprehensive global database clearance."
+    id: "AUDIT-06",
+    icon: <CreditCard className="w-6 h-6 text-brand stroke-[1.5]" />,
+    title: "Financial Audit",
+    description: "Verification of zero-encumbrance status across all lenders."
   }
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, scale: 0.95, y: 20 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { type: "spring" as const, stiffness: 100, damping: 20 }
-  }
-};
-
 const TrustIndicators = () => {
+  const containerRef = useMagnetic<HTMLDivElement>();
+
   return (
-    <section className="py-24 relative overflow-hidden bg-[#050505] border-t border-white/5">
-      {/* Subtle background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[150px] pointer-events-none" />
-
-      <div className="container mx-auto px-6 lg:px-8 relative z-10 max-w-5xl">
-        
-        <div className="text-center mb-16 sm:mb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 mb-6 backdrop-blur-md"
-          >
-            <span className="w-2 h-2 rounded-full bg-brand" />
-            <span className="text-brand text-xs font-bold tracking-widest uppercase">
-              The Nexera Standard
-            </span>
-          </motion.div>
-            
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-heading font-black text-white mb-6 tracking-tight"
-          >
-            7-Point <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-cyan-500">Verification</span>
-          </motion.h2>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed font-light"
-          >
-            All vehicles must pass our rigorous quality standards to appear on the platform. We leave nothing to chance when it comes to your peace of mind.
-          </motion.p>
-        </div>
-
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8"
-        >
-          {trustItems.map((item, index) => (
-            <motion.div 
-              key={index}
-              variants={itemVariants}
-              className={`bg-[#0A0A0A] rounded-2xl sm:rounded-3xl border border-white/5 hover:border-brand/40 hover:bg-[#0D0D0D] transition-all duration-500 flex flex-col items-center justify-center p-4 sm:p-8 lg:p-10 text-center group relative overflow-hidden ${
-                index === trustItems.length - 1 ? 'col-span-2 w-[calc(50%-0.375rem)] sm:w-[calc(50%-0.75rem)] justify-self-center lg:col-span-1 lg:col-start-2 lg:w-full' : ''
-              }`}
+    <section className="py-32 relative overflow-hidden bg-[#050505] border-t border-white/5">
+      <div className="noise" />
+      <div className="scanlines" />
+      
+      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 items-start mb-24">
+          <div className="lg:w-1/3">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-3 mb-8"
             >
-              {/* Internal glow effect */}
-              <div className="absolute inset-0 bg-brand/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div className="mb-6 transform group-hover:scale-110 transition-transform duration-500 relative z-10">
-                <div className="absolute inset-0 bg-brand/30 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                {item.icon}
-              </div>
-              
-              <h3 className="text-sm sm:text-lg lg:text-xl font-bold text-white mb-2 sm:mb-3 whitespace-pre-line leading-tight sm:leading-snug relative z-10 group-hover:text-brand transition-colors">
-                {item.title}
-              </h3>
-              
-              <p className="text-[10px] sm:text-xs lg:text-sm text-gray-500 leading-relaxed font-medium relative z-10 group-hover:text-gray-300 transition-colors duration-300">
-                {item.description}
-              </p>
+              <div className="w-8 h-[1px] bg-brand" />
+              <span className="text-[10px] font-black text-brand uppercase tracking-[0.5em]">Nexera Protocol</span>
             </motion.div>
-          ))}
-        </motion.div>
+            
+            <TextReveal 
+              text="TECHNICAL" 
+              className="text-5xl md:text-7xl font-heading font-black text-white leading-none tracking-tighter mb-2"
+            />
+            <TextReveal 
+              text="AUDIT 7.0" 
+              className="text-5xl md:text-7xl font-heading font-black text-brand-gradient leading-none tracking-tighter mb-8"
+              delay={0.2}
+            />
+            
+            <p className="text-gray-500 text-lg leading-relaxed font-light mb-12">
+              Every vehicle undergoes a rigorous 7-point cryptographic and mechanical verification process to ensure uncompromising standards.
+            </p>
+            
+            <div className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl group">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-brand/20 flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-brand" />
+                </div>
+                <span className="text-white font-bold tracking-wider">Live Status</span>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between text-[11px] uppercase tracking-widest text-white/40">
+                  <span>Engine Validation</span>
+                  <span className="text-brand">Active</span>
+                </div>
+                <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "94%" }}
+                    className="h-full bg-brand" 
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div ref={containerRef} className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-4 h-max">
+            {trustItems.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="group relative p-8 bg-[#0A0A0A] rounded-2xl border border-white/5 hover:border-brand/40 transition-all duration-500 overflow-hidden"
+              >
+                {/* Advanced Scanning Light Bar */}
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                
+                <div className="flex justify-between items-start mb-6">
+                  <div className="text-[10px] font-mono text-white/20 tracking-widest">{item.id}</div>
+                  <div className="w-10 h-10 rounded-full border border-white/5 flex items-center justify-center group-hover:border-brand/20 transition-colors">
+                    {item.icon}
+                  </div>
+                </div>
+                
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-brand transition-colors tracking-tight">
+                  {item.title}
+                </h3>
+                
+                <p className="text-sm text-gray-500 leading-relaxed font-light group-hover:text-gray-400 transition-colors">
+                  {item.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

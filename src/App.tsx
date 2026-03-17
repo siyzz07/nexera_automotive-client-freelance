@@ -18,26 +18,29 @@ function App() {
     }
 
     const lenis = new Lenis({
-      lerp: 0.08, // Slightly smoother lerp
-      wheelMultiplier: 1,
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
       smoothWheel: true,
-      syncTouch: true, // Crucial for mobile smoothness
-      touchMultiplier: 1.5,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+      infinite: false,
     });
 
+    // Synchronize Lenis with GSAP's ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
-    const tickerCallback = (time: number) => {
-      lenis.raf(time * 1000);
-    };
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
 
-    gsap.ticker.add(tickerCallback);
-
-    gsap.ticker.lagSmoothing(0);
+    const rafId = requestAnimationFrame(raf);
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(tickerCallback);
+      cancelAnimationFrame(rafId);
     };
   }, [location.pathname]);
 
