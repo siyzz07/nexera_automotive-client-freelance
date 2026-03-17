@@ -54,10 +54,10 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-[#020202c7] absolute top-full left-0 w-full flex flex-col items-center py-6 space-y-4 border-t border-glass-border">
-          <Link to="/" className="text-white hover:text-brand text-lg">Home</Link>
-          <Link to="/car-seen" className="text-white hover:text-brand text-lg">Inventory</Link>
-          <Link to="/about" className="text-white hover:text-brand text-lg">About</Link>
-          <button className="px-6 py-2 text-white rounded-full bg-brand  font-semibold mt-4">
+          <Link onClick={()=>setIsMobileMenuOpen(false)} to="/" className="text-white hover:text-brand text-lg">Home</Link>
+          <Link onClick={()=>setIsMobileMenuOpen(false)} to="/car-seen" className="text-white hover:text-brand text-lg">Inventory</Link>
+          <Link onClick={()=>setIsMobileMenuOpen(false)} to="/about" className="text-white hover:text-brand text-lg">About</Link>
+          <button onClick={()=>setIsMobileMenuOpen(false)} className="px-6 py-2 text-white rounded-full bg-brand  font-semibold mt-4">
             Contact
           </button>
         </div>
