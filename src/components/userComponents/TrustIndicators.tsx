@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Shield, FileCheck, TriangleAlert, Eye, Gauge, CreditCard, ShieldAlert, Zap } from 'lucide-react';
+import { Shield, FileCheck, TriangleAlert, Eye, Gauge, CreditCard, ShieldAlert } from 'lucide-react';
 
 const trustItems = [
   {
