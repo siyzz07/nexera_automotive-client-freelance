@@ -104,30 +104,30 @@ const Hero = () => {
           {/* Left Side: Content */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
              {/* Shutter reveal titles */}
-             <h1 className="text-4xl md:text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.1] mb-8 text-white uppercase flex flex-col">
-                <div className="overflow-hidden h-[1.2em]">
-                   <span ref={title1Ref} className="block">India's Trusted</span>
+             <h1 className="text-[28px] sm:text-5xl lg:text-[64px] font-bold tracking-tight leading-tight mb-8 text-white uppercase flex flex-col">
+                <div className="overflow-hidden h-[1.3em]">
+                   <span ref={title1Ref} className=" block whitespace-nowrap">India's Most Trusted</span>
                 </div>
-                <div className="overflow-hidden h-[1.2em] relative">
-                   <span ref={title2Ref} className="block text-brand-gradient glow-text">Automotive</span>
+                <div className="overflow-hidden h-[1.3em] relative">
+                   <span ref={title2Ref} className="block text-brand-gradient glow-text whitespace-nowrap">Verified Cars</span>
                 </div>
-                <div className="overflow-hidden h-[1.2em]">
-                   <span ref={title3Ref} className="block font-medium text-white/90">Commerce Platform.</span>
+                <div className="overflow-hidden h-[1.3em]">
+                   <span ref={title3Ref} className="block font-medium text-white/90 whitespace-nowrap">Marketplace.</span>
                 </div>
              </h1>
 
              <p ref={pRef} className="text-white/40 text-lg md:text-xl max-w-lg mb-12 font-medium tracking-tight leading-relaxed">
-                Nexera — where every car is verified and every deal is trusted. Buy with confidence. Sell with trust.
+                 "Buy with confidence. Sell with complete trust."
              </p>
 
              <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
                 <button className="group relative w-full sm:w-auto px-10 py-5 bg-gradient-to-br from-brand to-brand text-black font-black uppercase tracking-widest rounded-3xl overflow-hidden transition-all duration-500 shadow-[0_0_40px_rgba(0,223,93,0.3)] hover:shadow-[0_0_60px_rgba(0,223,93,0.5)] active:scale-95">
-                   <span className="relative z-10">Find Your Car</span>
+                   <span className="relative z-10">Find Your Verified Car</span>
                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                 </button>
                 
                 <button className="w-full sm:w-auto px-10 py-5 glass text-white font-bold uppercase tracking-widest rounded-3xl border border-white/10 hover:border-brand/40 hover:bg-white/[0.05] transition-all duration-500 active:scale-95">
-                   For Dealerships
+                   Sell Your Car
                 </button>
              </div>
           </div>

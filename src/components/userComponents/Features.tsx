@@ -2,28 +2,28 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ShieldCheck, Users, Zap } from "lucide-react";
 import carBg from "../../assets/ccccccc.png";
-import vettedBg from "../../assets/vetted_assets_bg.png";
+import vettedBg from "../../assets/newaaaa.png";
 import networkBg from "../../assets/verified_network_bg.png";
 import secureBg from "../../assets/secure_settlement_bg.png";
 
 const features = [
   {
-    title: "Vetted\nAssets",
-    description: "Every listing undergoes a rigorous 200+ point technical audit before activation.",
+    title: "Verified Listings Only",
+    description: "Every car goes through strict verification process before getting listed on our platform.",
     icon: <ShieldCheck className="w-8 h-8 stroke-[1.5]" />,
     bg: vettedBg,
     active: true
   },
   {
-    title: "Verified\nNetwork",
-    description: "Our platform exclusively onboards authorized dealerships and vetted private sellers.",
+    title: "TRUSTED\nDEALERS ONLY",
+    description: "We onboard only reliable and verified sellers",
     icon: <Users className="w-8 h-8 stroke-[1.5]" />,
     bg: networkBg,
     active: false
   },
   {
-    title: "Secure\nSettlement",
-    description: "End-to-end encrypted transactions with guaranteed title and payment security.",
+    title: "Transperent\nDeals",
+    description: "No hidden surprises. Every deal is transparent and straightforward.",
     icon: <Zap className="w-8 h-8 stroke-[1.5]" />,
     bg: secureBg,
     active: false
@@ -52,7 +52,7 @@ const FeatureCard = ({ feature, index }: { feature: any, index: number }) => {
             alt="" 
             className="w-full h-full object-cover opacity-20 scale-110 group-hover:scale-100 transition-transform duration-1000"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
+          {/* <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" /> */}
           <div className="absolute inset-0 bg-black/60 z-10" />
         </div>
 
@@ -167,7 +167,7 @@ const Features = () => {
             Why <span className="text-brand-gradient">Nexera?</span>
           </motion.h2>
 
-          <motion.p 
+          {/* <motion.p 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -176,7 +176,7 @@ const Features = () => {
           >
             A verification-driven automotive marketplace designed for
             transparency, trust, and peak performance.
-          </motion.p>
+          </motion.p> */}
         </div>
 
         {/* Feature Grid */}
@@ -191,3 +191,4 @@ const Features = () => {
 };
 
 export default Features;
+
