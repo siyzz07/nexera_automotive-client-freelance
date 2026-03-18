@@ -77,7 +77,7 @@ const FeaturedCars = () => {
             ))}
           </div>
         ) : (
-          <div className="flex gap-6 overflow-x-auto pb-10 snap-x snap-mandatory scrollbar-hide -mx-6 px-6 lg:-mx-12 lg:px-12">
+          <div data-lenis-prevent className="flex gap-6 overflow-x-auto pb-10 snap-x snap-mandatory scrollbar-hide -mx-6 px-6 lg:-mx-12 lg:px-12">
             <AnimatePresence>
               {realCars.map((car, index) => (
                 <motion.div
