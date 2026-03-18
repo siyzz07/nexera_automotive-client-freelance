@@ -18,14 +18,11 @@ function App() {
     }
 
     const lenis = new Lenis({
-      duration: 1.6,
-      lerp: 0.05,
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
+      lerp: 0.1,
+      duration: 1.5,
       smoothWheel: true,
-      syncTouch: true,
-      wheelMultiplier: 1.1,
-      touchMultiplier: 2.5,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
       infinite: false,
     });
 

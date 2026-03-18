@@ -44,8 +44,9 @@ const Hero = () => {
     .to(pRef.current, { opacity: 1, y: 0, duration: 1 }, "-=1")
     .to(buttonsRef.current, { opacity: 1, y: 0, duration: 1 }, "-=0.8");
 
-    // Parallax on mouse move for the background
+    // Parallax on mouse move for the background - only on desktop
     const handleMouseMove = (e: MouseEvent) => {
+      if (window.innerWidth <= 1024) return;
       const { clientX, clientY } = e;
       const xPos = (clientX / window.innerWidth - 0.5) * 20;
       const yPos = (clientY / window.innerHeight - 0.5) * 20;
