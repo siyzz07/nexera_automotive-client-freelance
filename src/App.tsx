@@ -23,6 +23,7 @@ function App() {
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
+      syncTouch: true,
       wheelMultiplier: 1.1,
       touchMultiplier: 1.5,
       infinite: false,
