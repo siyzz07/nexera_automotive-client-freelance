@@ -44,7 +44,7 @@ const Footer = () => {
               <div className="w-10 h-10 rounded-xl bg-brand flex items-center justify-center text-black font-black text-xl">
                 N
               </div>
-              <span className="text-2xl font-heading font-black text-white tracking-tighter">NEXERA</span>
+              <span className="text-2xl font-sans font-bold text-white tracking-tighter">NEXERA</span>
             </div>
             <p className="text-gray-500 font-light leading-relaxed mb-10">
               The world's first computational automotive commerce platform. Engineering trust through algorithmic transparency.

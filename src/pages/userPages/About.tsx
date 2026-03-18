@@ -15,7 +15,7 @@ const About = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-6xl font-heading font-extrabold mb-6">
+            <h1 className="text-4xl md:text-6xl font-sans font-bold mb-6">
               Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Excellence</span>
             </h1>
             <p className="text-white/70 text-lg md:text-xl font-light leading-relaxed mb-8">
@@ -25,11 +25,11 @@ const About = () => {
             
             <div className="grid grid-cols-2 gap-8 mb-10">
               <div className="glass p-6 rounded-2xl border border-glass-border hover:border-brand/30 transition-colors">
-                <h3 className="text-4xl font-bold text-brand mb-2 font-heading">500+</h3>
+                <h3 className="text-4xl font-bold text-brand mb-2 font-sans">500+</h3>
                 <p className="text-white/60 text-sm font-medium tracking-wider uppercase">Premium Vehicles Delivered</p>
               </div>
               <div className="glass p-6 rounded-2xl border border-glass-border hover:border-brand/30 transition-colors">
-                <h3 className="text-4xl font-bold text-brand mb-2 font-heading">100%</h3>
+                <h3 className="text-4xl font-bold text-brand mb-2 font-sans">100%</h3>
                 <p className="text-white/60 text-sm font-medium tracking-wider uppercase">Verified Authentic Inventory</p>
               </div>
             </div>
@@ -57,7 +57,7 @@ const About = () => {
               {/* Floating badge */}
               <div className="absolute -bottom-6 -left-6 glass border border-brand/40 px-6 py-4 rounded-xl flex items-center gap-4 animate-bounce">
                 <div className="w-3 h-3 bg-brand rounded-full shadow-[0_0_10px_#00ff66]"></div>
-                <p className="text-white font-bold font-heading whitespace-nowrap">Global Operations Active</p>
+                <p className="text-white font-bold font-sans whitespace-nowrap">Global Operations Active</p>
               </div>
             </div>
           </motion.div>

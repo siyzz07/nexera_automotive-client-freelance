@@ -7,13 +7,17 @@ import TrustIndicators from '../../components/userComponents/TrustIndicators';
 import B2BPartnership from '../../components/userComponents/B2BPartnership';
 import GlobalBackground from '../../components/userComponents/GlobalBackground';
 import ContactSection from '../../components/userComponents/ContactSection';
+import ComparisonSection from '../../components/userComponents/ComparisonSection';
+import TrustSlider from '../../components/userComponents/TrustSlider';
 
 const Home = () => {
   return (
     <div className="w-full relative">
       <GlobalBackground />
       <Hero />
-      <StorySection />
+      {/* <TrustSlider /> */}
+      {/* <StorySection /> */}
+      <ComparisonSection />
       <Features />
       {/* <EnhancedParallax /> */}
       {/* <TechSpecs /> */}

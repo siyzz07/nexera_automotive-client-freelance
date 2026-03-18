@@ -88,7 +88,7 @@ const AdminLogin = () => {
           transition={{ duration: 0.8 }}
           className="relative z-10"
         >
-          <h1 className="text-4xl font-heading font-black tracking-widest text-brand-gradient">NEXERA</h1>
+          <h1 className="text-4xl font-sans font-bold tracking-widest text-brand-gradient">NEXERA</h1>
           <p className="text-white/50 text-sm tracking-[0.3em] mt-2 uppercase font-medium">Command Center</p>
         </motion.div>
 
@@ -130,7 +130,7 @@ const AdminLogin = () => {
           className="w-full max-w-md relative z-10"
         >
           <div className="lg:hidden text-center mb-10">
-            <h1 className="text-4xl font-heading font-black tracking-widest text-brand-gradient mb-2">NEXERA</h1>
+            <h1 className="text-4xl font-sans font-bold tracking-widest text-brand-gradient mb-2">NEXERA</h1>
             <p className="text-white/50 text-xs tracking-[0.3em] uppercase font-medium">Command Center</p>
           </div>
 

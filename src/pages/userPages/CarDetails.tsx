@@ -89,7 +89,7 @@ const CarDetails = () => {
       <div className="min-h-screen flex flex-col items-center justify-center bg-surface p-6 text-center">
         <GlobalBackground />
         <Car className="w-20 h-20 text-white/10 mb-6" />
-        <h2 className="text-3xl font-heading font-bold text-white mb-4">Vehicle Not Found</h2>
+        <h2 className="text-3xl font-sans font-bold text-white mb-4">Vehicle Not Found</h2>
         <p className="text-white/60 mb-8 max-w-md">The masterpiece you are looking for might have been reserved or is currently unavailable.</p>
         <Link to="/car-seen" className="px-8 py-3 bg-brand text-black font-bold rounded-full hover:scale-105 transition-transform">
           Back to Inventory
@@ -290,7 +290,7 @@ const CarDetails = () => {
                   {car.brand.name}
                 </p>
               </div>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-white leading-[1.1] mb-6">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-sans font-bold text-white leading-[1.1] mb-6">
                 {car.carModel.name}
               </h1>
               <div className="flex flex-col sm:flex-row items-baseline gap-2 sm:gap-6 pt-4 border-t border-white/5">
@@ -351,9 +351,9 @@ const CarDetails = () => {
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-1 h-6 bg-brand rounded-full" />
-                <h3 className="font-heading font-black text-xl md:text-2xl uppercase tracking-widest text-white">Design Intent</h3>
+                <h3 className="font-sans font-bold text-xl md:text-2xl uppercase tracking-widest text-white">Design Intent</h3>
               </div>
-              <p className="text-white/50 leading-relaxed text-sm md:text-base font-light font-sans tracking-wide first-letter:text-4xl first-letter:text-brand first-letter:font-heading first-letter:mr-3 first-letter:float-left">
+              <p className="text-white/50 leading-relaxed text-sm md:text-base font-medium font-sans tracking-wide">
                 {car.description || "Indulge in automotive excellence with this meticulously curated vehicle. Every detail has been engineered for maximum performance and unparalleled luxury. A true masterpiece of modern engineering, ready to redefine your journey with Nexera's signature touch."}
               </p>
             </motion.div>

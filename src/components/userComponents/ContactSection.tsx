@@ -78,7 +78,7 @@ const ContactSection = () => {
           
           {/* Contact Information */}
           <div ref={infoRef} className="flex flex-col justify-center">
-            <h2 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-[#f2f2f2] tracking-tight leading-tight mb-6 drop-shadow-lg">
+            <h2 className="text-4xl md:text-5xl lg:text-7xl font-sans font-bold text-[#f2f2f2] tracking-tight leading-tight mb-6 drop-shadow-lg">
               Initiate <br/>
               <span className="text-brand-gradient">Contact.</span>
             </h2>
@@ -135,7 +135,7 @@ const ContactSection = () => {
               <div className="absolute top-0 left-0 w-[150px] h-[150px] bg-white/5 blur-[50px] pointer-events-none rounded-full" />
 
               <div className="relative z-10">
-                <h3 className="text-3xl font-bold font-heading text-[#f2f2f2] mb-8 drop-shadow-md">Secure Transmission</h3>
+                <h3 className="text-3xl font-bold font-sans text-[#f2f2f2] mb-8 drop-shadow-md">Secure Transmission</h3>
                 
                 <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

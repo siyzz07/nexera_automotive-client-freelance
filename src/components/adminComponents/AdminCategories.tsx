@@ -112,7 +112,7 @@ const AdminCategories = () => {
   return (
     <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 pb-10">
       <div className="mb-4 md:mb-8 border-b border-white/10 pb-4 md:pb-6">
-        <h1 className="text-xl md:text-3xl font-bold font-heading text-white mb-1 md:mb-2 tracking-wide">Category Management</h1>
+        <h1 className="text-xl md:text-3xl font-bold font-sans text-white mb-1 md:mb-2 tracking-wide">Category Management</h1>
         <p className="text-xs md:text-base text-white/60">Manage vehicle Brands and Models.</p>
       </div>
 
@@ -257,7 +257,7 @@ const AdminCategories = () => {
                     <span className="inline-block px-3 py-1 bg-brand/10 text-brand border border-brand/20 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest mb-2 md:mb-3 whitespace-nowrap">
                       Selected Brand
                     </span>
-                    <h2 className="text-2xl md:text-4xl font-bold font-heading text-white break-words w-full sm:max-w-[80%] lg:max-w-none">{activeBrand.name}</h2>
+                    <h2 className="text-2xl md:text-4xl font-bold font-sans text-white break-words w-full sm:max-w-[80%] lg:max-w-none">{activeBrand.name}</h2>
                     <p className="text-xs md:text-base text-white/50 mt-1 md:mt-2 font-medium">Manage sub-types and models.</p>
                   </div>
                 </div>

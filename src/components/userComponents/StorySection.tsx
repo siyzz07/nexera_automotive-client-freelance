@@ -25,7 +25,7 @@ const StorySection = () => {
               transition={{ duration: 0.8 }}
             >
               <h3 className="text-brand text-sm font-bold uppercase tracking-widest mb-4">Our Heritage</h3>
-              <h2 className="text-4xl md:text-6xl font-heading font-extrabold mb-8 leading-tight">
+              <h2 className="text-4xl md:text-6xl font-sans font-bold mb-8 leading-tight">
                 Vision of <br /> 
                 <span className="text-brand-gradient">Nexera</span>
               </h2>

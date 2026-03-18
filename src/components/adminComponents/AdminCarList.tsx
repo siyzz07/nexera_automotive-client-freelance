@@ -42,7 +42,7 @@ const AdminCarList = () => {
     <div className="max-w-7xl mx-auto pb-10">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6 mb-8">
         <div>
-          <h1 className="text-3xl font-bold font-heading text-white mb-2 tracking-wide">Inventory Management</h1>
+          <h1 className="text-3xl font-bold font-sans text-white mb-2 tracking-wide">Inventory Management</h1>
           <p className="text-white/60">Manage all listed vehicles, update statuses, and view metrics.</p>
         </div>
         

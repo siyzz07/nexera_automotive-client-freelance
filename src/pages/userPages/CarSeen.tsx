@@ -244,7 +244,7 @@ const CarSeen = () => {
           transition={{ duration: 0.8 }}
           className="text-center md:text-left mb-12"
         >
-          <h1 className="text-4xl md:text-6xl font-heading font-extrabold mb-6">
+          <h1 className="text-4xl md:text-6xl font-sans font-bold mb-6">
             Explore <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Inventory</span>
           </h1>
           <p className="text-white/60 max-w-2xl text-lg md:text-xl font-light">
@@ -392,7 +392,7 @@ const CarSeen = () => {
         ) : filteredCars.length === 0 ? (
           <div className="glass rounded-3xl p-12 text-center border border-white/10">
             <CarFront className="w-16 h-16 text-white/20 mx-auto mb-4" />
-            <h3 className="text-2xl font-heading font-bold text-white mb-2">No Vehicles Found</h3>
+            <h3 className="text-2xl font-sans font-bold text-white mb-2">No Vehicles Found</h3>
             <p className="text-white/60">Try adjusting your filters or search terms to find what you're looking for.</p>
             <button 
               onClick={handleResetAll}
@@ -444,7 +444,7 @@ const CarSeen = () => {
                       <div className="flex flex-col sm:flex-row justify-between sm:items-start mb-2 sm:mb-4 gap-1">
                         <div>
                           <p className="text-[9px] sm:text-xs text-brand font-semibold tracking-widest uppercase mb-0.5 sm:mb-1">{car.brand.name}</p>
-                          <h3 className="text-sm sm:text-xl md:text-2xl font-bold font-heading text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
+                          <h3 className="text-sm sm:text-xl md:text-2xl font-bold font-sans text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
                             {car.carModel.name}
                           </h3>
                         </div>

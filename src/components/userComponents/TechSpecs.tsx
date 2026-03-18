@@ -32,7 +32,7 @@ const AnimatedCounter = ({ target, suffix = "", prefix = "", floating = false, d
   const displayValue = floating ? count.toFixed(1) : Math.floor(count);
 
   return (
-    <span ref={ref} className="font-heading font-black tabular-nums tracking-tighter">
+    <span ref={ref} className="font-sans font-bold tabular-nums tracking-tighter">
       {prefix}{displayValue}{suffix}
     </span>
   );
@@ -74,7 +74,7 @@ const TechSpecs = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white leading-tight"
+            className="text-4xl md:text-6xl lg:text-7xl font-sans font-bold text-white leading-tight"
           >
             Physics, <br />
             <span className="text-brand-gradient">Mastered.</span>

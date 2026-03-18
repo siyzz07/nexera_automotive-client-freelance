@@ -24,7 +24,7 @@ const ColorShowcase = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-heading font-bold mb-4"
+            className="text-3xl md:text-5xl font-sans font-bold mb-4"
           >
             Configure Your <span className="text-brand-gradient">Masterpiece</span>
           </motion.h2>
@@ -86,7 +86,7 @@ const ColorShowcase = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="text-2xl font-heading font-bold text-white mb-2"
+                    className="text-2xl font-sans font-bold text-white mb-2"
                   >
                     {activeColor.name}
                   </motion.p>

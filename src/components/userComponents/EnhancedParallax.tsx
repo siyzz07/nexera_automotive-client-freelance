@@ -87,7 +87,7 @@ const EnhancedParallax = () => {
           opacity: textOpacity
         }}
       >
-        <h2 className="text-[10vw] font-heading font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/0 leading-none mix-blend-overlay">
+        <h2 className="text-[10vw] font-sans font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/0 leading-none mix-blend-overlay">
           AERODYNAMIC
         </h2>
         <p className="text-brand font-bold tracking-[1em] uppercase text-sm md:text-xl mt-4 drop-shadow-[0_0_10px_rgba(0,255,102,0.5)]">

@@ -220,7 +220,7 @@ const AddCar = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
       <div className="mb-6 md:mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold font-heading text-white mb-2">Add New Vehicle</h1>
+        <h1 className="text-2xl md:text-3xl font-bold font-sans text-white mb-2">Add New Vehicle</h1>
         <p className="text-sm md:text-base text-white/60">Enter vehicle details to list it in the inventory</p>
       </div>
 

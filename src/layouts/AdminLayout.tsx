@@ -89,7 +89,7 @@ const AdminLayout = () => {
                     </div>
                   </div>
                   <div>
-                    <h2 className="font-bold text-lg font-heading tracking-wider">NEXERA</h2>
+                    <h2 className="font-bold text-lg font-sans tracking-wider">NEXERA</h2>
                     <p className="text-[10px] text-brand font-bold uppercase tracking-widest">Admin Portal</p>
                   </div>
                 </div>
