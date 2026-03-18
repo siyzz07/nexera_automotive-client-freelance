@@ -137,7 +137,7 @@ const Features = () => {
       >
         <div className="absolute inset-0" 
           style={{ 
-            backgroundImage: `linear-gradient(#00df5d 1px, transparent 1px), linear-gradient(90deg, #00df5d 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(#00ff00 1px, transparent 1px), linear-gradient(90deg, #00ff00 1px, transparent 1px)`,
             backgroundSize: '120px 120px'
           }} 
         />

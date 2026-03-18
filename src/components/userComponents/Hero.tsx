@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import carImage from '../../assets/hero-car-CLIK-Q7p.png';
+import carImage from '../../assets/suggesioon1.jpeg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -80,7 +80,7 @@ const Hero = () => {
         <img
           src={carImage}
           alt="Premium Automotive"
-          className="w-full h-full object-cover object-left lg:object-right brightness-[0.7] contrast-[1.1] transition-all duration-1000 scale-[1.25] lg:scale-[1.1] -translate-x-16 lg:translate-x-[12%]"
+          className="w-full h-full object-cover object-left lg:object-right brightness-[0.7] contrast-[1.1] transition-all duration-1000 scale-[1.25] lg:scale-[1.1] -translate-x-0 lg:translate-x-[12%]"
         />
 
         {/* Technical Glows - Shifted Right */}
@@ -117,12 +117,12 @@ const Hero = () => {
                 </div>
              </h1>
 
-             <p ref={pRef} className="text-white/40 text-lg md:text-xl max-w-lg mb-12 font-medium tracking-tight leading-relaxed">
+             <p ref={pRef} className="text-white/70 text-lg md:text-xl max-w-lg mb-12 font-medium tracking-tight leading-relaxed">
                  "Buy with confidence. Sell with complete trust."
              </p>
 
              <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
-                <button className="group relative w-full sm:w-auto px-10 py-5 bg-gradient-to-br from-brand to-brand text-black font-black uppercase tracking-widest rounded-3xl overflow-hidden transition-all duration-500 shadow-[0_0_40px_rgba(0,223,93,0.3)] hover:shadow-[0_0_60px_rgba(0,223,93,0.5)] active:scale-95">
+                <button className="group relative w-full sm:w-auto px-10 py-5 bg-gradient-to-br from-brand to-brand text-black/90  font-black uppercase tracking-widest rounded-3xl overflow-hidden transition-all duration-500 shadow-[0_0_40px_rgba(0,223,93,0.3)] hover:shadow-[0_0_60px_rgba(0,223,93,0.5)] active:scale-95">
                    <span className="relative z-10">Find Your Verified Car</span>
                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                 </button>

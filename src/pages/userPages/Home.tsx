@@ -1,6 +1,7 @@
 import Hero from '../../components/userComponents/Hero';
 import FeaturedCars from '../../components/userComponents/FeaturedCars';
 import Features from '../../components/userComponents/Features';
+import VerificationTimeline from '../../components/userComponents/VerificationTimeline';
 
 import TrustIndicators from '../../components/userComponents/TrustIndicators';
 import B2BPartnership from '../../components/userComponents/B2BPartnership';
@@ -14,10 +15,11 @@ const Home = () => {
     <div className="w-full relative">
       <GlobalBackground />
       <Hero />
+      {/* <TrustIndicators /> */}
       <ComparisonSection />
       <Features />
       <FeaturedCars />
-      <TrustIndicators />
+      <VerificationTimeline />
       <B2BPartnership />
       {/* <ColorShowcase /> */}
       <ContactSection />

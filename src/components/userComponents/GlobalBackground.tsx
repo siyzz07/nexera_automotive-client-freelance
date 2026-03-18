@@ -41,7 +41,7 @@ const GlobalBackground = () => {
       {/* Floating Geometric Wireframes */}
       <motion.div 
         style={{ y: y2, rotate: rotate1 }} 
-        className="absolute top-[30%] left-[8%] w-64 h-64 rounded-full border border-brand/10 shadow-[0_0_50px_rgba(0,255,102,0.05)] opacity-30"
+        className="absolute top-[30%] left-[8%] w-64 h-64 rounded-full border border-brand/10 shadow-[0_0_80px_rgba(0,77,38,0.06)] opacity-10"
       />
 
       <motion.div 
@@ -62,10 +62,10 @@ const GlobalBackground = () => {
 
       {/* Grid Overlay */}
       <div 
-        className="absolute inset-0 opacity-[0.02]" 
+        className="absolute inset-0 opacity-[0.01]" 
         style={{ 
-          backgroundImage: 'linear-gradient(to right, #00FF66 1px, transparent 1px), linear-gradient(to bottom, #00FF66 1px, transparent 1px)', 
-          backgroundSize: '120px 120px' 
+          backgroundImage: 'linear-gradient(to right, #004d26 1px, transparent 1px), linear-gradient(to bottom, #004d26 1px, transparent 1px)', 
+          backgroundSize: '160px 160px' 
         }} 
       />
     </div>

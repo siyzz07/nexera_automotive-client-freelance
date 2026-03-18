@@ -1,6 +1,5 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
-import { Shield, FileCheck, TriangleAlert, Eye, Gauge, CreditCard, ShieldAlert, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Shield, FileCheck, TriangleAlert, Eye, Gauge, CreditCard, ShieldAlert } from 'lucide-react';
 
 const trustItems = [
   {
@@ -48,156 +47,93 @@ const trustItems = [
 ];
 
 const TrustIndicators = () => {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  const textX = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-48 relative overflow-hidden bg-surface border-t border-white/5">
-      {/* Parallax Background Text */}
-      <motion.div 
-        style={{ x: textX, opacity }}
-        className="absolute top-1/2 left-0 -translate-y-1/2 text-[15vw] md:text-[20vw] font-black text-white/[0.02] whitespace-nowrap pointer-events-none select-none z-0 uppercase tracking-tighter"
-      >
-        Verified Protocol Nexera
-      </motion.div>
-
-      {/* Atmospheric Glows */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-brand/5 rounded-full blur-[120px] -translate-y-1/2 opacity-50" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-brand/5 rounded-full blur-[120px] translate-y-1/2 opacity-50" />
-        <div className="noise-overlay opacity-[0.03]" />
-      </div>
+    <section className="py-32 relative overflow-hidden bg-[#020202] border-t border-white/5">
+      <div className="noise" />
+      <div className="scanlines" />
       
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        <div className="text-center mb-16 md:mb-32 max-w-4xl mx-auto">
+        <div className="text-center mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-brand/20 bg-brand/5 mb-6 md:mb-8"
+            className="flex items-center justify-center gap-3 mb-6"
           >
-            <div className="w-2 h-2 rounded-full bg-brand animate-pulse" />
-            <span className="text-[10px] font-bold text-brand uppercase tracking-[0.3em]">System Security Active</span>
+            <div className="w-8 h-[1px] bg-brand" />
+            <span className="text-[10px] font-black text-brand uppercase tracking-[0.5em]">Nexera Protocol</span>
+            <div className="w-8 h-[1px] bg-brand" />
           </motion.div>
           
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-8xl font-sans font-bold text-white leading-none tracking-tighter mb-4 md:mb-8 uppercase"
-          >
+          <h2 className="text-5xl md:text-7xl font-sans font-bold text-white leading-none tracking-tighter mb-6 uppercase">
             7-POINT <span className="text-brand-gradient">VERIFICATION</span>
-          </motion.h2>
+          </h2>
           
-          <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-white/40 text-sm md:text-xl leading-relaxed max-w-2xl mx-auto font-light"
-          >
-            Our proprietary audit protocol ensures every vehicle meets the Nexera gold standard before it ever reaches your screen.
-          </motion.p>
+          <p className="text-gray-500 text-lg leading-relaxed font-light max-w-2xl mx-auto">
+            All vehicles must pass our rigorous quality standards to appear on the platform. We leave nothing to chance when it comes to your peace of mind.
+          </p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-          {trustItems.map((item, index) => {
-            // Add vertical parallax offset for staggered movement
-            const yOffset = useTransform(scrollYProgress, [0, 1], [0, (index % 2 === 0 ? -40 : 40)]);
-            
-            return (
-              <motion.div
-                key={index}
-                style={{ y: yOffset }}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="group relative glass-card !p-0 overflow-hidden flex flex-col"
-              >
-                {/* Scanline Effect on Hover */}
-                <div className="absolute inset-0 bg-gradient-to-b from-brand/0 via-brand/[0.03] to-brand/0 -translate-y-full group-hover:translate-y-full transition-transform duration-[2000ms] ease-linear pointer-events-none" />
-                
-                <div className="p-4 md:p-8 pb-4 flex flex-col items-center text-center flex-grow">
-                  {/* Icon Container with background glow effect */}
-                  <div className="relative mb-4 md:mb-8 group-hover:scale-110 transition-transform duration-500">
-                    <div className="absolute inset-0 bg-brand/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-brand/40 group-hover:bg-brand/5 transition-all duration-500 overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-tr from-brand/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      {item.icon}
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-xs md:text-lg font-bold text-white mb-2 md:mb-3 group-hover:text-brand transition-colors tracking-tight uppercase">
-                    {item.title}
-                  </h3>
-                  
-                  <p className="text-[10px] md:text-sm text-white/30 leading-relaxed font-light group-hover:text-white/50 transition-colors line-clamp-2 md:line-clamp-none">
-                    {item.description}
-                  </p>
-                </div>
-
-                {/* Protocol Footnote */}
-                <div className="px-4 py-3 md:px-8 md:py-5 border-t border-white/5 bg-white/[0.01] flex items-center justify-between">
-                  <span className="text-[8px] md:text-[9px] font-mono text-white/20 tracking-widest uppercase truncate mr-2">
-                     {item.id}
-                  </span>
-                  <div className="flex gap-1 flex-shrink-0">
-                     <div className="w-1 h-1 rounded-full bg-brand/40" />
-                     <div className="w-1 h-1 rounded-full bg-brand/40" />
-                     <div className="w-1 h-1 rounded-full bg-brand/40" />
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {trustItems.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="group relative shadow-2xl shadow-green-500/20  border-4 p-8 bg-[#050508] rounded-3xl border border-white/5 hover:border-brand/40 transition-all duration-500 overflow-hidden flex flex-col items-center text-center"
+            >
+              {/* Subtle Scanning Light Bar */}
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+              
+              <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:border-brand/30 group-hover:bg-brand/5 transition-all duration-500">
+                {item.icon}
+              </div>
+              
+              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-brand transition-colors tracking-tight uppercase">
+                {item.title}
+              </h3>
+              
+              <p className="text-sm text-gray-500 leading-relaxed font-light group-hover:text-gray-400 transition-colors">
+                {item.description}
+              </p>
+              
+              <div className="mt-8 pt-4 border-t border-white/5 w-full text-[9px] font-mono text-white/20 tracking-widest uppercase">
+                PROTOCOL: {item.id}
+              </div>
+            </motion.div>
+          ))}
           
-          {/* Status Monitor Card */}
-          <motion.div
-            style={{ y: useTransform(scrollYProgress, [0, 1], [0, 20]) }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+          {/* Live Status Card for empty slot in 3x3 grid (optional, but fills space well) */}
+          {/* <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="group relative glass-card !p-4 md:!p-8 flex flex-col justify-center bg-brand/[0.03] border-brand/20 overflow-hidden col-span-2 md:col-span-1"
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="group relative p-8 bg-brand/5 rounded-3xl border border-brand/20 backdrop-blur-xl flex flex-col justify-center items-center text-center overflow-hidden"
           >
-             <div className="absolute top-0 right-0 p-4">
-                <Zap className="w-4 h-4 text-brand/50" />
-             </div>
-             <div>
-                <span className="text-[10px] font-bold text-brand uppercase tracking-widest block mb-4">Live Verification</span>
-                <div className="space-y-4">
-                   <div className="flex justify-between items-end border-b border-white/5 pb-2">
-                      <span className="text-[11px] text-white/20 uppercase tracking-widest">Engine Status</span>
-                      <span className="text-xs text-brand font-bold">OPTIMAL</span>
-                   </div>
-                   <div className="flex justify-between items-end border-b border-white/5 pb-2">
-                      <span className="text-[11px] text-white/20 uppercase tracking-widest">Latency</span>
-                      <span className="text-xs text-brand font-bold">12ms</span>
-                   </div>
-                   <div className="flex justify-between items-end border-b border-white/5 pb-2">
-                      <span className="text-[11px] text-white/20 uppercase tracking-widest">Sync</span>
-                      <span className="text-xs text-brand font-bold">100%</span>
-                   </div>
-                </div>
-                <div className="mt-8">
-                   <div className="w-full h-[2px] bg-white/5 rounded-full overflow-hidden">
-                      <motion.div 
-                        animate={{ x: ["-100%", "100%"] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                        className="w-1/2 h-full bg-brand" 
-                      />
-                   </div>
-                </div>
-             </div>
-          </motion.div>
+            <div className="absolute inset-0 bg-brand/5 animate-pulse" />
+            <div className="relative z-10">
+              <div className="w-12 h-12 rounded-full bg-brand/20 flex items-center justify-center mx-auto mb-6">
+                <Zap className="w-6 h-6 text-brand" />
+              </div>
+              <span className="text-xs font-bold text-brand uppercase tracking-widest block mb-4">Nexera Audio Protocol</span>
+              <div className="flex justify-between text-[11px] uppercase tracking-widest text-white/40 mb-2">
+                <span>Verification Engine</span>
+                <span className="text-brand">Active</span>
+              </div>
+              <div className="w-48 h-1 bg-white/10 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  whileInView={{ width: "100%" }}
+                  transition={{ duration: 1, delay: 1 }}
+                  className="h-full bg-brand" 
+                />
+              </div>
+            </div>
+          </motion.div> */}
         </div>
       </div>
     </section>

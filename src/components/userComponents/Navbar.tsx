@@ -22,7 +22,7 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-sans font-bold tracking-wider text-brand-gradient">
+        <Link to="/" className="text-2xl font-sans font-black tracking-[0.2em] text-brand">
           NEXERA
         </Link>
 
