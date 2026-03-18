@@ -22,17 +22,17 @@ const GlobalBackground = () => {
       {/* Huge Subtle Tech Green Orbs that Parallax */}
       <motion.div 
         style={{ y: y1 }}
-        className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-brand/[0.03] rounded-[100%] blur-[150px]"
+        className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-brand/[0.03] rounded-[100%] blur-[80px] md:blur-[150px]"
       />
       
       <motion.div 
         style={{ y: y2 }}
-        className="absolute top-[50%] right-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-brand/[0.03] rounded-[100%] blur-[120px]"
+        className="absolute top-[50%] right-[-10%] w-[40vw] h-[40vw] bg-brand/[0.03] rounded-[100%] blur-[60px] md:blur-[120px]"
       />
 
       <motion.div 
         style={{ y: y3 }}
-        className="absolute bottom-[-10%] left-[20%] w-[60vw] h-[60vw] bg-brand/[0.03] rounded-[100%] blur-[150px]"
+        className="absolute bottom-[-10%] left-[20%] w-[60vw] h-[60vw] bg-brand/[0.03] rounded-[100%] blur-[80px] md:blur-[150px]"
       />
 
       {/* Floating Geometric Wireframes */}

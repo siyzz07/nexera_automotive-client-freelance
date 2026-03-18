@@ -18,15 +18,14 @@ function App() {
     }
 
     const lenis = new Lenis({
-      duration: 1.2,
-      lerp: 0.08,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.6,
+      lerp: 0.05,
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
       syncTouch: true,
       wheelMultiplier: 1.1,
-      touchMultiplier: 2,
+      touchMultiplier: 2.5,
       infinite: false,
     });
 
