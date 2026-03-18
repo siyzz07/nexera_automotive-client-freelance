@@ -1,9 +1,7 @@
 import Hero from '../../components/userComponents/Hero';
 import FeaturedCars from '../../components/userComponents/FeaturedCars';
 import Features from '../../components/userComponents/Features';
-import VerificationTimeline from '../../components/userComponents/VerificationTimeline';
-
-import TrustIndicators from '../../components/userComponents/TrustIndicators';
+import VerificationTimeline from '../../components/userComponents/VerificationTimeline';  
 import B2BPartnership from '../../components/userComponents/B2BPartnership';
 import GlobalBackground from '../../components/userComponents/GlobalBackground';
 import ContactSection from '../../components/userComponents/ContactSection';
