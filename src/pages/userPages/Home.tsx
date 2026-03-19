@@ -6,7 +6,7 @@ import GlobalBackground from '../../components/userComponents/GlobalBackground';
 import ContactSection from '../../components/userComponents/ContactSection';
 import ComparisonSection from '../../components/userComponents/ComparisonSection';
 
-
+// HOME
 const Home = () => {
   return (
     <div className="w-full relative">
