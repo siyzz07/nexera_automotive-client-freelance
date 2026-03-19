@@ -12,14 +12,10 @@ const Home = () => {
     <div className="w-full relative">
       <GlobalBackground />
       <Hero />
-      {/* <TrustIndicators /> */}
       <ComparisonSection />
-      {/* <Features /> */}
       <FeaturedCars />
       <VerificationTimeline />
       <B2BPartnership />
-      {/* <TrustSlider /> */}
-      {/* <ColorShowcase /> */}
       <ContactSection />
     </div>
   );

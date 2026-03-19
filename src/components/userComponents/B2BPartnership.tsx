@@ -12,7 +12,7 @@ const B2BPartnership = () => {
   ];
 
   return (
-    <section className="relative py-24 lg:py-32 overflow-hidden border-t border-white/5 bg-[#050505]">
+    <section id="sell-your-car" className="relative py-24 lg:py-32 overflow-hidden border-t border-white/5 bg-[#050505]">
       <div className="noise" />
       <div className="scanlines" />
       
@@ -28,8 +28,8 @@ const B2BPartnership = () => {
           alt="Luminous Showroom" 
           className="w-full h-full object-cover opacity-25 grayscale hover:opacity-40 transition-opacity duration-1000"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/50 to-black/30" />
-        {/* <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" /> */}
+        {/* <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/50 to-black/30" /> */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
       </motion.div>
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
@@ -56,7 +56,7 @@ const B2BPartnership = () => {
               <TextReveal text="Network." className="text-brand-gradient" />
             </h2>
             
-            <p className="text-gray-400 text-lg md:text-xl font-light mb-12 leading-relaxed max-w-xl">
+            <p className="text-gray-300 text-lg md:text-xl font-light mb-12 leading-relaxed max-w-xl">
               Partner with a trusted, industry-leading platform designed for modern dealerships. We deliver verified leads and enhanced visibility—helping you connect with genuine buyers and grow your business with confidence.
             </p>
 
@@ -69,7 +69,7 @@ const B2BPartnership = () => {
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-2">
                   {item.icon}
-                  <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{item.label}</span>
+                  <span className="text-[10px] font-black text-white/70 uppercase tracking-widest">{item.label}</span>
                 </div>
               ))}
             </div>

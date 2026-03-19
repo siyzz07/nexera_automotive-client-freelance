@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import carImage from '../../assets/suggension3.jpeg';
@@ -124,12 +125,15 @@ const Hero = () => {
              </p>
 
              <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
-                <button className="group relative w-full sm:w-auto px-10 py-5 bg-green-500 text-black/90  font-black uppercase tracking-widest rounded-3xl overflow-hidden transition-all duration-500 shadow-[0_0_40px_rgba(0,223,93,0.3)] hover:shadow-[0_0_60px_rgba(0,223,93,0.5)] active:scale-95">
+                <Link to="/car-seen" className="group relative w-full sm:w-auto px-10 py-5 bg-green-500 text-black/90 font-black uppercase tracking-widest rounded-3xl overflow-hidden transition-all duration-500 shadow-[0_0_40px_rgba(0,223,93,0.3)] hover:shadow-[0_0_60px_rgba(0,223,93,0.5)] active:scale-95 flex items-center justify-center">
                    <span className="relative z-10">Find Your Verified Car</span>
                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                </button>
+                </Link>
                 
-                <button className="w-full sm:w-auto px-10 py-5 glass text-white font-bold uppercase tracking-widest rounded-3xl border border-white/10 hover:border-brand/40 hover:bg-white/[0.05] transition-all duration-500 active:scale-95">
+                <button 
+                  onClick={() => (window as any).lenis?.scrollTo('#sell-your-car', { offset: -50, duration: 1.5 })}
+                  className="w-full sm:w-auto px-10 py-5 glass text-white font-bold uppercase tracking-widest rounded-3xl border border-white/10 hover:border-brand/40 hover:bg-white/[0.05] transition-all duration-500 active:scale-95"
+                >
                    Sell Your Car
                 </button>
              </div>

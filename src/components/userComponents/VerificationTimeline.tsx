@@ -107,7 +107,7 @@ const VerificationTimeline = () => {
             viewport={{ once: true }}
             className="text-4xl md:text-7xl font-sans font-bold text-white tracking-tighter uppercase mb-6"
           >
-            Our Verification <span className="text-brand-gradient">Pipeline</span>
+            Our Verification <span className="text-brand-gradient">System</span>
           </motion.h2>
           
           <motion.p 

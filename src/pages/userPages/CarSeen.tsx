@@ -3,10 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ShieldCheck, MapPin, Gauge, Fuel, Settings2, User, 
   CheckCircle2, Award, FileCheck, ChevronDown, CarFront,
-  Search, SlidersHorizontal, X,Users
+  Search, SlidersHorizontal, X, Users, Palette
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import GlobalBackground from '../../components/userComponents/GlobalBackground';
+import LocationInput from '../../components/adminComponents/LocationInput';
 
 // Mock comprehensive data
 // Mock comprehensive data
@@ -83,7 +84,7 @@ const CustomSelect = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-[calc(100%+8px)] left-0 w-full z-50 bg-neutral-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
+            className="absolute top-[calc(100%+8px)] left-0 w-full z-[100] bg-neutral-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
           >
             <div className="max-h-60 overflow-y-auto scrollbar-hide py-1">
               {options.map(opt => (
@@ -125,14 +126,21 @@ const CarSeen = () => {
   
   const [realInventoryCars, setRealInventoryCars] = useState<ICar[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // High-Performance Search, Location & Color States
   const [searchQuery, setSearchQuery] = useState('');
+  const [locationInput, setLocationInput] = useState('');
+  const [colorInput, setColorInput] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [activeSegment, setActiveSegment] = useState('All Cars');
   
+  // State to trigger manual search
+  const [searchTrigger, setSearchTrigger] = useState(0);
+
   const [filters, setFilters] = useState<Record<string, string>>({
     brand: 'All', budget: 'All', bodyType: 'All', model: 'All', 
     kmDriven: 'All', fuelType: 'All', transmission: 'All', 
-    ownerHistory: 'All', color: 'All', location: 'All'
+    ownerHistory: 'All'
   });
 
   const [filterOptions, setFilterOptions] = useState<{
@@ -169,22 +177,62 @@ const CarSeen = () => {
     fetchOptions();
   }, []);
 
-  // Reset page to 1 when filters or search query change
-  useEffect(() => {
+  const handleSearch = () => {
+    setSearchTrigger(prev => prev + 1);
     setCurrentPage(1);
-  }, [filters, searchQuery, activeSegment]);
+  };
 
+  const handleSegmentChange = (name: string) => {
+    setActiveSegment(name);
+    setCurrentPage(1);
+    // When changing mission (segment), glide-reset all manual inputs
+    setSearchQuery('');
+    setLocationInput('');
+    setColorInput('');
+    setFilters({
+      brand: 'All', budget: 'All', bodyType: 'All', model: 'All', 
+      kmDriven: 'All', fuelType: 'All', transmission: 'All', 
+      ownerHistory: 'All'
+    });
+  };
+
+  // Reset page to 1 for non-input filters (Brand, Budget etc) if you want them to trigger auto-search? 
+  // User said "then only search" after click button, so I'll make ALL filters wait for button click.
+  
   useEffect(() => {
     const fetchCars = async () => {
       setLoading(true);
       try {
-        // Prepare overall filter object including search and segments
-        const combinedFilters: any = { ...filters, query: searchQuery };
+        // High-Performance Filter Mapping (Names to IDs)
+        const selectedBrandObj = filterOptions.brands.find(b => b.name === filters.brand);
+        const selectedModelObj = filterOptions.models.find(m => m.name === filters.model);
+
+        const combinedFilters: any = { 
+          brand: selectedBrandObj ? selectedBrandObj.id : 'All',
+          carModel: selectedModelObj ? selectedModelObj.id : 'All',
+          budget: filters.budget,
+          bodyType: filters.bodyType,
+          kmDriven: filters.kmDriven,
+          fuelType: filters.fuelType,
+          transmission: filters.transmission,
+          ownerHistory: filters.ownerHistory,
+          query: searchQuery,
+          location: locationInput === '' ? 'All' : locationInput,
+          color: colorInput === '' ? 'All' : colorInput
+        };
         
         // Add segment logic to backend query
-        if (activeSegment === 'Budget Cars') combinedFilters.budget = 'Under $50,000';
-        else if (activeSegment === 'Low KM Cars') combinedFilters.kmDriven = 'Under 30,000 km';
-        else if (activeSegment === 'Automatic Cars') combinedFilters.transmission = 'Automatic';
+        if (activeSegment === 'Budget Cars') {
+          combinedFilters.sortBy = 'price';
+          combinedFilters.order = 'asc';
+        } else if (activeSegment === 'Low KM Cars') {
+          combinedFilters.sortBy = 'kmDriven';
+          combinedFilters.order = 'asc';
+        } else if (activeSegment === 'Automatic Cars') {
+          combinedFilters.transmission = 'Automatic';
+        } else if (activeSegment === 'First Owner') {
+          combinedFilters.ownerHistory = '1st Owner';
+        }
 
         const response = await getAllCars(currentPage, 8, combinedFilters);
         if (response.data.success) {
@@ -199,25 +247,41 @@ const CarSeen = () => {
     };
     fetchCars();
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentPage, filters, searchQuery, activeSegment]);
+  }, [currentPage, searchTrigger, activeSegment]);
 
   const uniqueBrands = useMemo(() => ['All', ...filterOptions.brands.map(b => b.name)], [filterOptions.brands]);
+  
+  // High-Performance Dependent Model Logic
   const uniqueModels = useMemo(() => {
     if (filters.brand !== 'All') {
-      const brandId = filterOptions.brands.find(b => b.name === filters.brand)?.id;
-      return ['All', ...filterOptions.models.filter(m => m.brandId === brandId).map(m => m.name)];
+      const selectedBrand = filterOptions.brands.find(b => b.name === filters.brand);
+      if (selectedBrand) {
+        return ['All', ...filterOptions.models
+          .filter(m => String(m.brandId) === String(selectedBrand.id))
+          .map(m => m.name)];
+      }
     }
     return ['All', ...filterOptions.models.map(m => m.name)];
   }, [filterOptions.models, filters.brand, filterOptions.brands]);
 
-  const uniqueFuelTypes = filterOptions.fuelTypes;
-  const uniqueTransmissions = filterOptions.transmissions;
-  const uniqueBodyTypes = filterOptions.bodyTypes;
-  const uniqueOwnerHistories = filterOptions.ownerHistories;
-  const uniqueColors = filterOptions.colors;
-  const uniqueLocations = filterOptions.locations;
+  // Reset Model filter when Brand changes
+  useEffect(() => {
+    if (filters.brand !== 'All') {
+      const currentModelData = filterOptions.models.find(m => m.name === filters.model);
+      const selectedBrand = filterOptions.brands.find(b => b.name === filters.brand);
+      
+      if (currentModelData && selectedBrand && String(currentModelData.brandId) !== String(selectedBrand.id)) {
+        setFilters(prev => ({ ...prev, model: 'All' }));
+      }
+    }
+  }, [filters.brand, filterOptions.brands, filterOptions.models]);
 
-  const budgetOptions = ['All', 'Under $50,000', 'Under $100,000', 'Under $150,000', '$150,000+'];
+  const uniqueFuelTypes = ['All', 'Petrol', 'Diesel', 'Electric', 'Hybrid'];
+  const uniqueTransmissions = ['All', 'Automatic', 'Manual'];
+  const uniqueBodyTypes = ['All', 'Sedan', 'SUV', 'Compact SUV', 'Coupe', 'Hatchback', 'Convertible', 'Wagon', 'Truck'];
+  const uniqueOwnerHistories = ['All', '1st Owner', '2nd Owner', '3rd Owner', '4+ Owners'];
+
+  const budgetOptions = ['All', 'Under ₹ 5 Lakh', 'Under ₹ 10 Lakh', 'Under ₹ 20 Lakh', '₹ 20 Lakh+'];
   const kmOptions = ['All', 'Under 10,000 km', 'Under 30,000 km', 'Under 50,000 km'];
 
   const handleClearFilter = (key: string) => {
@@ -226,15 +290,18 @@ const CarSeen = () => {
 
   const handleResetAll = () => {
     setSearchQuery('');
+    setLocationInput('');
+    setColorInput('');
     setActiveSegment('All Cars');
     setFilters({
       brand: 'All', budget: 'All', bodyType: 'All', model: 'All', 
       kmDriven: 'All', fuelType: 'All', transmission: 'All', 
-      ownerHistory: 'All', color: 'All', location: 'All'
+      ownerHistory: 'All'
     });
+    handleSearch();
   };
 
-  const activeFilterCount = Object.values(filters).filter(v => v !== 'All').length + (searchQuery ? 1 : 0);
+  const activeFilterCount = Object.values(filters).filter(v => v !== 'All').length + (searchQuery ? 1 : 0) + (locationInput ? 1 : 0) + (colorInput ? 1 : 0);
 
   return (
     <div className="w-full relative min-h-screen pt-32 pb-24">
@@ -260,39 +327,45 @@ const CarSeen = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="glass rounded-3xl p-4 sm:p-6 md:p-8 mb-8 border border-white/10 relative z-20 shadow-2xl"
+          className="glass rounded-3xl p-4 sm:p-6 md:p-8 mb-8 border border-white/10 relative z-50 shadow-2xl"
         >
-          {/* Main Search and Primary Filters Row */}
-          <div className="flex flex-col lg:flex-row gap-4 mb-4">
-            {/* Search Bar */}
-            <div className="flex-1 relative group mt-5">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                <Search className="w-5 h-5 text-white/40 group-focus-within:text-brand transition-colors" />
+          {/* Main Search and Primary Filters Command Center */}
+          <div className="flex flex-col gap-6">
+            {/* Row 1: Primary Search Bar & Button */}
+            <div className="flex flex-col md:flex-row gap-4 items-center mt-5">
+              <div className="flex-1 relative group w-full">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                  <Search className="w-5 h-5 text-white/40 group-focus-within:text-brand transition-colors" />
+                </div>
+                <input 
+                  type="text" 
+                  placeholder="Search make, model, or type..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-11 sm:h-[56px] bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl pl-12 pr-4 text-sm sm:text-lg text-white placeholder-white/40 focus:outline-none focus:border-brand/60 focus:ring-1 focus:ring-brand/60 focus:bg-white/5 transition-all shadow-xl"
+                />
               </div>
-              <input 
-                type="text" 
-                placeholder="Search make, model, or type..." 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-11 sm:h-[52px] bg-black/20 backdrop-blur-md border border-white/10 rounded-xl pl-12 pr-4 text-sm sm:text-base text-white placeholder-white/40 focus:outline-none focus:border-brand/60 focus:ring-1 focus:ring-brand/60 focus:bg-white/5 transition-all"
-              />
+              <button
+                onClick={handleSearch}
+                className="h-11 sm:h-[56px] px-10 rounded-2xl bg-brand text-black font-bold text-base hover:bg-brand/90 transition-all flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(0,255,102,0.2)] hover:scale-[1.02] active:scale-[0.98] w-full md:w-auto"
+              >
+                <Search className="w-5 h-5" />
+                Find Cars
+              </button>
             </div>
 
-            {/* Primary Dropdowns & Toggle */}
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:flex gap-4 items-end">
-              <div className="w-full lg:w-44">
+            {/* Row 2: Secondary Quick Filters */}
+            <div className="grid grid-cols-2 lg:flex gap-4 items-end mb-4">
+              <div className="w-full lg:w-72">
                 <CustomSelect label="Brand" options={uniqueBrands} value={filters.brand} onChange={v => setFilters({...filters, brand: v})} placeholder="Any Brand" />
               </div>
-              <div className="w-full lg:w-44">
-                <CustomSelect label="Location" options={uniqueLocations} value={filters.location} onChange={v => setFilters({...filters, location: v})} placeholder="Any Location" />
-              </div>
-              <div className="w-full lg:w-44">
-                <CustomSelect label="Budget" options={budgetOptions} value={filters.budget} onChange={v => setFilters({...filters, budget: v})} placeholder="Any Budget" />
+              <div className="w-full lg:w-72">
+                <CustomSelect label="Model" options={uniqueModels} value={filters.model} onChange={v => setFilters({...filters, model: v})} placeholder="Any Model" />
               </div>
               
               <button
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className={`col-span-2 lg:col-span-1 h-11 sm:h-[52px] px-6 rounded-xl border transition-all duration-300 flex items-center justify-center gap-2 font-semibold text-sm w-full lg:w-auto ${
+                className={`col-span-2 lg:col-span-1 h-11 sm:h-[52px] px-6 rounded-xl border transition-all duration-300 flex items-center justify-center gap-2 font-semibold text-sm w-full lg:w-auto ml-auto ${
                   showAdvanced 
                     ? 'bg-brand/20 border-brand text-brand shadow-[0_0_20px_rgba(0,255,102,0.15)]' 
                     : 'bg-black/20 border-white/10 text-white/70 hover:bg-white/10 hover:text-white hover:border-white/30'
@@ -308,20 +381,49 @@ const CarSeen = () => {
           <AnimatePresence>
             {showAdvanced && (
               <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
+                initial={{ height: 0, opacity: 0, overflow: 'hidden' }}
+                animate={{ height: 'auto', opacity: 1, transitionEnd: { overflow: 'visible' } }}
+                exit={{ height: 0, opacity: 0, overflow: 'hidden' }}
                 transition={{ duration: 0.3 }}
-                className="overflow-hidden"
               >
                 <div className="pt-6 pb-2 border-t border-white/10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-2">
+                  <div className="w-full flex flex-col gap-1.5 relative group">
+                    <label className="text-[10px] sm:text-xs text-white/50 font-bold uppercase tracking-widest pl-1">
+                      Location
+                    </label>
+                    <LocationInput 
+                      hideLabel 
+                      value={locationInput} 
+                      onChange={setLocationInput} 
+                      placeholder="Search Location..." 
+                      className="!space-y-0"
+                    />
+                  </div>
+                  <CustomSelect label="Budget" options={budgetOptions} value={filters.budget} onChange={v => setFilters({...filters, budget: v})} placeholder="Any Budget" />
                   <CustomSelect label="Body Type" options={uniqueBodyTypes} value={filters.bodyType} onChange={v => setFilters({...filters, bodyType: v})} placeholder="Any Type" />
-                  <CustomSelect label="Model" options={uniqueModels} value={filters.model} onChange={v => setFilters({...filters, model: v})} />
                   <CustomSelect label="Max KM" options={kmOptions} value={filters.kmDriven} onChange={v => setFilters({...filters, kmDriven: v})} />
                   <CustomSelect label="Fuel Type" options={uniqueFuelTypes} value={filters.fuelType} onChange={v => setFilters({...filters, fuelType: v})} />
                   <CustomSelect label="Transmission" options={uniqueTransmissions} value={filters.transmission} onChange={v => setFilters({...filters, transmission: v})} />
                   <CustomSelect label="Owner History" options={uniqueOwnerHistories} value={filters.ownerHistory} onChange={v => setFilters({...filters, ownerHistory: v})} />
-                  <CustomSelect label="Color" options={uniqueColors} value={filters.color} onChange={v => setFilters({...filters, color: v})} />
+                  
+                  {/* High-Performance Color Search Field */}
+                  <div className="w-full flex flex-col gap-1.5 relative group">
+                    <label className="text-[10px] sm:text-xs text-white/50 font-bold uppercase tracking-widest pl-1">
+                      Color
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-3.5 flex items-center pointer-events-none">
+                        <Palette className="w-4 h-4 text-white/40 group-focus-within:text-brand transition-colors" />
+                      </div>
+                      <input 
+                        type="text" 
+                        placeholder="Search Color..." 
+                        value={colorInput}
+                        onChange={(e) => setColorInput(e.target.value)}
+                        className="w-full h-11 sm:h-[52px] bg-black/20 backdrop-blur-md border border-white/10 rounded-xl pl-10 pr-4 text-xs sm:text-sm text-white placeholder-white/40 focus:outline-none focus:border-brand/60 focus:bg-white/5 transition-all"
+                      />
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -336,6 +438,20 @@ const CarSeen = () => {
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-brand/10 border border-brand/30 rounded-full">
                   <span className="text-xs text-brand font-medium">Search: {searchQuery}</span>
                   <button onClick={() => setSearchQuery('')} className="text-brand hover:text-white transition-colors"><X className="w-3.5 h-3.5" /></button>
+                </div>
+              )}
+
+              {locationInput && (
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-brand/10 border border-brand/30 rounded-full">
+                  <span className="text-xs text-brand font-medium">Location: {locationInput}</span>
+                  <button onClick={() => setLocationInput('')} className="text-brand hover:text-white transition-colors"><X className="w-3.5 h-3.5" /></button>
+                </div>
+              )}
+
+              {colorInput && (
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-brand/10 border border-brand/30 rounded-full">
+                  <span className="text-xs text-brand font-medium">Color: {colorInput}</span>
+                  <button onClick={() => setColorInput('')} className="text-brand hover:text-white transition-colors"><X className="w-3.5 h-3.5" /></button>
                 </div>
               )}
 
@@ -372,7 +488,7 @@ const CarSeen = () => {
           {segments.map(({ name, icon: Icon }) => (
             <button 
               key={name}
-              onClick={() => setActiveSegment(name)}
+              onClick={() => handleSegmentChange(name)}
               className={`px-5 py-2.5 rounded-full whitespace-nowrap transition-all duration-300 border text-sm font-semibold flex items-center gap-2 flex-shrink-0 ${
                 activeSegment === name 
                   ? 'bg-brand/20 border-brand text-brand shadow-[0_0_20px_rgba(0,255,102,0.2)]' 
@@ -452,7 +568,7 @@ const CarSeen = () => {
                         </div>
                         <div className="sm:text-right">
                           <p className="text-[8px] sm:text-xs text-white/50 font-medium uppercase tracking-wider mb-0 sm:mb-1">Price</p>
-                          <p className="text-sm sm:text-lg md:text-xl text-white font-bold">${car.price.toLocaleString()}</p>
+                          <p className="text-sm sm:text-lg md:text-xl text-white font-bold">₹ {car.price.toLocaleString()}</p>
                         </div>
                       </div>
                       

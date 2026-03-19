@@ -2,8 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, MapPin, Phone, ArrowUpRight, ShieldCheck } from 'lucide-react';
+import { Mail, MapPin, Phone, ArrowUpRight, ShieldCheck, X } from 'lucide-react';
 import contactBg from '../../assets/b2b_luminous_bg.png';
+import axios from 'axios';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,9 +27,37 @@ const ContactSection = () => {
     email: '',
     message: ''
   });
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
-  const isFormComplete = formData.firstName && formData.lastName && isEmailValid && formData.message;
+  const isFormComplete = formData.firstName && formData.lastName && isEmailValid && formData.message.length > 5;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isFormComplete || loading) return;
+
+    setLoading(true);
+    
+    // Simulate high-performance transmission
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    try {
+      // Using Direct Backend Dispatch Protocol
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/contact`, formData);
+      
+      if (response.data.success) {
+        // Mission Complete: Clear boxes and show success
+        setFormData({ firstName: '', lastName: '', email: '', message: '' });
+        setSubmitted(true);
+      }
+    } catch (error) {
+      console.error('Transmission Failed:', error);
+      alert('Mission failed: Unable to transmit message. Please try the secure line.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -73,7 +102,7 @@ const ContactSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-40 lg:py-48 bg-surface overflow-hidden border-t border-glass-border">
+    <section id="contact-protocol" ref={sectionRef} className="relative py-40 lg:py-48 bg-surface overflow-hidden border-t border-glass-border">
       
       {/* Parallax Background Image */}
       <motion.div 
@@ -158,76 +187,114 @@ const ContactSection = () => {
               <div className="absolute top-0 left-0 w-[150px] h-[150px] bg-white/5 blur-[50px] pointer-events-none rounded-full" />
 
               <div className="relative z-10">
-                <h3 className="text-3xl font-bold font-sans text-[#f2f2f2] mb-8 drop-shadow-md">Secure Transmission</h3>
+                <h3 className="text-3xl font-bold font-sans text-[#f2f2f2] mb-8 drop-shadow-md">
+                  {submitted ? 'Transmission Successful' : 'Secure Transmission'}
+                </h3>
                 
-                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="group">
-                      <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">First Name</label>
-                      <input 
-                        type="text" 
-                        value={formData.firstName}
-                        onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                        className={`w-full bg-black/20 backdrop-blur-md border ${formData.firstName ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all shadow-inner`}
-                        placeholder="John"
-                      />
-                    </div>
-                    <div className="group">
-                      <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">Last Name</label>
-                      <input 
-                        type="text" 
-                        value={formData.lastName}
-                        onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                        className={`w-full bg-black/20 backdrop-blur-md border ${formData.lastName ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all shadow-inner`}
-                        placeholder="Doe"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="group relative">
-                    <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">Corporate Email</label>
-                    <input 
-                      type="email" 
-                      value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className={`w-full bg-black/20 backdrop-blur-md border ${isEmailValid ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all shadow-inner`}
-                      placeholder="executive@company.com"
-                    />
-                    {isEmailValid && (
-                      <div className="absolute right-4 bottom-4 text-brand animate-pulse">
-                        <ShieldCheck className="w-5 h-5" />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="group">
-                    <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">Message</label>
-                    <textarea 
-                      rows={4}
-                      value={formData.message}
-                      onChange={(e) => setFormData({...formData, message: e.target.value})}
-                      className={`w-full bg-black/20 backdrop-blur-md border ${formData.message ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all resize-none shadow-inner`}
-                      placeholder="Specify your requirements..."
-                    />
-                  </div>
-
-                  <button 
-                    disabled={!isFormComplete}
-                    className={`w-full py-5 text-black font-bold tracking-wide rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group mt-6 border relative overflow-hidden ${
-                      isFormComplete 
-                      ? 'bg-gradient-to-r from-brand to-brand-hover shadow-[0_0_40px_rgba(0,255,102,0.3)] border-brand-hover/50 hover:border-white/50' 
-                      : 'bg-white/5 text-white/20 border-white/5 cursor-not-allowed'
-                    }`}
+                {submitted ? (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center py-12"
                   >
-                    <span className="relative z-10 flex items-center gap-2 text-lg">
-                      Transmit Request
-                      <ArrowUpRight className="w-6 h-6 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                    </span>
-                    {isFormComplete && (
-                      <div className="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out skew-x-12" />
-                    )}
-                  </button>
-                </form>
+                    <div className="w-20 h-20 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(0,255,102,0.1)]">
+                      <ShieldCheck className="w-10 h-10 text-brand" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-white mb-4 uppercase tracking-tighter">Request Logged</h4>
+                    <p className="text-white/50 mb-10 leading-relaxed max-w-xs mx-auto">
+                      Your technical inquiry has been encrypted and dispatched to our specialists. We will initiate contact shortly.
+                    </p>
+                    <button 
+                      onClick={() => setSubmitted(false)}
+                      className="px-8 py-3 bg-white/5 border border-white/10 text-brand rounded-xl hover:bg-white/10 transition-all font-bold uppercase tracking-widest text-xs"
+                    >
+                      New Transmission
+                    </button>
+                  </motion.div>
+                ) : (
+                  <form className="space-y-6" onSubmit={handleSubmit}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="group">
+                        <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">First Name</label>
+                        <input 
+                          type="text" 
+                          required
+                          value={formData.firstName}
+                          onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                          className={`w-full bg-black/20 backdrop-blur-md border ${formData.firstName ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all shadow-inner`}
+                          placeholder="John"
+                        />
+                      </div>
+                      <div className="group">
+                        <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">Last Name</label>
+                        <input 
+                          type="text" 
+                          required
+                          value={formData.lastName}
+                          onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                          className={`w-full bg-black/20 backdrop-blur-md border ${formData.lastName ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all shadow-inner`}
+                          placeholder="Doe"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="group relative">
+                      <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">Corporate Email</label>
+                      <input 
+                        type="email" 
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        className={`w-full bg-black/20 backdrop-blur-md border ${isEmailValid ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all shadow-inner`}
+                        placeholder="executive@company.com"
+                      />
+                      {isEmailValid && (
+                        <div className="absolute right-4 bottom-4 text-brand animate-pulse">
+                          <ShieldCheck className="w-5 h-5" />
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="group">
+                      <label className="block text-xs font-semibold text-brand/80 uppercase tracking-widest mb-2 ml-1">Message</label>
+                      <textarea 
+                        rows={4}
+                        required
+                        value={formData.message}
+                        onChange={(e) => setFormData({...formData, message: e.target.value})}
+                        className={`w-full bg-black/20 backdrop-blur-md border ${formData.message ? 'border-brand/40' : 'border-white/10'} rounded-xl px-5 py-4 text-[#f2f2f2] placeholder-white/20 focus:outline-none focus:border-brand/60 focus:bg-black/40 transition-all resize-none shadow-inner`}
+                        placeholder="Specify your requirements..."
+                      />
+                    </div>
+
+                    <button 
+                      type="submit"
+                      disabled={!isFormComplete || loading}
+                      className={`w-full py-5 text-black font-bold tracking-wide rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group mt-6 border relative overflow-hidden ${
+                        isFormComplete && !loading
+                        ? 'bg-gradient-to-r from-brand to-brand-hover shadow-[0_0_40px_rgba(0,255,102,0.3)] border-brand-hover/50 hover:border-white/50' 
+                        : 'bg-white/5 text-white/20 border-white/5 cursor-not-allowed opacity-50'
+                      }`}
+                    >
+                      <span className="relative z-10 flex items-center gap-4 text-lg">
+                        {loading ? (
+                          <>
+                            <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                            Transmitting...
+                          </>
+                        ) : (
+                          <>
+                            Transmit Request
+                            <ArrowUpRight className="w-6 h-6 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                          </>
+                        )}
+                      </span>
+                      {isFormComplete && (
+                        <div className="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out skew-x-12" />
+                      )}
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
           </div>

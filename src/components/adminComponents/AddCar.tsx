@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Upload, CarFront, Gauge, Fuel, Settings2, DollarSign, ImagePlus, ShieldCheck, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Upload, CarFront, Gauge, Fuel, Settings2, IndianRupee, ImagePlus, ShieldCheck, CheckCircle2, AlertCircle, Trash2 } from 'lucide-react';
 import { getBrands, getModelsByBrand } from '../../services/apiServices/categoryApiService';
 import { addCarListing, getCarById, updateCarListing } from '../../services/apiServices/carApiService';
+import LocationInput from './LocationInput';
 import toast from 'react-hot-toast';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -25,6 +26,7 @@ const AddCar = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [existingVideo, setExistingVideo] = useState<string | null>(null);
 
   // Validation Schema
   const validationSchema = Yup.object().shape({
@@ -42,10 +44,13 @@ const AddCar = () => {
     images: Yup.array()
       .of(Yup.mixed())
       .test('images-required', 'At least 1 image is required', function(value) {
-        if (isEditMode) return true; // Optional in edit mode
-        return value && value.length >= 1;
+        if (isEditMode && existingImages.length > 0) return true; 
+        return (value && value.length >= 1) || (existingImages.length > 0);
       })
-      .max(5, 'Maximum 5 images allowed'),
+      .test('max-images', 'Maximum 5 images allowed total', function(value) {
+        const total = (value?.length || 0) + existingImages.length;
+        return total <= 5;
+      }),
     video: Yup.mixed().nullable(),
     videoDuration: Yup.number().max(60, 'Video must be less than 60 seconds').nullable(),
   });
@@ -69,6 +74,10 @@ const AddCar = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      if (isEditMode && !window.confirm('Are you sure you want to SAVE these modifications to the vehicle listing?')) {
+        return;
+      }
+
       setIsSubmitting(true);
       try {
         const formData = new FormData();
@@ -80,10 +89,18 @@ const AddCar = () => {
           }
         });
 
-        // Append images
+        // Append images (new)
         values.images.forEach((file) => {
           formData.append('images', file);
         });
+
+        // Append existing images to keep
+        if (isEditMode) {
+          formData.append('existingImages', JSON.stringify(existingImages));
+          if (existingVideo && !values.video) {
+             formData.append('videoUrl', existingVideo);
+          }
+        }
 
         // Append video if exists
         if (values.video) {
@@ -109,12 +126,14 @@ const AddCar = () => {
             } else {
               formik.resetForm();
               setTrustBadges([]);
+              setExistingImages([]);
+              setExistingVideo(null);
             }
           }, 2000);
         }
       } catch (error: any) {
         console.error('Upload Error:', error);
-        toast.error(error.response?.data?.message || 'Failed to upload to Cloudinary');
+        toast.error(error.response?.data?.message || 'Failed to complete mission');
       } finally {
         setIsSubmitting(false);
       }
@@ -184,6 +203,7 @@ const AddCar = () => {
           });
           setTrustBadges(car.trustBadges || []);
           setExistingImages(car.images || []);
+          setExistingVideo(car.video?.url || null);
         }
       } catch (error) {
         console.error('Error fetching car details:', error);
@@ -220,8 +240,14 @@ const AddCar = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
       <div className="mb-6 md:mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold font-sans text-white mb-2">Add New Vehicle</h1>
-        <p className="text-sm md:text-base text-white/60">Enter vehicle details to list it in the inventory</p>
+        <h1 className="text-2xl md:text-3xl font-bold font-sans text-white mb-2">
+          {isEditMode ? 'Modify Vehicle Listing' : 'Add New Vehicle'}
+        </h1>
+        <p className="text-sm md:text-base text-white/60">
+          {isEditMode 
+            ? `Update technical specifications for vehicle ID: ${id?.slice(-6).toUpperCase()}` 
+            : 'Enter vehicle details to list it in the inventory'}
+        </p>
       </div>
 
       <form onSubmit={formik.handleSubmit} className="space-y-8">
@@ -285,10 +311,10 @@ const AddCar = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-white/70">Price ($)</label>
+              <label className="text-sm font-medium text-white/70">Price (₹)</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <DollarSign className="w-4 h-4 text-white/40" />
+                  <IndianRupee className="w-4 h-4 text-white/40" />
                 </div>
                 <input 
                   type="number"
@@ -310,23 +336,14 @@ const AddCar = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-white/70">Location</label>
-              <input 
-                type="text"
+              <LocationInput 
                 name="location"
                 value={formik.values.location}
-                onChange={formik.handleChange}
+                onChange={(val) => formik.setFieldValue('location', val)}
                 onBlur={formik.handleBlur}
-                className={`w-full bg-black/40 border rounded-xl px-4 py-3 text-white focus:outline-none transition-colors ${
-                  formik.touched.location && formik.errors.location ? 'border-red-500/50' : 'border-white/10 focus:border-brand/50'
-                }`}
-                placeholder="e.g. Los Angeles, CA"
+                error={formik.touched.location && formik.errors.location ? formik.errors.location : undefined}
+                placeholder="e.g. Mumbai, Maharashtra"
               />
-              {formik.touched.location && formik.errors.location && (
-                <div className="text-red-500 text-xs flex items-center gap-1 mt-1">
-                  <AlertCircle className="w-3 h-3" /> {formik.errors.location}
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -453,6 +470,7 @@ const AddCar = () => {
               >
                 <option value="Sedan">Sedan</option>
                 <option value="SUV">SUV</option>
+                <option value="Compact SUV">Compact SUV</option>
                 <option value="Coupe">Coupe</option>
                 <option value="Hatchback">Hatchback</option>
                 <option value="Convertible">Convertible</option>
@@ -519,40 +537,62 @@ const AddCar = () => {
               <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-purple-500/20 flex items-center justify-center border border-purple-500/30">
                 <ImagePlus className="w-4 h-4 md:w-5 md:h-5 text-purple-400" />
               </div>
-              <h2 className="text-lg md:text-xl font-semibold text-white">Vehicle Images (Exactly 5)</h2>
+              <h2 className="text-lg md:text-xl font-semibold text-white">Vehicle Images (Total 5)</h2>
             </div>
             
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-              {/* Image Previews - either newly selected or existing */}
-              {(formik.values.images.length > 0 ? formik.values.images : existingImages).map((item, idx) => (
-                <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-white/10 group">
+              {/* 1. Existing Cloudinary Images */}
+              {existingImages.map((url, idx) => (
+                <div key={`existing-${idx}`} className="relative aspect-square rounded-xl overflow-hidden border border-brand/20 group">
+                  <div className="absolute top-1 left-1 px-1.5 py-0.5 bg-brand/80 text-[8px] font-black text-black uppercase rounded z-10">Live</div>
                   <img 
-                    src={typeof item === 'string' ? item : URL.createObjectURL(item)} 
-                    alt={`Vehicle ${idx + 1}`} 
+                    src={url} 
+                    alt={`Existing ${idx + 1}`} 
                     className="w-full h-full object-cover" 
                   />
-                  {formik.values.images.length > 0 && (
-                    <button 
-                      type="button"
-                      onClick={() => {
-                        const newImgs = [...formik.values.images];
-                        newImgs.splice(idx, 1);
-                        formik.setFieldValue('images', newImgs);
-                      }}
-                      className="absolute top-1 right-1 p-1.5 bg-red-500 rounded-lg text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <AlertCircle className="w-3 h-3" />
-                    </button>
-                  )}
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      if (window.confirm('Remove this existing image from the live listing?')) {
+                        setExistingImages(prev => prev.filter((_, i) => i !== idx));
+                      }
+                    }}
+                    className="absolute top-1 right-1 p-1.5 bg-red-500 rounded-lg text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ))}
+
+              {/* 2. New Image Previews */}
+              {formik.values.images.map((file, idx) => (
+                <div key={`new-${idx}`} className="relative aspect-square rounded-xl overflow-hidden border border-blue-500/30 group">
+                  <div className="absolute top-1 left-1 px-1.5 py-0.5 bg-blue-500/80 text-[8px] font-black text-white uppercase rounded z-10">New</div>
+                  <img 
+                    src={URL.createObjectURL(file)} 
+                    alt={`New ${idx + 1}`} 
+                    className="w-full h-full object-cover" 
+                  />
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      const newImgs = [...formik.values.images];
+                      newImgs.splice(idx, 1);
+                      formik.setFieldValue('images', newImgs);
+                    }}
+                    className="absolute top-1 right-1 p-1.5 bg-red-500 rounded-lg text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               ))}
               
-              {/* Upload Placeholder */}
-              {(formik.values.images.length < 5 && (isEditMode ? formik.values.images.length === 0 : true)) && (
+              {/* 3. Upload Placeholder */}
+              {(existingImages.length + formik.values.images.length < 5) && (
                 <label className="aspect-square rounded-xl border-2 border-dashed border-white/20 bg-black/20 flex flex-col items-center justify-center cursor-pointer hover:border-brand/40 hover:bg-brand/5 transition-all">
                   <Upload className="w-5 h-5 text-white/40 mb-1" />
                   <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider">
-                    {isEditMode ? 'Replace Images' : 'Add Image'}
+                    Add Media
                   </span>
                   <input 
                     type="file" 
@@ -561,11 +601,12 @@ const AddCar = () => {
                     className="hidden" 
                     onChange={(e) => {
                       const files = Array.from(e.target.files || []);
-                      if (files.length > 5) {
-                        toast.error('Only 5 images allowed');
+                      const totalPossible = existingImages.length + formik.values.images.length + files.length;
+                      if (totalPossible > 5) {
+                        toast.error(`Total images cannot exceed 5. Currently adding ${files.length} more.`);
                         return;
                       }
-                      formik.setFieldValue('images', files);
+                      formik.setFieldValue('images', [...formik.values.images, ...files]);
                       formik.setFieldTouched('images', true);
                     }}
                   />
@@ -577,7 +618,7 @@ const AddCar = () => {
                 <AlertCircle className="w-3 h-3" /> {formik.errors.images as string}
               </div>
             )}
-            <p className="text-[10px] text-white/30 italic">High-quality side, front, and interior shots recommended.</p>
+            <p className="text-[10px] text-white/30 italic">Preserve or modify your mission assets. Total cap: 5 images.</p>
           </div>
 
           {/* Video Upload */}
@@ -586,16 +627,43 @@ const AddCar = () => {
               <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
                 <Settings2 className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
               </div>
-              <h2 className="text-lg md:text-xl font-semibold text-white">Vehicle Video (Max 16s)</h2>
+              <h2 className="text-lg md:text-xl font-semibold text-white">Vehicle Film (Max 16s)</h2>
             </div>
             
-            {!formik.values.video ? (
-              <label className="border-2 border-dashed border-white/20 rounded-2xl bg-black/20 p-6 md:p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:border-brand/40 hover:bg-brand/5 transition-all group">
+            {(existingVideo || formik.values.video) ? (
+              <div className="relative rounded-2xl overflow-hidden border border-white/10 aspect-video bg-black/40 flex items-center justify-center group/video">
+                 {/* Live/New Indicator */}
+                 <div className="absolute top-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-md border border-white/10 rounded-full text-[10px] font-bold text-white uppercase tracking-widest z-10">
+                    {formik.values.video ? 'New Upload' : 'Live Film'}
+                 </div>
+
+                 <div className="text-white/60 flex flex-col items-center">
+                    <CheckCircle2 className="w-12 h-12 text-green-500 mb-3 animate-pulse" />
+                    <span className="text-base font-semibold text-white">Film Payload Ready</span>
+                    <span className="text-xs text-white/50">{formik.values.videoDuration || 'Auto-Sync'}s Captured</span>
+                 </div>
+
+                 <button 
+                  type="button" 
+                  onClick={() => {
+                    if (window.confirm('Remove this video from the listing mission?')) {
+                      setExistingVideo(null);
+                      formik.setFieldValue('video', null);
+                      formik.setFieldValue('videoDuration', 0);
+                    }
+                  }}
+                  className="absolute top-3 right-3 p-3 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-2xl transition-all opacity-0 group-hover/video:opacity-100"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+              </div>
+            ) : (
+                <label className="border-2 border-dashed border-white/20 rounded-2xl bg-black/20 p-6 md:p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:border-brand/40 hover:bg-brand/5 transition-all group">
                 <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3 group-hover:bg-brand/20 transition-colors">
                   <Upload className="w-5 h-5 text-white/50 group-hover:text-brand transition-colors" />
                 </div>
                 <h3 className="text-sm font-semibold text-white mb-1">Upload Cinematics</h3>
-                <p className="text-[10px] text-white/50 max-w-[200px]">Video must be under 16 seconds.</p>
+                <p className="text-[10px] text-white/50 max-w-[200px]">Cinematic vehicle film. Recommended: 16:9 aspect.</p>
                 <input 
                   type="file" 
                   accept="video/*" 
@@ -609,7 +677,7 @@ const AddCar = () => {
                     video.onloadedmetadata = function() {
                       window.URL.revokeObjectURL(video.src);
                       if (video.duration > 16) {
-                        toast.error('Video exceeds 16 seconds');
+                        toast.error('Mission Failed: Film exceeds 16 second limit');
                       } else {
                         formik.setFieldValue('video', file);
                         formik.setFieldValue('videoDuration', Math.floor(video.duration));
@@ -619,29 +687,14 @@ const AddCar = () => {
                   }}
                 />
               </label>
-            ) : (
-              <div className="relative rounded-2xl overflow-hidden border border-white/10 aspect-video bg-black/40 flex items-center justify-center">
-                 <div className="text-white/60 flex flex-col items-center">
-                    <CheckCircle2 className="w-8 h-8 text-green-500 mb-2" />
-                    <span className="text-sm font-medium">Video uploaded ({formik.values.videoDuration}s)</span>
-                 </div>
-                 <button 
-                  type="button" 
-                  onClick={() => {
-                    formik.setFieldValue('video', null);
-                    formik.setFieldValue('videoDuration', 0);
-                  }}
-                  className="absolute top-2 right-2 p-2 bg-red-500/20 hover:bg-red-500 rounded-xl text-white transition-colors"
-                >
-                  <AlertCircle className="w-4 h-4" />
-                </button>
-              </div>
             )}
+
             {formik.touched.videoDuration && formik.errors.videoDuration && (
                 <div className="text-red-400 text-xs flex items-center gap-1 mt-2">
                    <AlertCircle className="w-3 h-3" /> {formik.errors.videoDuration}
                 </div>
             )}
+            <p className="text-[10px] text-white/30 mt-4 italic">High-performance video encoding applied during transmission.</p>
           </div>
         </div>
 

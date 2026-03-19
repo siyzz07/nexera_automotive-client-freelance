@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Filter, MoreVertical, Edit, Trash2, Eye } from 'lucide-react';
-import { getAllCars } from '../../services/apiServices/carApiService';
+import { getAllCars, updateCarStatus, deleteCarListing } from '../../services/apiServices/carApiService';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
@@ -11,22 +11,52 @@ const AdminCarList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchInventory = async () => {
-      try {
-        const response = await getAllCars();
-        if (response.data.success) {
-          setInventory(response.data.data);
-        }
-      } catch (error) {
-        console.error('Error fetching inventory:', error);
-        toast.error('Failed to load inventory');
-      } finally {
-        setIsLoading(false);
+  const fetchInventory = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getAllCars(1, 100, { isAdmin: true });
+      if (response.data.success) {
+        setInventory(response.data.data);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching inventory:', error);
+      toast.error('Failed to load inventory');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchInventory();
   }, []);
+
+  const handleStatusUpdate = async (id: string, newStatus: string) => {
+    if (!window.confirm(`Are you sure you want to change vehicle status to ${newStatus}?`)) return;
+    
+    try {
+      const response = await updateCarStatus(id, newStatus);
+      if (response.data.success) {
+        toast.success(`Vehicle status updated to ${newStatus}`);
+        fetchInventory(); // Refresh mission data
+      }
+    } catch (error) {
+      toast.error('Failed to update status');
+    }
+  };
+
+  const handleDelete = async (id: string, brand: string, model: string) => {
+    if (!window.confirm(`CRITICAL ACTION: Are you sure you want to PERMANENTLY DELETE the ${brand} ${model}? This action cannot be undone.`)) return;
+
+    try {
+      const response = await deleteCarListing(id);
+      if (response.data.success) {
+        toast.success('Vehicle listing removed successfully');
+        fetchInventory();
+      }
+    } catch (error) {
+      toast.error('Failed to eliminate vehicle listing');
+    }
+  };
 
   const filteredCars = inventory.filter(car => {
     const brand = typeof car.brand === 'object' ? car.brand.name : '';
@@ -72,7 +102,7 @@ const AdminCarList = () => {
                 <th className="p-4 md:p-6">Vehicle</th>
                 <th className="p-4 md:p-6">Price</th>
                 <th className="p-4 md:p-6">Status</th>
-                <th className="p-4 md:p-6">Views</th>
+                <th className="p-4 md:p-6">Date Listed</th>
                 <th className="p-4 md:p-6 text-right">Actions</th>
               </tr>
             </thead>
@@ -104,45 +134,50 @@ const AdminCarList = () => {
                     </div>
                   </td>
                   <td className="p-4 md:p-6 font-bold text-white">
-                    AED {car.price?.toLocaleString()}
+                    ₹ {car.price?.toLocaleString()}
                   </td>
                   <td className="p-4 md:p-6">
-                    <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full border flex items-center w-fit gap-1.5 ${
-                        car.status === 'Active' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 
-                        car.status === 'Pending' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 
-                        'bg-red-500/10 text-red-400 border-red-500/20'
-                      }`}>
-                      <div className={`w-1.5 h-1.5 rounded-full ${
-                          car.status === 'Active' ? 'bg-green-400 shadow-[0_0_5px_#4ade80]' : 
-                          car.status === 'Pending' ? 'bg-orange-400 shadow-[0_0_5px_#fb923c]' : 
-                          'bg-red-400 shadow-[0_0_5px_#f87171]'
-                        }`} />
-                        {car.status}
-                    </span>
+                    <select 
+                      value={car.status}
+                      onChange={(e) => handleStatusUpdate(car._id, e.target.value)}
+                      className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-lg border bg-black/40 outline-none cursor-pointer transition-all ${
+                        car.status === 'Available' ? 'text-green-400 border-green-500/20 hover:border-green-500' : 
+                        car.status === 'Reserved' ? 'text-orange-400 border-orange-500/20 hover:border-orange-500' : 
+                        'text-red-400 border-red-500/20 hover:border-red-500'
+                      }`}
+                    >
+                      <option value="Available" className="bg-surface text-white">Available</option>
+                      <option value="Reserved" className="bg-surface text-white">Reserved</option>
+                      <option value="Sold" className="bg-surface text-white">Sold</option>
+                    </select>
                   </td>
-                  <td className="p-4 md:p-6 text-xs font-bold text-white/70">
-                    {car.views.toLocaleString()}
+                  <td className="p-4 md:p-6 text-[10px] md:text-xs font-bold text-white/40 uppercase tracking-widest">
+                    {new Date(car.createdAt).toLocaleDateString()}
                   </td>
                   <td className="p-4 md:p-6 text-right">
-                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white transition-colors" title="View Listing">
+                    <div className="flex justify-end gap-2 transition-all">
+                      <button className="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white transition-colors" title="View Listing" onClick={() => window.open(`/car/${car._id}`, '_blank')}>
                         <Eye className="w-4 h-4" />
                       </button>
                       <button 
                         className="p-2 rounded-lg bg-orange-500/10 text-orange-400 hover:bg-orange-500 hover:text-white transition-colors" 
                         title="Edit Data"
-                        onClick={() => navigate(`/admin/edit-car/${car._id}`)}
+                        onClick={() => {
+                          if (window.confirm(`Initiate modification protocol for ${car.brand.name} ${car.carModel.name}?`)) {
+                            navigate(`/admin/edit-car/${car._id}`);
+                          }
+                        }}
                       >
                         <Edit className="w-4 h-4" />
                       </button>
-                      <button className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-colors" title="Delete Listing">
+                      <button 
+                        className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-colors" 
+                        title="Delete Listing"
+                        onClick={() => handleDelete(car._id, car.brand.name, car.carModel.name)}
+                      >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
-                    {/* Fallback dotted menu button for mobile/when not hovering */}
-                    <button className="p-2 text-white/30 hidden group-hover:hidden">
-                       <MoreVertical className="w-5 h-5" />
-                    </button>
                   </td>
                 </motion.tr>
               ))}

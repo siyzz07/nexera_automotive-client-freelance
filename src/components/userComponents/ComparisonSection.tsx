@@ -60,7 +60,7 @@ const ComparisonSection = () => {
             <img src={compBg} alt="" className="w-full h-full object-cover scale-110 opacity-60" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black z-20" />
          </motion.div>
-         <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-brand/10 rounded-full blur-[160px] z-30 opacity-40" />
+         <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-brand/20 rounded-full blur-[160px] z-30 opacity-40" />
       </div>
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
@@ -73,7 +73,7 @@ const ComparisonSection = () => {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand/30 bg-brand/10 mb-6 backdrop-blur-md"
           >
             <Sparkles className="w-3.5 h-3.5 text-brand animate-pulse" />
-            <span className="text-[10px] font-black text-brand uppercase tracking-[0.3em]">Protocol Verified</span>
+            <span className="text-[10px] font-black text-brand uppercase tracking-[0.3em]">Verified Trust</span>
           </motion.div>
           
           <motion.h2 
@@ -82,7 +82,7 @@ const ComparisonSection = () => {
             viewport={{ once: true }}
             className="text-4xl md:text-7xl font-sans font-bold text-white tracking-tighter uppercase mb-6"
           >
-            Why <span className="text-brand-gradient">Nexera</span>
+            Why <span className="text-brand-gradient">Nexera ?</span>
           </motion.h2>
           
  

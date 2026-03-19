@@ -126,7 +126,7 @@ const FeaturedCars = () => {
                         </div>
                         <div className="text-right">
                           <p className="text-xs text-white/50 font-medium uppercase tracking-wider mb-1">Price</p>
-                          <p className="text-lg md:text-xl text-white font-bold">${car.price.toLocaleString()}</p>
+                          <p className="text-lg md:text-xl text-white font-bold">₹ {car.price.toLocaleString()}</p>
                         </div>
                       </div>
                       

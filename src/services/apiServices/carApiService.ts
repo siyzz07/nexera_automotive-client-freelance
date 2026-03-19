@@ -36,3 +36,11 @@ export const updateCarListing = async (id: string, formData: FormData) => {
     },
   });
 };
+
+export const updateCarStatus = async (id: string, status: string) => {
+  return await authAxiosInstance.patch(`car/${id}/status`, { status });
+};
+
+export const deleteCarListing = async (id: string) => {
+  return await authAxiosInstance.delete(`car/${id}/delete`);
+};

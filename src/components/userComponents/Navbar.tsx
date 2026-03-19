@@ -54,9 +54,13 @@ const Navbar = () => {
           <Link to="/about" className="text-gray-300 hover:text-brand transition-colors text-sm font-medium tracking-wide">
             About Us
           </Link>
-          <button className="px-5 py-2 rounded-full border border-brand/50 text-brand hover:bg-brand hover:text-black transition-all duration-300 text-sm font-semibold shadow-[0_0_15px_rgba(0,223,93,0.15)] hover:shadow-[0_0_25px_rgba(0,223,93,0.4)]">
+          <Link 
+            to="/#contact-protocol"
+            onClick={() => handleScrollTo('#contact-protocol')}
+            className="px-5 py-2 rounded-full border border-brand/50 text-brand hover:bg-brand hover:text-black transition-all duration-300 text-sm font-semibold shadow-[0_0_15px_rgba(0,223,93,0.15)] hover:shadow-[0_0_25px_rgba(0,223,93,0.4)] flex items-center justify-center whitespace-nowrap"
+          >
             Contact
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -80,10 +84,14 @@ const Navbar = () => {
             Verify Steps
           </Link>
           <Link onClick={()=>setIsMobileMenuOpen(false)} to="/car-seen" className="text-white hover:text-brand text-lg">Market Place</Link>
-          <Link onClick={()=>setIsMobileMenuOpen(false)} to="/about" className="text-white hover:text-brand text-lg">About</Link>
-          <button onClick={()=>setIsMobileMenuOpen(false)} className="px-6 py-2 text-white rounded-full bg-brand  font-semibold mt-4">
+          <Link to="/about" onClick={()=>setIsMobileMenuOpen(false)} className="text-white hover:text-brand text-lg">About</Link>
+          <Link 
+            to="/#contact-protocol"
+            onClick={() => handleScrollTo('#contact-protocol')}
+            className="px-8 py-3 text-white rounded-full bg-brand font-semibold mt-4 shadow-[0_0_20px_rgba(0,255,102,0.2)] hover:shadow-[0_0_30px_rgba(0,255,102,0.4)] transition-all flex items-center justify-center"
+          >
             Contact
-          </button>
+          </Link>
         </div>
       )}
     </nav>

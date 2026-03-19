@@ -98,8 +98,8 @@ const CarDetails = () => {
     );
   }
 
-  const whatsappNumber = "918606399420"; 
-  const whatsappMessage = `Hello Nexera, I am interested in the ${car.brand.name} ${car.carModel.name} (ID: ${car._id.slice(-6).toUpperCase()}) priced at $${car.price.toLocaleString()}.\n\nVehicle Link: ${window.location.href}\n\nImage Reference: ${car.images[0]}`;
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || "918606399420"; 
+  const whatsappMessage = `Hello Nexera, I am interested in the ${car.brand.name} ${car.carModel.name} (ID: ${car._id.slice(-6).toUpperCase()}) priced at ₹ ${car.price.toLocaleString()}.\n\nVehicle Link: ${window.location.href}\n\nImage Reference: ${car.images[0]}`;
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   // Combine images and video for the carousel
@@ -295,7 +295,7 @@ const CarDetails = () => {
               </h1>
               <div className="flex flex-col sm:flex-row items-baseline gap-2 sm:gap-6 pt-4 border-t border-white/5">
                 <p className="text-4xl md:text-6xl font-bold text-white tracking-tighter font-sans">
-                  ${car.price.toLocaleString()}
+                  ₹ {car.price.toLocaleString()}
                 </p>
                 <p className="text-white/30 font-medium text-xs md:text-sm uppercase tracking-widest">
                   Estimated MSRP • Excl. Tax
