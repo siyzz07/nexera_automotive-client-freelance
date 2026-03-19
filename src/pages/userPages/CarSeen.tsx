@@ -2,7 +2,7 @@ import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ShieldCheck, MapPin, Gauge, Fuel, Settings2, User, 
-  CheckCircle2, Award, FileCheck, ChevronDown, CarFront
+  CheckCircle2, Award, FileCheck, ChevronDown, CarFront,
   Search, SlidersHorizontal, X,Users
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
