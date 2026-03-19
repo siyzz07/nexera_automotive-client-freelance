@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import carImage from '../../assets/Gemini_Generated_Image_afye8aafye8aafye.png';
+import carImage from '../../assets/suggension3.jpeg';
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { X, Check, ShieldCheck, Shield, FileCheck, TriangleAlert, Eye, Gauge, CreditCard, ShieldAlert, Sparkles } from 'lucide-react';
+import { X, Check, ShieldCheck, Shield, FileCheck, TriangleAlert, Eye, Gauge, CreditCard, ShieldAlert, Sparkles, Award } from 'lucide-react';
 import compBg from '../../assets/comparison_section_bg_showroom.png';
 
 const trustItems = [
@@ -120,112 +120,58 @@ const ComparisonSection = () => {
           ))}
         </div>
 
-        {/* Main Comparison Card */}
-        <div className="max-w-6xl mx-auto relative">
-          <div className="absolute -inset-8 bg-brand/5 blur-[120px] rounded-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="group/card glass-card !p-0 rounded-[40px] md:rounded-[60px] overflow-hidden flex flex-col md:flex-row relative z-10 border-white/10 shadow-2xl hover:border-brand/20 transition-all duration-700"
-          >
-            {/* Split Screen Divider */}
-            <div className="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-full bg-gradient-to-b from-transparent via-white/10 to-transparent z-20" />
+        {/* Main Trust Architecture Box */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="max-w-6xl mx-auto"
+        >
+          <div className="glass-card !p-0 rounded-[40px] md:rounded-[60px] overflow-hidden relative border border-white/10 shadow-3xl bg-white/[0.02]">
+            {/* Background Effects */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 opacity-40 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 opacity-40 pointer-events-none" />
 
-            {/* Others Panel */}
-            <div className="flex-1 p-8 sm:p-12 lg:p-20 space-y-10 md:space-y-16 relative bg-white/[0.01] grayscale-[0.5] opacity-60 hover:opacity-80 transition-opacity duration-500">
-               <div className="flex items-center gap-6 relative z-10">
-                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl md:rounded-[2rem] bg-red-500/5 flex items-center justify-center text-red-500/30 border border-red-500/10">
-                     <X className="w-6 h-6 md:w-8 md:h-8" strokeWidth={2} />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl md:text-3xl font-black text-white/80 uppercase tracking-[0.2em]">The Market</h3>
-                    <p className="text-[10px] md:text-xs font-bold text-red-500/40 uppercase tracking-[0.4em]">Risky & Unverified</p>
-                  </div>
-               </div>
-               
-               {/* Risk Indicator for Others */}
+            <div className="px-8 py-12 md:px-20 md:py-24 text-center relative z-10">
+              <motion.h3 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="text-2xl md:text-5xl font-sans font-bold text-white mb-16 tracking-tight"
+              >
+                Redefining <span className="text-brand">Trust</span> in Car Buying
+              </motion.h3>
 
-
-               <div className="space-y-8 relative z-10">
-                  {[
-                    { text: "Ghost Inventory", desc: "Phantom ads used to bait-and-switch buyers." },
-                    { text: "Hidden Liabilities", desc: "Uncleared loans and disclosed mechanical failures." },
-                    { text: "Opacity as Standard", desc: "No proof of ownership or service history provided." }
-                   ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-5 md:gap-7 group/item">
-                      <div className="mt-1.5 w-6 h-6 rounded-lg border border-red-500/20 bg-red-500/10 flex items-center justify-center text-red-500/70 flex-shrink-0">
-                         <X className="w-3.5 h-3.5" strokeWidth={3} />
-                      </div>
-                      <div>
-                        <span className="text-lg md:text-xl text-white/70 font-bold transition-colors group-hover/item:text-white/50">{item.text}</span>
-                        <p className="text-xs md:text-sm text-white/50 mt-2 font-medium">{item.desc}</p>
-                      </div>
+              <div className="grid grid-cols-3 gap-2 sm:gap-8 md:gap-12">
+                {[
+                  { text: "VERIFIED LISTINGS", desc: "100% physically inspected", icon: <ShieldCheck className="w-5 h-5 sm:w-8 sm:h-8 text-brand" /> },
+                  { text: "TRUSTED DEALERS", desc: "Elite authorized partners", icon: <Award className="w-5 h-5 sm:w-8 sm:h-8 text-brand" /> },
+                  { text: "TRANSPARENT DEALS", desc: "Zero hidden costs", icon: <FileCheck className="w-5 h-5 sm:w-8 sm:h-8 text-brand" /> }
+                ].map((item, i) => (
+                  <motion.div 
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 * i }}
+                    className="flex flex-col items-center group cursor-default"
+                  >
+                    <div className="w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-xl sm:rounded-2xl bg-brand/10 border border-brand/20 flex items-center justify-center mb-3 sm:mb-6 group-hover:scale-110 group-hover:bg-brand/20 transition-all duration-500 shadow-[0_0_20px_rgba(0,223,93,0.1)]">
+                      {item.icon}
                     </div>
-                  ))}
-               </div>
+                    <h4 className="text-[7px] sm:text-lg md:text-xl font-black text-white tracking-[0.05em] sm:tracking-[0.1em] uppercase mb-1 sm:mb-2 group-hover:text-brand transition-colors text-center">
+                      {item.text}
+                    </h4>
+                    <p className="text-[6px] sm:text-[10px] md:text-sm text-white/40 font-medium uppercase tracking-[0.05em] sm:tracking-widest text-center">
+                      {item.desc}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-
-            {/* Nexera Panel */}
-            <div className="flex-1 p-8 sm:p-12 lg:p-20 space-y-10 md:space-y-16 relative overflow-hidden bg-brand/[0.03] shadow-[inset_0_0_100px_rgba(0,223,93,0.05)]">
-               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 opacity-60" />
-               <div className="noise-overlay opacity-[0.02]" />
-               
-               <div className="flex items-center gap-6 relative z-10">
-                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl md:rounded-[2rem] bg-brand/10 flex items-center justify-center text-brand border border-brand/20 shadow-[0_0_30px_rgba(0,223,93,0.2)]">
-                      <Check className="w-6 h-6 md:w-8 md:h-8" strokeWidth={3} />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-[0.2em]">Nexera</h3>
-                    <p className="text-[10px] md:text-xs font-bold text-brand uppercase tracking-[0.4em]">The Elite Protocol</p>
-                  </div>
-               </div>
-               {/* Security Level Indicator for Nexera */}
-   
-
-               <div className="space-y-8 relative z-10">
-                  {[
-                    { text: "Physical Forensic Audits", desc: "Every vehicle personally inspected by our experts." },
-                    { text: "Absolute Transparency", desc: "Full ownership, accidental, and loan clearing proof." },
-                    { text: "Curated Excellence", desc: "Only the top 5% of marketplace inventory is listed." }
-                  ].map((item, i) => (
-                    <motion.div 
-                      key={i} 
-                      initial={{ opacity: 0, x: 20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.1 * i }}
-                      className="flex items-start gap-5 md:gap-7 group/item"
-                    >
-                      <div className="mt-1.5 w-6 h-6 rounded-lg bg-brand/20 flex items-center justify-center text-brand border border-brand/40 shadow-[0_0_15px_rgba(0,223,93,0.2)] flex-shrink-0">
-                         <Check className="w-3.5 h-3.5" strokeWidth={4} />
-                      </div>
-                      <div>
-                        <span className="text-lg md:text-xl text-white font-black tracking-tight group-hover/item:text-brand transition-colors">{item.text}</span>
-                        <p className="text-xs md:text-sm text-white/40 mt-2 font-medium leading-relaxed">{item.desc}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-               </div>
-
-               {/* Nexera's Promise Badge */}
-               <motion.div 
-                 initial={{ opacity: 0, scale: 0.95 }}
-                 whileInView={{ opacity: 1, scale: 1 }}
-                 viewport={{ once: true }}
-                 transition={{ delay: 0.4 }}
-                 className="mt-12 pt-10 border-t border-white/10 relative z-10"
-               >
-                  <div className="inline-flex items-center gap-4 px-6 py-3 bg-brand text-black rounded-2xl shadow-[0_0_40px_rgba(0,223,93,0.3)] group hover:scale-105 transition-all duration-500 cursor-default">
-                      <ShieldCheck className="w-5 h-5" />
-                     <span className="text-xs font-black uppercase tracking-[0.2em]">Zero-Risk Ownership Guaranteed</span>
-                  </div>
-               </motion.div>
-            </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
