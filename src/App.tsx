@@ -22,11 +22,11 @@ function App() {
     }
 
     const lenis = new Lenis({
-      lerp: 0.1,
-      duration: 1.5,
+      lerp: 0.08,
+      duration: 1.0,
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      wheelMultiplier: 1.1,
+      touchMultiplier: 1.5,
       infinite: false,
     });
 

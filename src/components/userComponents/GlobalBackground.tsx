@@ -18,46 +18,47 @@ const GlobalBackground = () => {
         className="absolute inset-0 opacity-[0.02] pointer-events-none z-10" 
         style={{ 
           backgroundImage: `url("https://www.transparenttextures.com/patterns/stardust.png")`,
-          backgroundRepeat: 'repeat'
+          backgroundRepeat: 'repeat',
+          willChange: 'transform'
         }} 
       />
 
-      {/* Huge Subtle Tech Green Orbs that Parallax */}
+      {/* Optimized Tech Green Orbs */}
       <motion.div 
-        style={{ y: y1 }}
-        className="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-brand/[0.03] rounded-[100%] blur-[80px] md:blur-[150px]"
+        style={{ y: y1, willChange: 'transform' }}
+        className="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-brand/[0.02] rounded-[100%] blur-[80px] md:blur-[100px]"
       />
       
       <motion.div 
-        style={{ y: y2 }}
-        className="absolute top-[50%] right-[-10%] w-[40vw] h-[40vw] bg-brand/[0.03] rounded-[100%] blur-[60px] md:blur-[120px]"
+        style={{ y: y2, willChange: 'transform' }}
+        className="absolute top-[40%] right-[-5%] w-[30vw] h-[30vw] bg-brand/[0.02] rounded-[100%] blur-[60px] md:blur-[80px]"
       />
 
       <motion.div 
-        style={{ y: y3 }}
-        className="absolute bottom-[-10%] left-[20%] w-[60vw] h-[60vw] bg-brand/[0.03] rounded-[100%] blur-[80px] md:blur-[150px]"
+        style={{ y: y3, willChange: 'transform' }}
+        className="absolute bottom-[-5%] left-[15%] w-[45vw] h-[45vw] bg-brand/[0.02] rounded-[100%] blur-[80px] md:blur-[100px]"
       />
 
       {/* Floating Geometric Wireframes */}
       <motion.div 
-        style={{ y: y2, rotate: rotate1 }} 
-        className="absolute top-[30%] left-[8%] w-64 h-64 rounded-full border border-brand/10 shadow-[0_0_80px_rgba(0,77,38,0.06)] opacity-10"
+        style={{ y: y2, rotate: rotate1, willChange: 'transform' }} 
+        className="absolute top-[30%] left-[8%] w-48 h-48 rounded-full border border-brand/10 shadow-[0_0_80px_rgba(0,77,38,0.06)] opacity-10"
       />
 
       <motion.div 
-        style={{ y: y1, rotate: rotate2 }} 
-        className="absolute bottom-[40%] right-[12%] w-96 h-96 rounded-full border border-white/5 opacity-20"
+        style={{ y: y1, rotate: rotate2, willChange: 'transform' }} 
+        className="absolute bottom-[40%] right-[12%] w-72 h-72 rounded-full border border-white/5 opacity-20"
       />
 
       {/* Vertical Tech Streaks */}
       <motion.div 
-        style={{ y: y2 }}
-        className="absolute top-[10%] left-[20%] w-[1px] h-[40vh] bg-gradient-to-b from-transparent via-brand/20 to-transparent opacity-50"
+        style={{ y: y2, willChange: 'transform' }}
+        className="absolute top-[10%] left-[20%] w-[1px] h-[30vh] bg-gradient-to-b from-transparent via-brand/20 to-transparent opacity-40"
       />
       
       <motion.div 
-        style={{ y: y1 }}
-        className="absolute top-[40%] right-[30%] w-[1px] h-[50vh] bg-gradient-to-b from-transparent via-brand/10 to-transparent opacity-50"
+        style={{ y: y1, willChange: 'transform' }}
+        className="absolute top-[40%] right-[30%] w-[1px] h-[40vh] bg-gradient-to-b from-transparent via-brand/10 to-transparent opacity-40"
       />
 
       {/* Grid Overlay */}
@@ -65,7 +66,8 @@ const GlobalBackground = () => {
         className="absolute inset-0 opacity-[0.01]" 
         style={{ 
           backgroundImage: 'linear-gradient(to right, #004d26 1px, transparent 1px), linear-gradient(to bottom, #004d26 1px, transparent 1px)', 
-          backgroundSize: '160px 160px' 
+          backgroundSize: '160px 160px',
+          willChange: 'transform'
         }} 
       />
     </div>
