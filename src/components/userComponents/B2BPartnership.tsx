@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { CheckCircle2, ArrowRight, Activity, ShieldCheck, Globe } from 'lucide-react';
-
 import TextReveal from './TextReveal';
+import b2bBg from '../../assets/b2b_luminous_bg.png';
 
 const B2BPartnership = () => {
   const benefits = [
@@ -11,27 +11,25 @@ const B2BPartnership = () => {
     "Transparent Commission Structure"
   ];
 
-
-
   return (
-    <section className="relative py-24 lg:py-32 overflow-hidden border-t border-white/5 bg-[#020202]">
+    <section className="relative py-24 lg:py-32 overflow-hidden border-t border-white/5 bg-[#050505]">
       <div className="noise" />
       <div className="scanlines" />
       
       {/* Background Image with Slow Pan Animation */}
       <motion.div 
         initial={{ scale: 1.1 }}
-        animate={{ scale: 1.25 }}
+        animate={{ scale: 1.2 }}
         transition={{ duration: 30, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
         className="absolute inset-0 z-0 origin-center"
       >
         <img 
-          src="https://images.unsplash.com/photo-1562141960-9121855a8220?q=80&w=2070&auto=format&fit=crop" 
-          alt="Dealership Showroom" 
-          className="w-full h-full object-cover opacity-20 grayscale"
+          src={b2bBg} 
+          alt="Luminous Showroom" 
+          className="w-full h-full object-cover opacity-25 grayscale hover:opacity-40 transition-opacity duration-1000"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#020202] via-[#020202]/95 to-[#020202]/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-[#020202]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/80 to-black/40" />
+        {/* <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" /> */}
       </motion.div>
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
@@ -59,7 +57,7 @@ const B2BPartnership = () => {
             </h2>
             
             <p className="text-gray-400 text-lg md:text-xl font-light mb-12 leading-relaxed max-w-xl">
-              Partner with the industry's premier computational platform. We provide dealerships with <span className="text-white italic">unparalleled visibility</span> and verified lead generation tools.
+              Partner with a trusted, industry-leading platform designed for modern dealerships. We deliver verified leads and enhanced visibility—helping you connect with genuine buyers and grow your business with confidence.
             </p>
 
             {/* Simple Trust Bar (Mobile Visible) */}

@@ -85,19 +85,26 @@ const InitialLoader: React.FC<InitialLoaderProps> = ({ onLoadingComplete }) => {
            initial={{ opacity: 0, scale: 0.9 }}
            animate={{ opacity: 1, scale: 1 }}
            transition={{ duration: 1 }}
-           className="relative z-10 text-center"
+           className="relative z-10 text-center px-4"
         >
-          <h1 className="text-3xl md:text-4xl font-black text-white tracking-[0.6em] uppercase italic mb-2 ml-[0.6em]">
-            Nexera
+          <div className="text-[10px] md:text-xs font-black text-brand italic tracking-[0.4em] uppercase mb-4 animate-pulse">
+            Introducing
+          </div>
+          <h1 className="text-4xl md:text-6xl font-black text-white tracking-[0.1em] uppercase mb-6">
+            Nexera <span className="text-brand">Market</span>
           </h1>
-          <div className="text-[10px] font-bold text-white/20 uppercase tracking-[0.4em] translate-x-[0.2em]">
+          <div className="text-[10px] md:text-xs font-bold text-white/40 uppercase tracking-[0.3em] mb-8 max-w-xs mx-auto leading-relaxed">
+            India's most trusted cars market place
+          </div>
+          
+          <div className="text-[12px] font-black text-white/20 uppercase tracking-[0.5em]">
             {Math.round(progress)}%
           </div>
         </motion.div>
       </div>
       
       {/* Absolute Bottom Label */}
-      <div className="absolute bottom-12 text-[8px] font-black text-white/10 uppercase tracking-[0.5em]">
+      <div className="absolute bottom-12 text-[8px] font-black text-white/5 uppercase tracking-[0.8em]">
         Elite Protocol Handshake
       </div>
     </motion.div>

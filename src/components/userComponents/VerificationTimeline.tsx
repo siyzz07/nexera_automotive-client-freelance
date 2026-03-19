@@ -79,10 +79,10 @@ const VerificationTimeline = () => {
           style={{ y: bgY }}
           src={timelineBg} 
           alt="" 
-          className="w-full h-[120%] object-cover opacity-40 filter grayscale brightness-70"
+          className="w-full h-[120%] object-cover opacity-80 filter grayscale brightness-70"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_transparent_40%,_black_100%)] z-20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80 z-10" />
+        {/* <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_transparent_40%,_black_100%)] z-20" /> */}
       </div>
 
       {/* Background Decor */}
