@@ -82,7 +82,7 @@ const ComparisonSection = () => {
             viewport={{ once: true }}
             className="text-4xl md:text-7xl font-sans font-bold text-white tracking-tighter uppercase mb-6"
           >
-            The Nexera <span className="text-brand-gradient">Difference</span>
+            Why <span className="text-brand-gradient">Nexera</span>
           </motion.h2>
           
  
@@ -147,9 +147,7 @@ const ComparisonSection = () => {
                </div>
                
                {/* Risk Indicator for Others */}
-               <div className="absolute top-8 right-8 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-red-500/70 text-[9px] font-bold uppercase tracking-widest animate-pulse">
-                 Protocol Deficit
-               </div>
+
 
                <div className="space-y-8 relative z-10">
                   {[
@@ -185,9 +183,7 @@ const ComparisonSection = () => {
                   </div>
                </div>
                {/* Security Level Indicator for Nexera */}
-               <div className="absolute top-8 right-8 px-4 py-2 rounded-full bg-brand/10 border border-brand/20 text-brand text-xs font-bold uppercase tracking-widest">
-                 Level 7 Ultra-Secure
-               </div>
+   
 
                <div className="space-y-8 relative z-10">
                   {[
