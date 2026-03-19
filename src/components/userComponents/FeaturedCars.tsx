@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
-  ShieldCheck, Gauge, Fuel, Settings2, User, 
-  MapPin, CarFront, FileCheck
+  Shield, Gauge, Fuel, Settings2, User, 
+  MapPin, CarFront, FileText
 } from 'lucide-react';
 import { getAllCars } from '../../services/apiServices/carApiService';
 
@@ -44,8 +44,12 @@ const FeaturedCars = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-[#020202] relative border-t border-white/5">
-      <div className="container mx-auto px-6 lg:px-12">
+    <section className="py-20 bg-[#000000] relative border-t border-white/5 overflow-hidden">
+      {/* Intense Background Green Refraction */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] bg-brand/10 rounded-full blur-[180px] pointer-events-none z-0 opacity-60" />
+      <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-brand/10 rounded-full blur-[140px] pointer-events-none z-0 opacity-50" />
+      
+      <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
           <div className="max-w-2xl">
             <motion.div
@@ -108,7 +112,7 @@ const FeaturedCars = () => {
                     <div className="absolute top-3 right-3 flex flex-col gap-2 items-end z-20">
                       {car.trustBadges.slice(0, 2).map((badge, idx) => (
                         <div key={idx} className="flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-md rounded-full border border-white/10 shadow-lg">
-                          {badge.includes("Verified") ? <ShieldCheck className="w-3.5 h-3.5 text-brand" /> : <FileCheck className="w-3.5 h-3.5 text-brand" />}
+                          {badge.includes("Verified") ? <Shield className="w-3.5 h-3.5 text-white/60" /> : <FileText className="w-3.5 h-3.5 text-white/60" />}
                           <span className="text-[10px] md:text-xs font-bold text-white tracking-widest uppercase">{badge}</span>
                         </div>
                       ))}

@@ -79,14 +79,13 @@ const VerificationTimeline = () => {
           style={{ y: bgY }}
           src={timelineBg} 
           alt="" 
-          className="w-full h-[120%] object-cover opacity-80 filter grayscale brightness-70"
+          className="w-full h-[120%] object-cover opacity-60 brightness-[0.8] saturate-[1.1] mix-blend-overlay"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80 z-10" />
-        {/* <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_transparent_40%,_black_100%)] z-20" /> */}
+        <div className="absolute inset-0 bg-gradient-to-b from-brand/20 via-black/60 to-black/90 z-10" />
       </div>
 
       {/* Background Decor */}
-      <div className="absolute top-0 right-1/2 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[160px] opacity-30 z-0 pointer-events-none" />
+      <div className="absolute top-0 right-1/2 w-[800px] h-[800px] bg-brand/10 rounded-full blur-[180px] opacity-50 z-0 pointer-events-none" />
       
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         {/* Header Section */}
@@ -126,7 +125,7 @@ const VerificationTimeline = () => {
           <div className="absolute left-[29px] md:left-1/2 top-0 bottom-0 w-[1px] md:-translate-x-1/2 bg-white/10">
             <motion.div 
               style={{ scaleY: pathLength, originY: 0 }}
-              className="w-full h-full bg-gradient-to-b from-brand to-transparent shadow-[0_0_15px_rgba(0,186,65,0.5)]"
+              className="w-full h-full bg-gradient-to-b from-white/40 to-transparent shadow-[0_0_15px_rgba(255,255,255,0.1)]"
             />
           </div>
 

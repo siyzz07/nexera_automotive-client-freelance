@@ -1,8 +1,18 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ShieldCheck, Target, Users, BarChart3, Fingerprint, ShieldAlert, Sparkles } from 'lucide-react';
 import GlobalBackground from '../../components/userComponents/GlobalBackground';
+import aboutBg from '../../assets/aboutpageimg.jpeg';
+import { useRef } from 'react';
 
 const About = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+
   const visionPillars = [
     {
       icon: <Fingerprint className="w-8 h-8 text-brand" />,
@@ -22,8 +32,21 @@ const About = () => {
   ];
 
   return (
-    <div className="w-full relative min-h-screen pt-32 pb-40 overflow-hidden bg-[#010101]">
+    <div ref={containerRef} className="w-full relative min-h-screen pt-32 pb-40 overflow-hidden bg-[#000000]">
       <GlobalBackground />
+      
+      {/* Parallax Background Asset */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <motion.img 
+          style={{ y: bgY }}
+          src={aboutBg} 
+          alt="" 
+          className="w-full h-[120%] object-cover opacity-50 brightness-[0.8] saturate-[1.2] mix-blend-overlay"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand/20 via-black/60 to-[#000000] z-10" />
+      </div>
+
+      <div className="absolute top-1/4 left-1/4 w-[80vw] h-[80vw] bg-brand/10 rounded-full blur-[180px] opacity-40 z-0 pointer-events-none" />
       
       {/* 1. Foreword Section */}
       <div className="container mx-auto px-6 lg:px-12 relative z-10 mb-32 lg:mb-48">

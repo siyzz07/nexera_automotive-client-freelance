@@ -1,8 +1,8 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ShieldCheck, MapPin, Gauge, Fuel, Settings2, User, 
-  CheckCircle2, Award, FileCheck, ChevronDown, CarFront,
+  Shield, MapPin, Gauge, Fuel, Settings2, User, 
+  Award, FileText, ChevronDown, CarFront,
   Search, SlidersHorizontal, X, Users, Palette
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -101,7 +101,6 @@ const CustomSelect = ({
                   }`}
                 >
                   {opt === 'All' ? placeholder : opt}
-                  {value === opt && <CheckCircle2 className="w-4 h-4" />}
                 </div>
               ))}
             </div>
@@ -315,9 +314,9 @@ const CarSeen = () => {
           className="text-center md:text-left mb-12"
         >
           <h1 className="text-4xl md:text-6xl font-sans font-bold mb-6">
-            Explore <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 to-cyan-600">Inventory</span>
+            Explore <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-100 via-white to-gray-400">Inventory</span>
           </h1>
-          <p className="text-white/60 max-w-2xl text-lg md:text-xl font-light">
+          <p className="text-gray-400 max-w-2xl text-lg md:text-xl font-light">
            “Find your ideal car faster with advanced filters that match your style, budget, and requirements.”
           </p>
         </motion.div>
@@ -550,7 +549,7 @@ const CarSeen = () => {
                     <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex flex-col gap-1 sm:gap-2 items-end z-20">
                       {car.trustBadges.slice(0, 2).map((badge, idx) => (
                         <div key={idx} className="flex items-center gap-1 sm:gap-1.5 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-black/60 backdrop-blur-md rounded-full border border-white/10 shadow-lg">
-                          {badge.includes("Verified") ? <ShieldCheck className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-brand" /> : <FileCheck className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-brand" />}
+                          {badge.includes("Verified") ? <Shield className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-white/60" /> : <FileText className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-white/60" />}
                           <span className="text-[7px] sm:text-[10px] md:text-xs font-bold text-white tracking-widest uppercase hidden sm:inline-block">{badge}</span>
                         </div>
                       ))}

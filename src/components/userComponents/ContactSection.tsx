@@ -102,9 +102,8 @@ const ContactSection = () => {
   }, []);
 
   return (
-    <section id="contact-protocol" ref={sectionRef} className="relative py-40 lg:py-48 bg-surface overflow-hidden border-t border-glass-border">
-      
-      {/* Parallax Background Image */}
+    <section id="contact" className="relative py-24 md:py-40 bg-[#000000] overflow-hidden border-t border-white/5">
+      {/* Cinematic Background */}
       <motion.div 
         style={{ y: bgY }}
         className="absolute inset-0 z-0 origin-center scale-110"
@@ -112,17 +111,14 @@ const ContactSection = () => {
         <img 
           src={contactBg} 
           alt="" 
-          className="w-full h-full object-cover opacity-40 brightness-75"
+          className="w-full h-full object-cover opacity-30 brightness-[0.7] saturate-[1.1] mix-blend-overlay"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/20 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/45 to-[#000000]" />
+        {/* <div className="absolute inset-0 bg-gradient-to-t from-brand/10 via-transparent to-[#000000]" /> */}
       </motion.div>
 
       {/* Massive Background ambient glow to refract through the glass */}
-      <div 
-        ref={bgGlowRef}
-        className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[800px] h-[800px] bg-brand/10 rounded-full blur-[120px] pointer-events-none z-0" 
-      />
+      <div ref={bgGlowRef} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] bg-brand/5 rounded-full blur-[180px] pointer-events-none z-0 animate-pulse-slow" />
       <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[150px] pointer-events-none z-0" />
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
@@ -135,7 +131,8 @@ const ContactSection = () => {
               <span className="text-brand-gradient">Contact.</span>
             </h2>
             <p className="text-[#999999] text-lg max-w-md mb-12 font-light">
-              Ready to redefine your trajectory? Connect with our specialists to discuss bespoke automotive solutions and enterprise partnerships.
+             Built on trust. Designed for results.
+Connect with our specialists to unlock verified deals and reliable automotive partnerships
             </p>
 
             <div className="space-y-8">

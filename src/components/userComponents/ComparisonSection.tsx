@@ -57,10 +57,10 @@ const ComparisonSection = () => {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
          <div className="absolute inset-0 bg-black z-0" />
          <motion.div style={{ y: bgY, opacity }} className="absolute inset-0 z-10">
-            <img src={compBg} alt="" className="w-full h-full object-cover scale-110 opacity-60" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black z-20" />
-         </motion.div>
-         <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-brand/20 rounded-full blur-[160px] z-30 opacity-40" />
+             <img src={compBg} alt="" className="w-full h-full object-cover scale-110 opacity-70 saturate-[1.1] mix-blend-overlay shadow-[inset_0_0_100px_rgba(0,255,102,0.2)]" />
+             <div className="absolute inset-0 bg-gradient-to-t from-brand/20 via-black/60 to-brand/10 z-20" />
+          </motion.div>
+          <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-brand/30 rounded-full blur-[180px] z-30 opacity-60" />
       </div>
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">

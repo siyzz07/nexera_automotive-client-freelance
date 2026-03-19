@@ -46,7 +46,7 @@ const Navbar = () => {
             onClick={() => handleScrollTo('#verification-protocol')}
             className="text-gray-300 hover:text-brand transition-colors text-sm font-medium tracking-wide"
           >
-            Verify Steps
+            Trust verified
           </Link>
           <Link to="/car-seen" className="text-gray-300 hover:text-brand transition-colors text-sm font-medium tracking-wide">
             Market Place
@@ -81,7 +81,7 @@ const Navbar = () => {
             to="/#verification-protocol" 
             className="text-white hover:text-brand text-lg font-medium"
           >
-            Verify Steps
+               Trust verified
           </Link>
           <Link onClick={()=>setIsMobileMenuOpen(false)} to="/car-seen" className="text-white hover:text-brand text-lg">Market Place</Link>
           <Link to="/about" onClick={()=>setIsMobileMenuOpen(false)} className="text-white hover:text-brand text-lg">About</Link>

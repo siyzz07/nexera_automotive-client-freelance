@@ -83,7 +83,7 @@ const Hero = () => {
         <img
           src={carImage}
           alt="Premium Automotive"
-          className="w-full h-full object-cover object-left lg:object-right brightness-[0.95] contrast-[1.05] transition-all duration-1000 scale-[1.25] lg:scale-[1.1] -translate-x-0 lg:translate-x-[12%]"
+          className="w-full h-full object-cover object-left lg:object-right brightness-[0.35] contrast-[1.05] transition-all duration-1000 scale-[1.25] lg:scale-[1.1] -translate-x-0 lg:translate-x-[12%]"
         />
 
         {/* Technical Glows - Shifted Right */}

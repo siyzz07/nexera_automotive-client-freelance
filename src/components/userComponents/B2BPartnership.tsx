@@ -12,7 +12,7 @@ const B2BPartnership = () => {
   ];
 
   return (
-    <section id="sell-your-car" className="relative py-24 lg:py-32 overflow-hidden border-t border-white/5 bg-[#050505]">
+    <section id="sell-your-car" className="relative py-24 lg:py-32 overflow-hidden border-t border-white/5 bg-[#000000]">
       <div className="noise" />
       <div className="scanlines" />
       
@@ -26,10 +26,10 @@ const B2BPartnership = () => {
         <img 
           src={b2bBg} 
           alt="Luminous Showroom" 
-          className="w-full h-full object-cover opacity-25 grayscale hover:opacity-40 transition-opacity duration-1000"
+          className="w-full h-full object-cover opacity-45 transition-opacity duration-1000 saturate-[1.3]"
         />
-        {/* <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/50 to-black/30" /> */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand/40 via-brand/20 to-transparent mix-blend-overlay" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black" />
       </motion.div>
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
