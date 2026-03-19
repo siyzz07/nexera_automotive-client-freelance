@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { CheckCircle2, ArrowRight, Activity, ShieldCheck, Globe } from 'lucide-react';
 import TextReveal from './TextReveal';
-import b2bBg from '../../assets/b2b_luminous_bg.png';
+import b2bBg from '../../assets/b2bimage.jpeg';
 
 const B2BPartnership = () => {
   const benefits = [
@@ -28,7 +28,7 @@ const B2BPartnership = () => {
           alt="Luminous Showroom" 
           className="w-full h-full object-cover opacity-25 grayscale hover:opacity-40 transition-opacity duration-1000"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/80 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/50 to-black/30" />
         {/* <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" /> */}
       </motion.div>
 

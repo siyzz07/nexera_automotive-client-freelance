@@ -30,6 +30,9 @@ function App() {
       infinite: false,
     });
 
+    // Expose lenis to window for global access
+    (window as any).lenis = lenis;
+
     // Synchronize Lenis with GSAP's ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -40,11 +43,19 @@ function App() {
 
     const rafId = requestAnimationFrame(raf);
 
+    // Handle hash-based scrolling
+    if (location.hash) {
+      setTimeout(() => {
+        lenis.scrollTo(location.hash, { offset: -100, duration: 1.5 });
+      }, 500); // Delay to ensure component renders
+    }
+
     return () => {
+      (window as any).lenis = null;
       lenis.destroy();
       cancelAnimationFrame(rafId);
     };
-  }, [isLoading, location.pathname]);
+  }, [isLoading, location.pathname, location.hash]);
 
   return (
     <div className="min-h-screen flex flex-col font-sans">

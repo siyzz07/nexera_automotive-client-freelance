@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Mail, MapPin, Phone, ArrowUpRight, ShieldCheck } from 'lucide-react';
+import contactBg from '../../assets/b2b_luminous_bg.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,7 +11,14 @@ const ContactSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
+  const bgGlowRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -33,7 +42,7 @@ const ContactSection = () => {
     });
 
     // Animate background glow
-    tl.fromTo(bgRef.current,
+    tl.fromTo(bgGlowRef.current,
       { scale: 0.8, opacity: 0 },
       { scale: 1, opacity: 1, duration: 1.5, ease: 'power3.out' }
     );
@@ -64,11 +73,25 @@ const ContactSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-32 bg-surface overflow-hidden border-t border-glass-border">
+    <section ref={sectionRef} className="relative py-40 lg:py-48 bg-surface overflow-hidden border-t border-glass-border">
       
+      {/* Parallax Background Image */}
+      <motion.div 
+        style={{ y: bgY }}
+        className="absolute inset-0 z-0 origin-center scale-110"
+      >
+        <img 
+          src={contactBg} 
+          alt="" 
+          className="w-full h-full object-cover opacity-40 brightness-75"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
+      </motion.div>
+
       {/* Massive Background ambient glow to refract through the glass */}
       <div 
-        ref={bgRef}
+        ref={bgGlowRef}
         className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[800px] h-[800px] bg-brand/10 rounded-full blur-[120px] pointer-events-none z-0" 
       />
       <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[150px] pointer-events-none z-0" />

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import logo from '../../assets/logo.png';
 
 interface InitialLoaderProps {
   onLoadingComplete: () => void;
@@ -32,61 +33,59 @@ const InitialLoader: React.FC<InitialLoaderProps> = ({ onLoadingComplete }) => {
       }}
       className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center overflow-hidden"
     >
-      <div className="relative flex items-center justify-center">
+      <div className="relative flex items-center justify-center scale-75 md:scale-100">
         {/* Animated Circle (Orbital) */}
         <motion.svg 
-          width="200" 
-          height="200" 
+          width="400" 
+          height="400" 
           viewBox="0 0 200 200"
           className="absolute"
         >
           <motion.circle
             cx="100"
             cy="100"
-            r="80"
+            r="95"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1"
             fill="transparent"
             className="text-white/5"
           />
           <motion.circle
             cx="100"
             cy="100"
-            r="80"
+            r="95"
             stroke="currentColor"
-            strokeWidth="3"
+            strokeWidth="2"
             fill="transparent"
-            strokeDasharray="502.6"
+            strokeDasharray="596.9"
             className="text-brand"
-            initial={{ strokeDashoffset: 502.6 }}
-            animate={{ strokeDashoffset: 502.6 - (502.6 * progress) / 100 }}
+            initial={{ strokeDashoffset: 596.9 }}
+            animate={{ strokeDashoffset: 596.9 - (596.9 * progress) / 100 }}
             transition={{ ease: "linear" }}
             style={{ 
-              filter: "drop-shadow(0 0 8px rgba(0, 186, 62, 0.5))",
+              filter: "drop-shadow(0 0 12px rgba(0, 186, 62, 0.4))",
               strokeLinecap: "round"
             }}
           />
-          {/* Rotating Pulse Glow */}
-          <motion.circle
-            cx="100"
-            cy="100"
-            r="80"
-            stroke="currentColor"
-            strokeWidth="1"
-            fill="transparent"
-            className="text-brand opacity-30"
-            animate={{ scale: [1, 1.05, 1], opacity: [0.1, 0.3, 0.1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
         </motion.svg>
 
-        {/* Central Logo */}
+        {/* Central Logo & Content Container */}
         <motion.div
-           initial={{ opacity: 0, scale: 0.9 }}
+           initial={{ opacity: 0, scale: 0.8 }}
            animate={{ opacity: 1, scale: 1 }}
-           transition={{ duration: 1 }}
-           className="relative z-10 text-center px-4"
+           transition={{ duration: 1.2, ease: "easeOut" }}
+           className="relative z-10 text-center px-4 max-w-xl"
         >
+          {/* Official Logo Image */}
+          <motion.img 
+            src={logo} 
+            alt="Nexera Logo" 
+            className="w-32 md:w-48 mx-auto mb-8 drop-shadow-[0_0_20px_rgba(0,186,62,0.3)]"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3, duration: 1 }}
+          />
+
           <div className="text-[10px] md:text-xs font-black text-brand italic tracking-[0.4em] uppercase mb-4 animate-pulse">
             Introducing
           </div>

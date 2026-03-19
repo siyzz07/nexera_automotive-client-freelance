@@ -72,7 +72,7 @@ const VerificationTimeline = () => {
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
   return (
-    <section ref={containerRef} className="relative py-24 md:py-40 bg-black overflow-hidden border-t border-white/5">
+    <section id="verification-protocol" ref={containerRef} className="relative py-24 md:py-40 bg-black overflow-hidden border-t border-white/5">
       {/* Cinematic Background with Parallax */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <motion.img 

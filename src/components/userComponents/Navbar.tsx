@@ -14,6 +14,16 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleScrollTo = (id: string) => {
+    setIsMobileMenuOpen(false);
+    if (window.location.pathname === '/' || window.location.pathname === '') {
+      const lenis = (window as any).lenis;
+      if (lenis) {
+        lenis.scrollTo(id, { offset: -100, duration: 1.5 });
+      }
+    }
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -30,6 +40,13 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-8">
           <Link to="/" className="text-gray-300 hover:text-brand transition-colors text-sm font-medium tracking-wide">
             Home
+          </Link>
+          <Link 
+            to="/#verification-protocol" 
+            onClick={() => handleScrollTo('#verification-protocol')}
+            className="text-gray-300 hover:text-brand transition-colors text-sm font-medium tracking-wide"
+          >
+            Verify Steps
           </Link>
           <Link to="/car-seen" className="text-gray-300 hover:text-brand transition-colors text-sm font-medium tracking-wide">
             Market Place
@@ -55,6 +72,13 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-[#020202c7] absolute top-full left-0 w-full flex flex-col items-center py-6 space-y-4 border-t border-glass-border">
           <Link onClick={()=>setIsMobileMenuOpen(false)} to="/" className="text-white hover:text-brand text-lg">Home</Link>
+          <Link 
+            onClick={() => handleScrollTo('#verification-protocol')} 
+            to="/#verification-protocol" 
+            className="text-white hover:text-brand text-lg font-medium"
+          >
+            Verify Steps
+          </Link>
           <Link onClick={()=>setIsMobileMenuOpen(false)} to="/car-seen" className="text-white hover:text-brand text-lg">Market Place</Link>
           <Link onClick={()=>setIsMobileMenuOpen(false)} to="/about" className="text-white hover:text-brand text-lg">About</Link>
           <button onClick={()=>setIsMobileMenuOpen(false)} className="px-6 py-2 text-white rounded-full bg-brand  font-semibold mt-4">

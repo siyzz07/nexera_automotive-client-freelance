@@ -77,12 +77,12 @@ const Hero = () => {
         className="absolute inset-0 w-full h-full z-0 origin-center"
       >
         {/* <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black z-10" /> */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,_transparent_0%,_rgba(0,0,0,0.8)_100%)] z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,_transparent_0%,_rgba(0,0,0,0.45)_100%)] z-10" />
         
         <img
           src={carImage}
           alt="Premium Automotive"
-          className="w-full h-full object-cover object-left lg:object-right brightness-[0.7] contrast-[1.1] transition-all duration-1000 scale-[1.25] lg:scale-[1.1] -translate-x-0 lg:translate-x-[12%]"
+          className="w-full h-full object-cover object-left lg:object-right brightness-[0.95] contrast-[1.05] transition-all duration-1000 scale-[1.25] lg:scale-[1.1] -translate-x-0 lg:translate-x-[12%]"
         />
 
         {/* Technical Glows - Shifted Right */}

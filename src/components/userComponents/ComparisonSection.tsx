@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ShieldCheck, Shield, FileCheck, TriangleAlert, Eye, Gauge, CreditCard, ShieldAlert, Sparkles, Award } from 'lucide-react';
-import compBg from '../../assets/comparison_section_bg_showroom.png';
+import compBg from '../../assets/suggesion5.jpeg';
 
 const trustItems = [
   {
