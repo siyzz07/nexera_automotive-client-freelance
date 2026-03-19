@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter, MoreVertical, Edit, Trash2, Eye } from 'lucide-react';
+import { Search, Filter, Edit, Trash2, Eye } from 'lucide-react';
 import { getAllCars, updateCarStatus, deleteCarListing } from '../../services/apiServices/carApiService';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';

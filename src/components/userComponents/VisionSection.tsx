@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ShieldCheck, Target, Users, BarChart3, Fingerprint, ShieldAlert, Sparkles } from 'lucide-react';
+import { Users, BarChart3, Fingerprint, ShieldAlert, Sparkles } from 'lucide-react';
 
 const VisionSection = () => {
   const visionPillars = [

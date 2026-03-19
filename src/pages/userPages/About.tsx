@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ShieldCheck, Target, Users, BarChart3, Fingerprint, ShieldAlert, Sparkles, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Target, Users, BarChart3, Fingerprint, ShieldAlert, Sparkles } from 'lucide-react';
 import GlobalBackground from '../../components/userComponents/GlobalBackground';
 
 const About = () => {
