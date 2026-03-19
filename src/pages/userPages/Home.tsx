@@ -19,6 +19,7 @@ const Home = () => {
       <FeaturedCars />
       <VerificationTimeline />
       <B2BPartnership />
+      {/* <TrustSlider /> */}
       {/* <ColorShowcase /> */}
       <ContactSection />
     </div>

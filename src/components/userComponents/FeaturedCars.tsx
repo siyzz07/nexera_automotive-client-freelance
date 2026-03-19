@@ -58,12 +58,12 @@ const FeaturedCars = () => {
               <span className="text-[10px] font-black text-brand uppercase tracking-[0.5em]">The Collection</span>
             </motion.div>
             <h2 className="text-4xl md:text-6xl font-sans font-bold mb-0 text-white tracking-tighter leading-none">
-              CURATED <br />
-              <span className="text-brand-gradient">MASTERPIECES</span>
+              Featured <br />
+              <span className="text-brand-gradient">CARS</span>
             </h2>
           </div>
           <Link to="/car-seen" className="group flex items-center gap-4 text-white hover:text-brand transition-all duration-500">
-            <span className="text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/10 group-hover:border-brand/50 pb-1">Explore Full Fleet</span>
+            <span className="text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/10 group-hover:border-brand/50 pb-1">Explore Full Collection</span>
             <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-brand/40 group-hover:bg-brand/5 transition-all">
               <span className="text-2xl group-hover:translate-x-1 transition-transform">→</span>
             </div>
@@ -201,7 +201,7 @@ const FeaturedCars = () => {
                     
                     <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 uppercase tracking-tighter">
                       Experience <br />
-                      The <span className="text-brand">Full Fleet</span>
+                      The <span className="text-brand">Full Collection</span>
                     </h3>
                     
                     <p className="text-white/40 text-sm font-medium mb-12 max-w-[200px] mx-auto leading-relaxed">

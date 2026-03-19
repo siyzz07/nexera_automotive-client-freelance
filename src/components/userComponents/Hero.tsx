@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import carImage from '../../assets/suggesioon1.jpeg';
+import carImage from '../../assets/Gemini_Generated_Image_afye8aafye8aafye.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,23 +27,25 @@ const Hero = () => {
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
     // Initial state: Hidden below "shutter"
+    gsap.set(containerRef.current, { opacity: 0 });
     gsap.set([title1Ref.current, title2Ref.current, title3Ref.current], { y: "110%" });
     gsap.set([pRef.current, buttonsRef.current], { opacity: 0, y: 30 });
     gsap.set(bgRef.current, { scale: 1.2, filter: 'blur(20px)', opacity: 0 });
-
-    tl.to(bgRef.current, {
-      scale: 1,
-      filter: 'blur(0px)',
-      opacity: 1,
-      duration: 2.5,
-      ease: 'expo.out',
-    })
-    .to(title1Ref.current, { y: 0, duration: 1.5, ease: 'expo.out' }, "-=1.8")
-    .to(title2Ref.current, { y: 0, duration: 1.5, ease: 'expo.out' }, "-=1.3")
-    .to(title3Ref.current, { y: 0, duration: 1.5, ease: 'expo.out' }, "-=1.3")
-    .to(pRef.current, { opacity: 1, y: 0, duration: 1 }, "-=1")
-    .to(buttonsRef.current, { opacity: 1, y: 0, duration: 1 }, "-=0.8");
-
+ 
+    tl.to(containerRef.current, { opacity: 1, duration: 0.5 })
+      .to(bgRef.current, {
+        scale: 1,
+        filter: 'blur(0px)',
+        opacity: 1,
+        duration: 2.5,
+        ease: 'expo.out',
+      })
+      .to(title1Ref.current, { y: 0, duration: 1.5, ease: 'expo.out' }, "-=1.8")
+      .to(title2Ref.current, { y: 0, duration: 1.5, ease: 'expo.out' }, "-=1.3")
+      .to(title3Ref.current, { y: 0, duration: 1.5, ease: 'expo.out' }, "-=1.3")
+      .to(pRef.current, { opacity: 1, y: 0, duration: 1 }, "-=1")
+      .to(buttonsRef.current, { opacity: 1, y: 0, duration: 1 }, "-=0.8");
+ 
     // Parallax on mouse move for the background - only on desktop
     const handleMouseMove = (e: MouseEvent) => {
       if (window.innerWidth <= 1024) return;
@@ -58,16 +60,16 @@ const Hero = () => {
         ease: 'power2.out'
       });
     };
-
+ 
     window.addEventListener('mousemove', handleMouseMove);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       ScrollTrigger.getAll().forEach(t => t.kill());
     };
   }, []);
-
+ 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-start justify-center overflow-hidden bg-black font-sans">
+    <section ref={containerRef} className="relative min-h-screen flex items-start justify-center overflow-hidden bg-black font-sans" style={{ opacity: 0 }}>
       {/* 1. Cinematic Background Layer */}
       <motion.div
         ref={bgRef}
@@ -122,7 +124,7 @@ const Hero = () => {
              </p>
 
              <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
-                <button className="group relative w-full sm:w-auto px-10 py-5 bg-gradient-to-br from-brand to-brand text-black/90  font-black uppercase tracking-widest rounded-3xl overflow-hidden transition-all duration-500 shadow-[0_0_40px_rgba(0,223,93,0.3)] hover:shadow-[0_0_60px_rgba(0,223,93,0.5)] active:scale-95">
+                <button className="group relative w-full sm:w-auto px-10 py-5 bg-green-500 text-black/90  font-black uppercase tracking-widest rounded-3xl overflow-hidden transition-all duration-500 shadow-[0_0_40px_rgba(0,223,93,0.3)] hover:shadow-[0_0_60px_rgba(0,223,93,0.5)] active:scale-95">
                    <span className="relative z-10">Find Your Verified Car</span>
                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                 </button>

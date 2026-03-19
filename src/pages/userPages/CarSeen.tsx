@@ -3,13 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ShieldCheck, MapPin, Gauge, Fuel, Settings2, User, 
   CheckCircle2, Award, FileCheck, ChevronDown, CarFront, Zap,
-  Search, SlidersHorizontal, X
+  Search, SlidersHorizontal, X,Users
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import GlobalBackground from '../../components/userComponents/GlobalBackground';
 
 // Mock comprehensive data
-import { getAllCars } from '../../services/apiServices/carApiService';
+// Mock comprehensive data
+import { getAllCars, getSearchFilters } from '../../services/apiServices/carApiService';
 
 interface ICar {
   _id: string;
@@ -115,9 +116,7 @@ const segments = [
   { name: 'Budget Cars', icon: Award },
   { name: 'Low KM Cars', icon: Gauge },
   { name: 'Automatic Cars', icon: Settings2 },
-  { name: 'SUVs', icon: MapPin },
-  { name: 'Electric Cars', icon: Zap },
-  { name: 'Luxury Cars', icon: Award }
+  { name: 'First Owner', icon: Users },
 ];
 
 const CarSeen = () => {
@@ -136,11 +135,58 @@ const CarSeen = () => {
     ownerHistory: 'All', color: 'All', location: 'All'
   });
 
+  const [filterOptions, setFilterOptions] = useState<{
+    brands: any[],
+    models: any[],
+    locations: string[],
+    fuelTypes: string[],
+    transmissions: string[],
+    bodyTypes: string[],
+    ownerHistories: string[],
+    colors: string[]
+  }>({
+    brands: [],
+    models: [],
+    locations: ['All'],
+    fuelTypes: ['All'],
+    transmissions: ['All'],
+    bodyTypes: ['All'],
+    ownerHistories: ['All'],
+    colors: ['All']
+  });
+
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const response = await getSearchFilters();
+        if (response.data.success) {
+          setFilterOptions(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching filter options:', error);
+      }
+    };
+    fetchOptions();
+  }, []);
+
+  // Reset page to 1 when filters or search query change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, searchQuery, activeSegment]);
+
   useEffect(() => {
     const fetchCars = async () => {
       setLoading(true);
       try {
-        const response = await getAllCars(currentPage, 8);
+        // Prepare overall filter object including search and segments
+        const combinedFilters: any = { ...filters, query: searchQuery };
+        
+        // Add segment logic to backend query
+        if (activeSegment === 'Budget Cars') combinedFilters.budget = 'Under $50,000';
+        else if (activeSegment === 'Low KM Cars') combinedFilters.kmDriven = 'Under 30,000 km';
+        else if (activeSegment === 'Automatic Cars') combinedFilters.transmission = 'Automatic';
+
+        const response = await getAllCars(currentPage, 8, combinedFilters);
         if (response.data.success) {
           setRealInventoryCars(response.data.data);
           setTotalPages(response.data.meta.totalPages);
@@ -153,16 +199,23 @@ const CarSeen = () => {
     };
     fetchCars();
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentPage]);
+  }, [currentPage, filters, searchQuery, activeSegment]);
 
-  const uniqueBrands = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.brand.name))], [realInventoryCars]);
-  const uniqueModels = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.carModel.name))], [realInventoryCars]);
-  const uniqueFuelTypes = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.fuelType))], [realInventoryCars]);
-  const uniqueTransmissions = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.transmission))], [realInventoryCars]);
-  const uniqueBodyTypes = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.bodyType))], [realInventoryCars]);
-  const uniqueOwnerHistories = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.ownerHistory))], [realInventoryCars]);
-  const uniqueColors = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.color))], [realInventoryCars]);
-  const uniqueLocations = useMemo(() => ['All', ...new Set(realInventoryCars.map(c => c.location))], [realInventoryCars]);
+  const uniqueBrands = useMemo(() => ['All', ...filterOptions.brands.map(b => b.name)], [filterOptions.brands]);
+  const uniqueModels = useMemo(() => {
+    if (filters.brand !== 'All') {
+      const brandId = filterOptions.brands.find(b => b.name === filters.brand)?.id;
+      return ['All', ...filterOptions.models.filter(m => m.brandId === brandId).map(m => m.name)];
+    }
+    return ['All', ...filterOptions.models.map(m => m.name)];
+  }, [filterOptions.models, filters.brand, filterOptions.brands]);
+
+  const uniqueFuelTypes = filterOptions.fuelTypes;
+  const uniqueTransmissions = filterOptions.transmissions;
+  const uniqueBodyTypes = filterOptions.bodyTypes;
+  const uniqueOwnerHistories = filterOptions.ownerHistories;
+  const uniqueColors = filterOptions.colors;
+  const uniqueLocations = filterOptions.locations;
 
   const budgetOptions = ['All', 'Under $50,000', 'Under $100,000', 'Under $150,000', '$150,000+'];
   const kmOptions = ['All', 'Under 10,000 km', 'Under 30,000 km', 'Under 50,000 km'];
@@ -183,56 +236,6 @@ const CarSeen = () => {
 
   const activeFilterCount = Object.values(filters).filter(v => v !== 'All').length + (searchQuery ? 1 : 0);
 
-  const filteredCars = useMemo(() => {
-    return realInventoryCars.filter(car => {
-      // 0. Search Query
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        const matches = 
-          car.brand.name.toLowerCase().includes(query) || 
-          car.carModel.name.toLowerCase().includes(query) ||
-          car.bodyType.toLowerCase().includes(query);
-        if (!matches) return false;
-      }
-
-      // 1. Quick Segment Layer
-      let matchSegment = true;
-      if (activeSegment === 'Budget Cars') matchSegment = car.price <= 50000;
-      else if (activeSegment === 'Low KM Cars') matchSegment = car.kmDriven <= 20000;
-      else if (activeSegment === 'Automatic Cars') matchSegment = car.transmission === 'Automatic';
-      else if (activeSegment === 'SUVs') matchSegment = car.bodyType === 'SUV';
-      else if (activeSegment === 'Electric Cars') matchSegment = car.fuelType === 'Electric';
-      else if (activeSegment === 'Luxury Cars') matchSegment = car.price >= 100000;
-      
-      if (!matchSegment) return false;
-
-      // 2. Custom Filters Layer
-      if (filters.budget !== 'All') {
-        if (filters.budget === 'Under $50,000' && car.price >= 50000) return false;
-        if (filters.budget === 'Under $100,000' && car.price >= 100000) return false;
-        if (filters.budget === 'Under $150,000' && car.price >= 150000) return false;
-        if (filters.budget === '$150,000+' && car.price < 150000) return false;
-      }
-      if (filters.brand !== 'All' && car.brand.name !== filters.brand) return false;
-      if (filters.model !== 'All' && car.carModel.name !== filters.model) return false;
-      if (filters.bodyType !== 'All' && car.bodyType !== filters.bodyType) return false;
-      
-      // Advanced Filters
-      if (filters.kmDriven !== 'All') {
-        if (filters.kmDriven === 'Under 10,000 km' && car.kmDriven >= 10000) return false;
-        if (filters.kmDriven === 'Under 30,000 km' && car.kmDriven >= 30000) return false;
-        if (filters.kmDriven === 'Under 50,000 km' && car.kmDriven >= 50000) return false;
-      }
-      if (filters.fuelType !== 'All' && car.fuelType !== filters.fuelType) return false;
-      if (filters.transmission !== 'All' && car.transmission !== filters.transmission) return false;
-      if (filters.ownerHistory !== 'All' && car.ownerHistory !== filters.ownerHistory) return false;
-      if (filters.color !== 'All' && car.color !== filters.color) return false;
-      if (filters.location !== 'All' && car.location !== filters.location) return false;
-
-      return true;
-    });
-  }, [filters, activeSegment, searchQuery, realInventoryCars]);
-
   return (
     <div className="w-full relative min-h-screen pt-32 pb-24">
       <GlobalBackground />
@@ -245,10 +248,10 @@ const CarSeen = () => {
           className="text-center md:text-left mb-12"
         >
           <h1 className="text-4xl md:text-6xl font-sans font-bold mb-6">
-            Explore <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Inventory</span>
+            Explore <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 to-cyan-600">Inventory</span>
           </h1>
           <p className="text-white/60 max-w-2xl text-lg md:text-xl font-light">
-            Browse our curated selection of premium vehicles. Use advanced filters to find your perfect automotive masterpiece.
+           “Find your ideal car faster with advanced filters that match your style, budget, and requirements.”
           </p>
         </motion.div>
 
@@ -276,27 +279,27 @@ const CarSeen = () => {
             </div>
 
             {/* Primary Dropdowns & Toggle */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:flex gap-4 items-end">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:flex gap-4 items-end">
               <div className="w-full lg:w-44">
                 <CustomSelect label="Brand" options={uniqueBrands} value={filters.brand} onChange={v => setFilters({...filters, brand: v})} placeholder="Any Brand" />
               </div>
               <div className="w-full lg:w-44">
-                <CustomSelect label="Budget" options={budgetOptions} value={filters.budget} onChange={v => setFilters({...filters, budget: v})} placeholder="Any Budget" />
+                <CustomSelect label="Location" options={uniqueLocations} value={filters.location} onChange={v => setFilters({...filters, location: v})} placeholder="Any Location" />
               </div>
-              <div className="w-full lg:w-44 hidden md:block lg:hidden">
-                 <CustomSelect label="Body Type" options={uniqueBodyTypes} value={filters.bodyType} onChange={v => setFilters({...filters, bodyType: v})} placeholder="Any Type" />
+              <div className="w-full lg:w-44">
+                <CustomSelect label="Budget" options={budgetOptions} value={filters.budget} onChange={v => setFilters({...filters, budget: v})} placeholder="Any Budget" />
               </div>
               
               <button
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className={`col-span-2 md:col-span-3 lg:col-span-1 h-11 sm:h-[52px] px-6 rounded-xl border transition-all duration-300 flex items-center justify-center gap-2 font-semibold text-sm w-full lg:w-auto ${
+                className={`col-span-2 lg:col-span-1 h-11 sm:h-[52px] px-6 rounded-xl border transition-all duration-300 flex items-center justify-center gap-2 font-semibold text-sm w-full lg:w-auto ${
                   showAdvanced 
                     ? 'bg-brand/20 border-brand text-brand shadow-[0_0_20px_rgba(0,255,102,0.15)]' 
                     : 'bg-black/20 border-white/10 text-white/70 hover:bg-white/10 hover:text-white hover:border-white/30'
                 }`}
               >
                 <SlidersHorizontal className="w-4 h-4" />
-                {showAdvanced ? 'Hide Advanced' : 'More Filters'}
+                {showAdvanced ? 'Hide Advanced' : 'Technical Filters'}
               </button>
             </div>
           </div>
@@ -312,14 +315,13 @@ const CarSeen = () => {
                 className="overflow-hidden"
               >
                 <div className="pt-6 pb-2 border-t border-white/10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-2">
-                  <div className="md:hidden"><CustomSelect label="Body Type" options={uniqueBodyTypes} value={filters.bodyType} onChange={v => setFilters({...filters, bodyType: v})} placeholder="Any Type" /></div>
+                  <CustomSelect label="Body Type" options={uniqueBodyTypes} value={filters.bodyType} onChange={v => setFilters({...filters, bodyType: v})} placeholder="Any Type" />
                   <CustomSelect label="Model" options={uniqueModels} value={filters.model} onChange={v => setFilters({...filters, model: v})} />
                   <CustomSelect label="Max KM" options={kmOptions} value={filters.kmDriven} onChange={v => setFilters({...filters, kmDriven: v})} />
                   <CustomSelect label="Fuel Type" options={uniqueFuelTypes} value={filters.fuelType} onChange={v => setFilters({...filters, fuelType: v})} />
                   <CustomSelect label="Transmission" options={uniqueTransmissions} value={filters.transmission} onChange={v => setFilters({...filters, transmission: v})} />
                   <CustomSelect label="Owner History" options={uniqueOwnerHistories} value={filters.ownerHistory} onChange={v => setFilters({...filters, ownerHistory: v})} />
                   <CustomSelect label="Color" options={uniqueColors} value={filters.color} onChange={v => setFilters({...filters, color: v})} />
-                  <CustomSelect label="Location" options={uniqueLocations} value={filters.location} onChange={v => setFilters({...filters, location: v})} />
                 </div>
               </motion.div>
             )}
@@ -389,7 +391,7 @@ const CarSeen = () => {
                 <div className="inline-block w-12 h-12 border-4 border-brand/30 border-t-brand rounded-full animate-spin mb-4" />
                 <p className="text-white/60 font-medium tracking-widest uppercase text-xs">Accessing Inventory...</p>
              </div>
-        ) : filteredCars.length === 0 ? (
+        ) : realInventoryCars.length === 0 ? (
           <div className="glass rounded-3xl p-12 text-center border border-white/10">
             <CarFront className="w-16 h-16 text-white/20 mx-auto mb-4" />
             <h3 className="text-2xl font-sans font-bold text-white mb-2">No Vehicles Found</h3>
@@ -404,7 +406,7 @@ const CarSeen = () => {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
             <AnimatePresence>
-              {filteredCars.map((car, index) => (
+              {realInventoryCars.map((car: ICar, index: number) => (
                 <motion.div
                   key={car._id}
                   layout

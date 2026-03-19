@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { CheckCircle2, ArrowRight, Activity, TrendingUp, Users, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Activity, ShieldCheck, Globe } from 'lucide-react';
 
 import TextReveal from './TextReveal';
 
@@ -11,12 +11,7 @@ const B2BPartnership = () => {
     "Transparent Commission Structure"
   ];
 
-  const stats = [
-    { label: "Conversion Rate", value: "+18%", icon: <TrendingUp className="w-5 h-5" />, color: "text-brand" },
-    { label: "Verified Leads", value: "2.4k", icon: <Users className="w-5 h-5" />, color: "text-brand" },
-    { label: "System Uptime", value: "99.9%", icon: <Activity className="w-5 h-5" />, color: "text-brand" },
-    { label: "Live Security", value: "Protocol 7", icon: <ShieldCheck className="w-5 h-5" />, color: "text-brand" },
-  ];
+
 
   return (
     <section className="relative py-24 lg:py-32 overflow-hidden border-t border-white/5 bg-[#020202]">
@@ -67,6 +62,20 @@ const B2BPartnership = () => {
               Partner with the industry's premier computational platform. We provide dealerships with <span className="text-white italic">unparalleled visibility</span> and verified lead generation tools.
             </p>
 
+            {/* Simple Trust Bar (Mobile Visible) */}
+            <div className="flex lg:hidden items-center gap-6 mb-12 border-y border-white/5 py-6">
+              {[
+                { label: "Verified", icon: <ShieldCheck className="w-4 h-4 text-brand" /> },
+                { label: "Global", icon: <Globe className="w-4 h-4 text-brand" /> },
+                { label: "Secure", icon: <Activity className="w-4 h-4 text-brand" /> }
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  {item.icon}
+                  <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{item.label}</span>
+                </div>
+              ))}
+            </div>
+
             {/* Interactive List */}
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-14">
               {benefits.map((benefit, index) => (
@@ -96,42 +105,40 @@ const B2BPartnership = () => {
             </button>
           </motion.div>
 
-          {/* Right Side: Performance Dashboard */}
+          {/* Right Side: Simplified Desktop Seal */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative"
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="hidden lg:flex justify-center items-center relative"
           >
-            <div className="glass p-8 rounded-[2.5rem] border border-white/10 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand/[0.03] to-transparent h-1/2 animate-scan pointer-events-none" />
+            <div className="relative group">
+              {/* Outer Glow Ring */}
+              <div className="absolute -inset-10 bg-brand/10 rounded-full blur-[60px] animate-pulse-slow" />
               
-              <div className="flex justify-between items-center mb-10">
-                <h3 className="text-xs font-black text-white/40 uppercase tracking-[0.3em]">Network Intelligence</h3>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
-                  <span className="text-[10px] font-black text-brand uppercase tracking-widest">Live Uptime</span>
+              {/* The Seal Container */}
+              <div className="relative w-80 h-80 rounded-[3rem] glass border border-white/10 flex flex-col items-center justify-center p-12 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-brand/5 to-transparent pointer-events-none" />
+                
+                {/* Protocol Icon */}
+                <div className="w-24 h-24 rounded-3xl bg-brand/10 border border-brand/30 flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(0,186,62,0.2)]">
+                  <ShieldCheck className="w-12 h-12 text-brand" strokeWidth={1.5} />
                 </div>
-              </div>
 
-              <div className="grid grid-cols-2 gap-6 mb-10">
-                {stats.map((stat, i) => (
-                  <div key={i} className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-brand/30 transition-all duration-300 group">
-                    <div className="text-brand mb-4 group-hover:scale-110 transition-transform">{stat.icon}</div>
-                    <div className="text-2xl font-black text-white mb-1">{stat.value}</div>
-                    <div className="text-[9px] font-bold text-white/40 uppercase tracking-widest">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
+                <div className="text-center">
+                  <div className="text-brand text-[8px] font-black tracking-[0.5em] uppercase mb-3">Official Nexera Partner</div>
+                  <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2 italic">Standard Elite</h3>
+                  <div className="w-32 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mx-auto mb-4" />
+                  <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest leading-relaxed">
+                    Certified Computational <br /> Trust Environment
+                  </p>
+                </div>
 
-              {/* Technical Graphic */}
-             
+                {/* Corner ID */}
+                <div className="absolute bottom-6 right-6 text-[8px] font-mono text-white/10 tracking-widest">NP-2026-X</div>
+              </div>
             </div>
-
-            {/* Floating Accents */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand/10 rounded-full blur-[80px] -z-10" />
-            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand/10 rounded-full blur-[80px] -z-10" />
           </motion.div>
         </div>
       </div>

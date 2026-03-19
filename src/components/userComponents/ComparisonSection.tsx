@@ -145,6 +145,11 @@ const ComparisonSection = () => {
                     <p className="text-[10px] md:text-xs font-bold text-red-500/40 uppercase tracking-[0.4em]">Risky & Unverified</p>
                   </div>
                </div>
+               
+               {/* Risk Indicator for Others */}
+               <div className="absolute top-8 right-8 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-red-500/70 text-[9px] font-bold uppercase tracking-widest animate-pulse">
+                 Protocol Deficit
+               </div>
 
                <div className="space-y-8 relative z-10">
                   {[
@@ -153,12 +158,12 @@ const ComparisonSection = () => {
                     { text: "Opacity as Standard", desc: "No proof of ownership or service history provided." }
                    ].map((item, i) => (
                     <div key={i} className="flex items-start gap-5 md:gap-7 group/item">
-                      <div className="mt-1.5 w-6 h-6 rounded-lg border border-white/5 bg-white/[0.02] flex items-center justify-center text-white/10 flex-shrink-0">
+                      <div className="mt-1.5 w-6 h-6 rounded-lg border border-red-500/20 bg-red-500/10 flex items-center justify-center text-red-500/70 flex-shrink-0">
                          <X className="w-3.5 h-3.5" strokeWidth={3} />
                       </div>
                       <div>
-                        <span className="text-lg md:text-xl text-white/30 font-bold transition-colors group-hover/item:text-white/50">{item.text}</span>
-                        <p className="text-xs md:text-sm text-white/20 mt-2 font-medium">{item.desc}</p>
+                        <span className="text-lg md:text-xl text-white/70 font-bold transition-colors group-hover/item:text-white/50">{item.text}</span>
+                        <p className="text-xs md:text-sm text-white/50 mt-2 font-medium">{item.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -178,6 +183,10 @@ const ComparisonSection = () => {
                     <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-[0.2em]">Nexera</h3>
                     <p className="text-[10px] md:text-xs font-bold text-brand uppercase tracking-[0.4em]">The Elite Protocol</p>
                   </div>
+               </div>
+               {/* Security Level Indicator for Nexera */}
+               <div className="absolute top-8 right-8 px-4 py-2 rounded-full bg-brand/10 border border-brand/20 text-brand text-xs font-bold uppercase tracking-widest">
+                 Level 7 Ultra-Secure
                </div>
 
                <div className="space-y-8 relative z-10">

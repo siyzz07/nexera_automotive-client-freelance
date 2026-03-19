@@ -1,6 +1,7 @@
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { UploadCloud, ShieldAlert, Search, FileCheck, UserCheck, CheckCircle, Globe, Sparkles } from 'lucide-react';
+import timelineBg from '../../assets/suggesion5.jpeg';
 
 const verificationSteps = [
   {
@@ -68,8 +69,22 @@ const VerificationTimeline = () => {
     restDelta: 0.001
   });
 
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+
   return (
     <section ref={containerRef} className="relative py-24 md:py-40 bg-black overflow-hidden border-t border-white/5">
+      {/* Cinematic Background with Parallax */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <motion.img 
+          style={{ y: bgY }}
+          src={timelineBg} 
+          alt="" 
+          className="w-full h-[120%] object-cover opacity-40 filter grayscale brightness-70"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_transparent_40%,_black_100%)] z-20" />
+      </div>
+
       {/* Background Decor */}
       <div className="absolute top-0 right-1/2 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[160px] opacity-30 z-0 pointer-events-none" />
       
