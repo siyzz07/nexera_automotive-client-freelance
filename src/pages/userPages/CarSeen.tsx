@@ -314,7 +314,7 @@ const CarSeen = () => {
           className="text-center md:text-left mb-12"
         >
           <h1 className="text-4xl md:text-6xl font-sans font-bold mb-6">
-            Explore <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-100 via-white to-gray-400">Inventory</span>
+            Explore <span className="text-brand-gradient">Inventory</span>
           </h1>
           <p className="text-gray-400 max-w-2xl text-lg md:text-xl font-light">
            “Find your ideal car faster with advanced filters that match your style, budget, and requirements.”
@@ -549,7 +549,7 @@ const CarSeen = () => {
                     <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex flex-col gap-1 sm:gap-2 items-end z-20">
                       {car.trustBadges.slice(0, 2).map((badge, idx) => (
                         <div key={idx} className="flex items-center gap-1 sm:gap-1.5 px-1.5 py-0.5 sm:px-2.5 sm:py-1 bg-black/60 backdrop-blur-md rounded-full border border-white/10 shadow-lg">
-                          {badge.includes("Verified") ? <Shield className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-white/60" /> : <FileText className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-white/60" />}
+                          {badge.includes("Verified") ? <Shield className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-brand" /> : <FileText className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-white/60" />}
                           <span className="text-[7px] sm:text-[10px] md:text-xs font-bold text-white tracking-widest uppercase hidden sm:inline-block">{badge}</span>
                         </div>
                       ))}

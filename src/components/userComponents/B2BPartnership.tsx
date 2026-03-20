@@ -52,7 +52,7 @@ const B2BPartnership = () => {
             
             {/* High-Impact Heading */}
             <h2 className="text-5xl sm:text-7xl font-sans font-bold text-white mb-8 leading-[1.05] tracking-tight">
-              Nexera Dealer <br className="hidden sm:block" /> 
+              <span className="text-brand">Nexera</span> Dealer <br className="hidden sm:block" /> 
               <TextReveal text="Network." className="text-brand-gradient" />
             </h2>
             

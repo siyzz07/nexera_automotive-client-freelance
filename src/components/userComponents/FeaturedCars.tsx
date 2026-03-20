@@ -112,7 +112,7 @@ const FeaturedCars = () => {
                     <div className="absolute top-3 right-3 flex flex-col gap-2 items-end z-20">
                       {car.trustBadges.slice(0, 2).map((badge, idx) => (
                         <div key={idx} className="flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-md rounded-full border border-white/10 shadow-lg">
-                          {badge.includes("Verified") ? <Shield className="w-3.5 h-3.5 text-white/60" /> : <FileText className="w-3.5 h-3.5 text-white/60" />}
+                          {badge.includes("Verified") ? <Shield className="w-3.5 h-3.5 text-brand" /> : <FileText className="w-3.5 h-3.5 text-white/60" />}
                           <span className="text-[10px] md:text-xs font-bold text-white tracking-widest uppercase">{badge}</span>
                         </div>
                       ))}

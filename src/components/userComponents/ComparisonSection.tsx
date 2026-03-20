@@ -145,9 +145,9 @@ const ComparisonSection = () => {
 
               <div className="grid grid-cols-3 gap-2 sm:gap-8 md:gap-12">
                 {[
-                  { text: "VERIFIED LISTINGS", desc: "100% physically inspected", icon: <ShieldCheck className="w-5 h-5 sm:w-8 sm:h-8 text-brand" /> },
-                  { text: "TRUSTED DEALERS", desc: "Elite authorized partners", icon: <Award className="w-5 h-5 sm:w-8 sm:h-8 text-brand" /> },
-                  { text: "TRANSPARENT DEALS", desc: "Zero hidden costs", icon: <FileCheck className="w-5 h-5 sm:w-8 sm:h-8 text-brand" /> }
+                  { text: "VERIFIED LISTINGS", desc: "100% physically inspected", icon: <ShieldCheck className="w-5 h-5 sm:w-8 sm:h-8 text-green-700" /> },
+                  { text: "TRUSTED DEALERS", desc: "Elite authorized partners", icon: <Award className="w-5 h-5 sm:w-8 sm:h-8 text-green-700" /> },
+                  { text: "TRANSPARENT DEALS", desc: "Zero hidden costs", icon: <FileCheck className="w-5 h-5 sm:w-8 sm:h-8 text-green-700" /> }
                 ].map((item, i) => (
                   <motion.div 
                     key={i}
@@ -157,7 +157,7 @@ const ComparisonSection = () => {
                     transition={{ delay: 0.1 * i }}
                     className="flex flex-col items-center group cursor-default"
                   >
-                    <div className="w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-xl sm:rounded-2xl bg-brand/10 border border-brand/20 flex items-center justify-center mb-3 sm:mb-6 group-hover:scale-110 group-hover:bg-brand/20 transition-all duration-500 shadow-[0_0_20px_rgba(0,223,93,0.1)]">
+                    <div className="w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-xl sm:rounded-2xl bg-brand/20 border border-green-700/60 flex items-center justify-center mb-3 sm:mb-6 group-hover:scale-110 group-hover:bg-brand/20 transition-all duration-500 shadow-[0_0_20px_rgba(0,223,93,0.1)]">
                       {item.icon}
                     </div>
                     <h4 className="text-[7px] sm:text-lg md:text-xl font-black text-white tracking-[0.05em] sm:tracking-[0.1em] uppercase mb-1 sm:mb-2 group-hover:text-brand transition-colors text-center">

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import logo from '../../assets/logo.png';
+import loaderBg from '../../assets/loader_bg.png';
 
 interface InitialLoaderProps {
   onLoadingComplete: () => void;
@@ -33,6 +34,18 @@ const InitialLoader: React.FC<InitialLoaderProps> = ({ onLoadingComplete }) => {
       }}
       className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center overflow-hidden"
     >
+      {/* Cinematic Background Layer */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <motion.img 
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.5 }}
+          src={loaderBg}
+          alt=""
+          className="w-full h-full object-cover filter brightness-[0.4] saturate-[1.2]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-80" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_transparent_0%,_rgba(0,0,0,0.8)_100%)] opacity-80" />
+      </div>
       <div className="relative flex items-center justify-center scale-75 md:scale-100">
         {/* Animated Circle (Orbital) */}
         <motion.svg 

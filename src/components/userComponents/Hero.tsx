@@ -83,7 +83,7 @@ const Hero = () => {
         <img
           src={carImage}
           alt="Premium Automotive"
-          className="w-full h-full object-cover object-left lg:object-right brightness-[0.35] contrast-[1.05] transition-all duration-1000 scale-[1.25] lg:scale-[1.1] -translate-x-0 lg:translate-x-[12%]"
+          className="w-full h-full object-cover object-left lg:object-right brightness-[0.65] contrast-[1.05] transition-all duration-1000 scale-[1.25] lg:scale-[1.1] -translate-x-0 lg:translate-x-[12%]"
         />
 
         {/* Technical Glows - Shifted Right */}
@@ -113,7 +113,7 @@ const Hero = () => {
                    <span ref={title1Ref} className=" block whitespace-nowrap">India's Most Trusted</span>
                 </div>
                 <div className="overflow-hidden h-[1.3em] relative">
-                   <span ref={title2Ref} className="block text-brand-gradient glow-text whitespace-nowrap">Verified Cars</span>
+                   <span ref={title2Ref} className="block text-brand-gradient  whitespace-nowrap">Verified Cars</span>
                 </div>
                 <div className="overflow-hidden h-[1.3em]">
                    <span ref={title3Ref} className="block font-medium text-white/90 whitespace-nowrap">Marketplace.</span>
