@@ -4,7 +4,7 @@ import { Search, Filter, Edit, Trash2, Eye } from 'lucide-react';
 import { getAllCars, updateCarStatus, deleteCarListing } from '../../services/apiServices/carApiService';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-
+//ii
 const AdminCarList = () => {
   const navigate = useNavigate();
   const [inventory, setInventory] = useState<any[]>([]);
