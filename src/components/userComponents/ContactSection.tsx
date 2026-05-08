@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, MapPin, Phone, ArrowUpRight, ShieldCheck, MessageCircle } from 'lucide-react';
+import { Mail, ArrowUpRight, ShieldCheck, MessageCircle } from 'lucide-react';
 import contactBg from '../../assets/b2b_luminous_bg.png';
 import axios from 'axios';
 

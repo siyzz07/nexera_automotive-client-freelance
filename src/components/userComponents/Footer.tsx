@@ -1,4 +1,4 @@
-import { Twitter, Instagram, Linkedin, Github, Globe, Facebook, Mail, MessageCircle } from 'lucide-react';
+import { Instagram, Globe, Facebook, Mail, MessageCircle } from 'lucide-react';
 
 const Footer = () => {
   const socialIcons = [

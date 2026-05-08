@@ -4,8 +4,6 @@ import {
   LayoutDashboard, 
   Car, 
   PlusCircle, 
-  Users, 
-  Settings, 
   LogOut,
   ChevronRight,
   Menu,
