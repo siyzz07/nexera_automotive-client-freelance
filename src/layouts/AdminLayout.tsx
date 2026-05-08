@@ -33,8 +33,8 @@ const AdminLayout = () => {
     { id: 'inventory', label: 'Manage Inventory', icon: Car },
     { id: 'add-car', label: 'Add New Vehicle', icon: PlusCircle },
     { id: 'categories', label: 'Categories & Brands', icon: Tags },
-    { id: 'users', label: 'User Management', icon: Users },
-    { id: 'settings', label: 'System Settings', icon: Settings },
+    // { id: 'users', label: 'User Management', icon: Users },
+    // { id: 'settings', label: 'System Settings', icon: Settings },
   ];
 
 

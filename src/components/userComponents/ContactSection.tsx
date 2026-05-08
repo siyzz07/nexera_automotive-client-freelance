@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, MapPin, Phone, ArrowUpRight, ShieldCheck } from 'lucide-react';
+import { Mail, MapPin, Phone, ArrowUpRight, ShieldCheck, MessageCircle } from 'lucide-react';
 import contactBg from '../../assets/b2b_luminous_bg.png';
 import axios from 'axios';
 
@@ -136,38 +136,38 @@ Connect with our specialists to unlock verified deals and reliable automotive pa
             </p>
 
             <div className="space-y-8">
-              <div className="flex items-start gap-5 group">
-                <div className="w-14 h-14 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] flex items-center justify-center text-brand group-hover:scale-110 group-hover:bg-white/10 transition-all duration-300 relative overflow-hidden">
+               {/* <div className="flex items-start gap-4 sm:gap-5 group w-full overflow-hidden">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] flex items-center justify-center text-brand group-hover:scale-110 group-hover:bg-white/10 transition-all duration-300 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
-                  <MapPin className="w-6 h-6 relative z-10" />
+                  <MapPin className="w-5 h-5 sm:w-6 sm:h-6 relative z-10" />
                 </div>
-                <div className="pt-1">
-                  <h4 className="text-[#f2f2f2] font-semibold mb-1 tracking-wide">Global Headquarters</h4>
-                  <p className="text-[#999999] font-light">One Precision Way<br/>Silicon Valley, CA 94025</p>
+                <div className="pt-1 overflow-hidden">
+                  <h4 className="text-[#f2f2f2] text-sm sm:text-base font-semibold mb-1 tracking-wide">Global Headquarters</h4>
+                  <p className="text-[#999999] text-xs sm:text-base font-light break-words">One Precision Way<br/>Silicon Valley, CA 94025</p>
                 </div>
-              </div>
+              </div> */}
               
-              <div className="flex items-start gap-5 group">
-                <div className="w-14 h-14 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] flex items-center justify-center text-brand group-hover:scale-110 group-hover:bg-white/10 transition-all duration-300 relative overflow-hidden">
+              <div className="flex items-start gap-4 sm:gap-5 group w-full overflow-hidden">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] flex items-center justify-center text-brand group-hover:scale-110 group-hover:bg-white/10 transition-all duration-300 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
-                  <Mail className="w-6 h-6 relative z-10" />
+                  <Mail className="w-5 h-5 sm:w-6 sm:h-6 relative z-10" />
                 </div>
-                <div className="pt-1">
-                  <h4 className="text-[#f2f2f2] font-semibold mb-1 tracking-wide">Direct Inquiries</h4>
-                  <p className="text-[#999999] font-light hover:text-brand transition-colors cursor-pointer">concierge@luxe-vision.com</p>
+                <div className="pt-1 overflow-hidden">
+                  <h4 className="text-[#f2f2f2] text-sm sm:text-base font-semibold mb-1 tracking-wide">Direct Inquiries</h4>
+                  <a href="mailto:nexeramarketoffical@gmail.com" className="text-[#999999] text-xs sm:text-base font-light hover:text-brand transition-colors cursor-pointer block break-all">nexeramarketoffical@gmail.com</a>
                 </div>
               </div>
 
-              <div className="flex items-start gap-5 group">
-                <div className="w-14 h-14 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] flex items-center justify-center text-brand group-hover:scale-110 group-hover:bg-white/10 transition-all duration-300 relative overflow-hidden">
+              <a href="https://wa.me/7338827533" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 sm:gap-5 group cursor-pointer w-full overflow-hidden">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] flex items-center justify-center text-brand group-hover:scale-110 group-hover:bg-white/10 transition-all duration-300 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
-                  <Phone className="w-6 h-6 relative z-10" />
+                  <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 relative z-10" />
                 </div>
-                <div className="pt-1">
-                  <h4 className="text-[#f2f2f2] font-semibold mb-1 tracking-wide">Secure Line</h4>
-                  <p className="text-[#999999] font-light">+1 (800) 555-LUXE</p>
+                <div className="pt-1 overflow-hidden">
+                  <h4 className="text-[#f2f2f2] text-sm sm:text-base font-semibold mb-1 tracking-wide group-hover:text-brand transition-colors">WhatsApp</h4>
+                  <p className="text-[#999999] text-xs sm:text-base font-light group-hover:text-brand transition-colors block">Message Us</p>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
 

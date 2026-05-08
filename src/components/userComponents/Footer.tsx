@@ -1,11 +1,11 @@
-import { Twitter, Instagram, Linkedin, Github, Globe } from 'lucide-react';
+import { Twitter, Instagram, Linkedin, Github, Globe, Facebook, Mail, MessageCircle } from 'lucide-react';
 
 const Footer = () => {
   const socialIcons = [
-    { icon: <Twitter className="w-5 h-5" />, link: "#" },
-    { icon: <Instagram className="w-5 h-5" />, link: "#" },
-    { icon: <Linkedin className="w-5 h-5" />, link: "#" },
-    { icon: <Github className="w-5 h-5" />, link: "#" }
+    { icon: <Facebook className="w-5 h-5" />, link: "https://www.facebook.com/share/17iq8gUhoW/?mibextid=wwXIfr" },
+    { icon: <Instagram className="w-5 h-5" />, link: "https://www.instagram.com/nexera_market?igsh=MXhtdDk1b3ZhNnZhaA==" },
+    { icon: <MessageCircle className="w-5 h-5" />, link: "https://wa.me/7338827533" },
+    { icon: <Mail className="w-5 h-5" />, link: "mailto:nexeramarketoffical@gmail.com" }
   ];
 
   const footerLinks = [
@@ -54,6 +54,8 @@ const Footer = () => {
                 <a 
                   key={i} 
                   href={social.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-brand hover:border-brand/40 hover:bg-brand/10 transition-all duration-300 group"
                 >
                   <span className="group-hover:scale-110 transition-transform">{social.icon}</span>

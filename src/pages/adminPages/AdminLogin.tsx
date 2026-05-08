@@ -8,12 +8,11 @@ import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { setToken } from '../../utils/sessionStorageUtils';
+import logo from '../../assets/logoog.png';
 
 const AdminLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-
 
   const handleLogin = async (values: { email: string; password: string }) => {
     try {
@@ -43,7 +42,6 @@ const AdminLogin = () => {
     }
   };
 
-
   // Validation Schema
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -63,11 +61,6 @@ const AdminLogin = () => {
     onSubmit: handleLogin
   });
 
-
-
-
-  
-
   return (
     <div className="  min-h-screen bg-[#050505] flex flex-col lg:flex-row font-sans text-white overflow-hidden">
       
@@ -86,10 +79,10 @@ const AdminLogin = () => {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative z-10"
+          className="relative z-10 flex flex-col items-start"
         >
-          <h1 className="text-4xl font-sans font-bold tracking-widest text-brand-gradient">NEXERA</h1>
-          <p className="text-white/50 text-sm tracking-[0.3em] mt-2 uppercase font-medium">Command Center</p>
+          <img src={logo} alt="NEXERA" className="h-12 md:h-16 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,255,102,0.3)] rounded-xl" />
+          <p className="text-white/50 text-sm tracking-[0.3em] mt-3 uppercase font-medium ml-2">Command Center</p>
         </motion.div>
 
         <motion.div 
@@ -129,8 +122,8 @@ const AdminLogin = () => {
           transition={{ duration: 0.8, ease: "easeOut" as any, delay: 0.1 }}
           className="w-full max-w-md relative z-10"
         >
-          <div className="lg:hidden text-center mb-10">
-            <h1 className="text-4xl font-sans font-bold tracking-widest text-brand-gradient mb-2">NEXERA</h1>
+          <div className="lg:hidden flex flex-col items-center text-center mb-10">
+            <img src={logo} alt="NEXERA" className="h-12 w-auto object-contain drop-shadow-[0_0_15px_rgba(0,255,102,0.3)] mb-3 rounded-xl" />
             <p className="text-white/50 text-xs tracking-[0.3em] uppercase font-medium">Command Center</p>
           </div>
 

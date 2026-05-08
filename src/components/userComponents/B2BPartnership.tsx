@@ -96,11 +96,11 @@ const B2BPartnership = () => {
               ))}
             </ul>
 
-            <button className="group relative overflow-hidden px-10 py-5 w-full sm:w-auto bg-brand text-black font-black rounded-2xl hover:bg-brand-hover hover:shadow-[0_0_40px_rgba(0,223,93,0.4)] transition-all duration-300 text-sm flex items-center justify-center gap-3">
+            <a href="https://wa.me/7338827533" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden px-10 py-5 w-full sm:w-auto bg-brand text-black font-black rounded-2xl hover:bg-brand-hover hover:shadow-[0_0_40px_rgba(0,223,93,0.4)] transition-all duration-300 text-sm flex items-center justify-center gap-3">
               <span className="relative z-10 tracking-[0.2em] uppercase">Register Inquiry</span>
               <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
               <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out skew-x-12 z-0" />
-            </button>
+            </a>
           </motion.div>
 
           {/* Right Side: Simplified Desktop Seal */}
