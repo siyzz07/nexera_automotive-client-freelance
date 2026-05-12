@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle } from 'lucide-react';
+import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { login } from '../../services/apiServices/authApiService';
@@ -12,6 +12,7 @@ import logo from '../../assets/logoog.png';
 
 const AdminLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (values: { email: string; password: string }) => {
@@ -174,14 +175,21 @@ const AdminLogin = () => {
                   <Lock className={`h-5 w-5 ${formik.touched.password && formik.errors.password ? 'text-red-500' : 'text-white/30 group-focus-within:text-brand'} transition-colors`} />
                 </div>
                 <input 
-                  type="password" 
+                  type={showPassword ? "text" : "password"} 
                   name="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className={`w-full bg-white/5 border ${formik.touched.password && formik.errors.password ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-brand/40'} rounded-2xl pl-12 pr-4 py-4 text-white placeholder-white/20 focus:outline-none focus:bg-white/10 transition-all font-mono tracking-widest text-lg shadow-inner`}
+                  className={`w-full bg-white/5 border ${formik.touched.password && formik.errors.password ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-brand/40'} rounded-2xl pl-12 pr-12 py-4 text-white placeholder-white/20 focus:outline-none focus:bg-white/10 transition-all font-mono tracking-widest text-lg shadow-inner`}
                   placeholder="••••••••"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-white/30 hover:text-brand transition-colors"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
               </div>
               <AnimatePresence>
                 {formik.touched.password && formik.errors.password && (
