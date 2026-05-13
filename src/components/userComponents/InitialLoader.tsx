@@ -96,7 +96,7 @@ const InitialLoader: React.FC<InitialLoaderProps> = ({ onLoadingComplete }) => {
           <motion.img 
             src={logo} 
             alt="Nexera Logo" 
-            className="w-48 md:w-64 relative z-10 rounded-3xl drop-shadow-[0_0_35px_rgba(0,255,102,0.6)]"
+            className="w-48 md:w-64 relative z-10 rounded-3xl ]"
             animate={{ 
               y: [0, -10, 0],
             }}
